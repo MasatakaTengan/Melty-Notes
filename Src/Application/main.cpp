@@ -239,13 +239,16 @@ bool Application::Init(int w, int h)
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 void Application::Execute()
 {
-	KdCSVData windowData("Asset/Data/WindowSettings.csv");
-	const std::vector<std::string>& sizeData = windowData.GetLine(0);
+	//KdCSVData windowData("Asset/Data/WindowSettings.csv");
+	//const std::vector<std::string>& sizeData = windowData.GetLine(0);
 
-	//===================================================================
-	// 初期設定(ウィンドウ作成、Direct3D初期化など)
-	//===================================================================
-	if (Application::Instance().Init(atoi(sizeData[0].c_str()), atoi(sizeData[1].c_str())) == false) {
+	////===================================================================
+	//// 初期設定(ウィンドウ作成、Direct3D初期化など)
+	////===================================================================
+	//if (Application::Instance().Init(atoi(sizeData[0].c_str()), atoi(sizeData[1].c_str())) == false) {
+	//	return;
+	//}
+	if (Application::Instance().Init(Constant::WINDOW_WIDTH, Constant::WINDOW_HEIGHT) == false) {
 		return;
 	}
 
