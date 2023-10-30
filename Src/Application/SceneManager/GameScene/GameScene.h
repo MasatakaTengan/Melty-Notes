@@ -48,4 +48,7 @@ private:
 	int				iFlashCount[6][3];	// フラッシュ６ｘ３個分のカウンタ
 	int				iBackKeyCount[6];	// キーを離した時の後ろのバックライトの演出用カウンタ
 
+	//debug
+	int m_hitSubNum;
+
 };

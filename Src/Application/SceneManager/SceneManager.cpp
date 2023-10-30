@@ -31,7 +31,11 @@ void SceneManager::PreUpdate()
 
 void SceneManager::Update()
 {
-	msp_nowScene->Update();
+	if (ImGui::Begin("SceneUpdateDebug"))
+	{
+		msp_nowScene->Update();
+	}
+	ImGui::End();
 }
 
 void SceneManager::PostUpdate()
@@ -61,7 +65,11 @@ void SceneManager::PostDraw()
 
 void SceneManager::DrawSprite()
 {
-	msp_nowScene->DrawSprite();
+	if (ImGui::Begin("SceneDrawSpriteDebug"))
+	{
+		msp_nowScene->DrawSprite();
+	}
+	ImGui::End();
 }
 
 void SceneManager::SetNextScene(UIID _id)

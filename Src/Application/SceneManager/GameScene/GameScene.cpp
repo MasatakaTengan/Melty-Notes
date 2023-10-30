@@ -31,6 +31,9 @@ void GameScene::Init()
 	LARGE_INTEGER li;
 	QueryPerformanceCounter(&li);
 	llStartTime = li.QuadPart;
+
+	//debug
+	m_hitSubNum = 0;
 }
 
 void GameScene::Event()
@@ -244,6 +247,7 @@ void GameScene::Update()
 	//	// 右か左に回している状態ならカウンタをリセット
 	//	iBackKeyCount[5] = 30;
 	//}
+	ImGui::Text("%ld", m_hitSubNum);
 }
 
 void GameScene::PostUpdate()
