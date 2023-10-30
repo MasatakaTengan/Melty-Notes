@@ -17,5 +17,6 @@ Library/
 *.db
 *.suo
 *.inc
+*.shaderInc
 
 imgui.ini
