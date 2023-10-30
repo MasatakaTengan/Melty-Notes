@@ -155,12 +155,6 @@
     <ClInclude Include="..\Library\tinygltf\stb_image_write.h" />
     <ClInclude Include="..\Library\tinygltf\tiny_gltf.h" />
     <ClInclude Include="Src\Application\constant.h" />
-    <ClInclude Include="Src\Application\GameObject\Camera\CameraBase.h" />
-    <ClInclude Include="Src\Application\GameObject\Camera\FPSCamera\FPSCamera.h" />
-    <ClInclude Include="Src\Application\GameObject\Camera\TPSCamera\TPSCamera.h" />
-    <ClInclude Include="Src\Application\GameObject\Camera\TrackingCamera\TrackingCamera.h" />
-    <ClInclude Include="Src\Application\GameObject\Character\HamuHamu.h" />
-    <ClInclude Include="Src\Application\GameObject\Terrain\Terrain.h" />
     <ClInclude Include="Src\Application\GameObject\UI\ToGame\ToGame.h" />
     <ClInclude Include="Src\Application\GameObject\UI\UIBase.h" />
     <ClInclude Include="Src\Application\GameObject\UI\UIManager.h" />
@@ -219,12 +213,6 @@
     <ClCompile Include="..\Library\ImGui\imgui_stdlib.cpp" />
     <ClCompile Include="..\Library\ImGui\imgui_tables.cpp" />
     <ClCompile Include="..\Library\ImGui\imgui_widgets.cpp" />
-    <ClCompile Include="Src\Application\GameObject\Camera\CameraBase.cpp" />
-    <ClCompile Include="Src\Application\GameObject\Camera\FPSCamera\FPSCamera.cpp" />
-    <ClCompile Include="Src\Application\GameObject\Camera\TPSCamera\TPSCamera.cpp" />
-    <ClCompile Include="Src\Application\GameObject\Camera\TrackingCamera\TrackingCamera.cpp" />
-    <ClCompile Include="Src\Application\GameObject\Character\HamuHamu.cpp" />
-    <ClCompile Include="Src\Application\GameObject\Terrain\Terrain.cpp" />
     <ClCompile Include="Src\Application\GameObject\UI\ToGame\ToGame.cpp" />
     <ClCompile Include="Src\Application\GameObject\UI\UIBase.cpp" />
     <ClCompile Include="Src\Application\GameObject\UI\UIManager.cpp" />

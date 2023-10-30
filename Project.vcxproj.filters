@@ -61,24 +61,6 @@
     <Filter Include="Src\Application\GameObject">
       <UniqueIdentifier>{cf76e202-cdbb-4008-92e2-3302d00c00e0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\Application\GameObject\Camera">
-      <UniqueIdentifier>{17e9da07-12f0-46de-b872-076e8614dccf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src\Application\GameObject\Camera\TrackingCamera">
-      <UniqueIdentifier>{f627d64b-de9c-4b8c-83e0-b4278e9301b5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src\Application\GameObject\Character">
-      <UniqueIdentifier>{f9f7e532-93f0-4e65-acc1-d24807a7f322}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src\Application\GameObject\Terrain">
-      <UniqueIdentifier>{ace07824-5521-491a-ade1-4bcfa0d37385}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src\Application\GameObject\Camera\FPSCamera">
-      <UniqueIdentifier>{fe61d45c-b56d-4306-bf8a-2be98512ed85}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src\Application\GameObject\Camera\TPSCamera">
-      <UniqueIdentifier>{32787140-aea1-44d2-8ced-5855a0d2ca61}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Library\imgui">
       <UniqueIdentifier>{25cbf14e-7129-4dec-84f1-aef6c9406bc3}</UniqueIdentifier>
     </Filter>
@@ -233,24 +215,6 @@
     </ClInclude>
     <ClInclude Include="Src\Framework\Utility\KdDebugWireFrame.h">
       <Filter>Src\Framework\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Application\GameObject\Camera\CameraBase.h">
-      <Filter>Src\Application\GameObject\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Application\GameObject\Camera\TrackingCamera\TrackingCamera.h">
-      <Filter>Src\Application\GameObject\Camera\TrackingCamera</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Application\GameObject\Character\HamuHamu.h">
-      <Filter>Src\Application\GameObject\Character</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Application\GameObject\Terrain\Terrain.h">
-      <Filter>Src\Application\GameObject\Terrain</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Application\GameObject\Camera\FPSCamera\FPSCamera.h">
-      <Filter>Src\Application\GameObject\Camera\FPSCamera</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Application\GameObject\Camera\TPSCamera\TPSCamera.h">
-      <Filter>Src\Application\GameObject\Camera\TPSCamera</Filter>
     </ClInclude>
     <ClInclude Include="..\Library\ImGui\imgui_stdlib.h">
       <Filter>Library\imgui</Filter>
@@ -424,24 +388,6 @@
     </ClCompile>
     <ClCompile Include="Src\Framework\Utility\KdDebugWireFrame.cpp">
       <Filter>Src\Framework\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Application\GameObject\Camera\CameraBase.cpp">
-      <Filter>Src\Application\GameObject\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Application\GameObject\Camera\TrackingCamera\TrackingCamera.cpp">
-      <Filter>Src\Application\GameObject\Camera\TrackingCamera</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Application\GameObject\Character\HamuHamu.cpp">
-      <Filter>Src\Application\GameObject\Character</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Application\GameObject\Terrain\Terrain.cpp">
-      <Filter>Src\Application\GameObject\Terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Application\GameObject\Camera\FPSCamera\FPSCamera.cpp">
-      <Filter>Src\Application\GameObject\Camera\FPSCamera</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Application\GameObject\Camera\TPSCamera\TPSCamera.cpp">
-      <Filter>Src\Application\GameObject\Camera\TPSCamera</Filter>
     </ClCompile>
     <ClCompile Include="..\Library\ImGui\imgui_stdlib.cpp">
       <Filter>Library\imgui</Filter>

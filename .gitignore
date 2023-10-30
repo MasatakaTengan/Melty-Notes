@@ -18,5 +18,7 @@ Library/
 *.suo
 *.inc
 *.shaderInc
+*.vcxproj
+*.filters
 
 imgui.ini
