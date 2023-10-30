@@ -1,12 +1,6 @@
 #include "Application/main.h"
 #include "GameScene.h"
 
-#include "../../GameObject/Camera/TrackingCamera/TrackingCamera.h"
-#include "../../GameObject/Camera/FPSCamera/FPSCamera.h"
-#include "../../GameObject/Camera/TPSCamera/TPSCamera.h"
-#include "../../GameObject/Character/HamuHamu.h"
-#include "../../GameObject/Terrain/Terrain.h"
-
 void GameScene::Init()
 {
 	m_noteTex.Load("Asset/Textures/notes.png");
