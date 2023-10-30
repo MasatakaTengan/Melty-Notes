@@ -99,7 +99,7 @@ void GameScene::Update()
 
 	//add::::
 	// BMSカウンタが曲の開始位置に来たら再生する
-	LONG bmsStart = bms.GetObje(BMS_BACKMUSIC, 0)->lTime;
+	LONG bmsStart = bms.GetObje(BMS_BACKMUSIC, 0)->ml_time;
 	if (now_count >= bmsStart)
 	{
 		if (!mb_bgm)
@@ -143,7 +143,7 @@ void GameScene::Update()
 	}
 
 	// 入力判定
-	const LONG PKGREAT_RANGE = BMS_RESOLUTION / 48;		// GREATと判定する中心からの範囲(前後合わせて24分音符内)
+	const LONG PERFECT_RANGE = BMS_RESOLUTION / 48;		// GREATと判定する中心からの範囲(前後合わせて24分音符内)
 	const LONG GREAT_RANGE = BMS_RESOLUTION / 32;		// GREATと判定する中心からの範囲(前後合わせて16分音符内)
 	const LONG GOOD_RANGE = BMS_RESOLUTION / 16;		// GOODと判定する中心からの範囲(前後合わせて8分音符内)
 	const LONG BAD_RANGE = BMS_RESOLUTION / 8;		// BADと判定する中心からの範囲(前後合わせて5分音符内)
@@ -154,11 +154,11 @@ void GameScene::Update()
 		// 判定対象のチャンネルのオブジェをチェック
 		for (i = iStartNum[j + 0x11 + 0x20]; i < bms.GetObjeNum(0x11 + j); i++) {
 			BMSData* b = /*(BMSData*)*/(bms.GetObje(0x11 + j, i));
-			if (b->bFlag) {
+			if (b->mb_flg) {
 				// まだ未判定のオブジェなら
-				if (b->lTime < (now_count - GOOD_RANGE)) {
+				if (b->ml_time < (now_count - GOOD_RANGE)) {
 					// 良判定を過ぎたら全て見逃し扱いとする
-					b->bFlag = FALSE;						// オブジェを消す
+					b->mb_flg = FALSE;						// オブジェを消す
 					// 判定オブジェをその次からに変更
 					iStartNum[j + 0x11 + 0x20] = i + 1;
 					// 次のオブジェをチェック
@@ -166,17 +166,18 @@ void GameScene::Update()
 				}
 
 				// オブジェが判定外なら抜ける
-				if ((now_count + POOR_RANGE) <= b->lTime)
+				if ((now_count + POOR_RANGE) <= b->ml_time)
 					break;
 
 				// オブジェが判定内ならキーが押された瞬間かをチェック
 				if (press[j]) {
 					// キーを押した瞬間なら精度判定
-					LONG sub = abs(now_count - b->lTime);		// オブジェとの差を絶対値で取得
+					LONG sub = abs(now_count - b->ml_time);		// オブジェとの差を絶対値で取得
 					KdAudioManager::Instance().Play(m_hitSEFile);
+					m_hitSubNum = sub;
 
 					int jadge = 0;								// 判定値(0=POOR、1=BAD、2=GOOD、3=GREAT、4=PKGREATなど)
-					if (sub <= PKGREAT_RANGE) {
+					if (sub <= PERFECT_RANGE) {
 						jadge = 4;
 						//							OutputDebugStringA( "PKGREAT\n" );
 					}
@@ -196,25 +197,25 @@ void GameScene::Update()
 					switch (jadge)
 					{
 						case 0:
-							b->mColor = kRedColor;
+							b->m_color = kRedColor;
 							break;
 						case 1:
-							b->mColor = kBlueColor;
+							b->m_color = kBlueColor;
 							break;
 						case 2:
-							b->mColor = kGreenColor;
+							b->m_color = kGreenColor;
 							break;
 						case 3:
-							b->mColor = kRedColor + kGreenColor;
+							b->m_color = kRedColor + kGreenColor;
 							break;
 						case 4:
-							b->mColor = kWhiteColor;
+							b->m_color = kWhiteColor;
 							break;
 					}
 
 					if (jadge >= 1) {
 						// BAD以上ならオブジェを処理
-						b->bFlag = FALSE;						// オブジェを消す
+						b->mb_flg = FALSE;						// オブジェを消す
 						// そのオブジェの音を再生
 						/*ds.Reset(b->lData);
 						ds.Play(b->lData);*/
@@ -302,12 +303,6 @@ void GameScene::DrawSprite()
 		
 		KdShaderManager::Instance().m_spriteShader.DrawBox(0, 0, 640, 360, &kBlackColor);
 
-		//for (int i = 0; i < 6; i++) {
-		//	if (iBackKeyCount[i] > 0) {
-		//		dd.SetPutStatus(obj_kind[i] + 10, (float)iBackKeyCount[i] / 30.0f, 1.0f, 0);		// 徐々にフェードアウト
-		//		dd.Put(obj_kind[i] + 10, obj_x[i], 0);										// レーンの種類ごとにバックライト画像を表示
-		//	}
-		//}
 		static const int index[6] = { 0,2,4,1,3,5 };				// インデックスリスト
 		static const int obj_kind[6] = { 0,1,0,1,0,2 };				// オブジェの種類
 		static const float obj_x[6] = { 1,18,30,46,59,92 };			// オブジェ表示X座標
@@ -321,7 +316,7 @@ void GameScene::DrawSprite()
 			for (int i = iStartNum[0x11 + index[j]]; i < bms.GetObjeNum(0x11 + index[j]); i++) {
 				BMSData* b = bms.GetObje(0x11 + index[j], i);
 				// スクロールを考慮しないスクリーン座標上での原点からの座標値を算出
-				int obj_y = (int)((double)b->lTime / (BMS_RESOLUTION / (fScrMulti * 192)));
+				int obj_y = (int)((double)b->ml_time / (BMS_RESOLUTION / (fScrMulti * 192)));
 				// スクロールを考慮した現在のY座標を算出
 				int off_y = obj_y - scr_y;
 				if (i == iStartNum[0x11 + index[j]] && j == 0)
@@ -342,7 +337,7 @@ void GameScene::DrawSprite()
 					//dd.Put(15 + obj_kind[index[j]], obj_x[index[j]], (float)(413 - off_y));
 				Math::Rectangle rect = Math::Rectangle(0, obj_kind[index[j]] * 16, 64, 16);
 				//Math::Color color = { 1, (float)b->bFlag, 1, 1 };
-				KdShaderManager::Instance().m_spriteShader.DrawTex(&m_noteTex, obj_x[index[j]] * 5, (float)(BAR_Y + off_y), NOTE_WIDTH, NOTE_HEIGHT, &rect, &b->mColor);
+				KdShaderManager::Instance().m_spriteShader.DrawTex(&m_noteTex, obj_x[index[j]] * 5, (float)(BAR_Y + off_y), NOTE_WIDTH, NOTE_HEIGHT, &rect, &b->m_color);
 			}
 			KdShaderManager::Instance().ChangeBlendState(KdBlendState::Add);
 			Math::Color color = { 0.4f, 0.4f, 0.4f, (float)iBackKeyCount[j] / 30 };

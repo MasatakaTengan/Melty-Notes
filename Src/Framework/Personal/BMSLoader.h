@@ -14,37 +14,37 @@
 
 struct BMSHeader
 {
-    long        lPlayer;                    // プレイモード
-    char        mGenre[256];                // データのジャンル
-    char        mTitle[256];                // データのタイトル
-    char        mArtist[256];               // データの製作者
-    float       fBpm;                       // 初期テンポ(初期値は130)
-    char        mMidifile[MAX_PATH];        // バックグラウンドで流すMIDIファイル
-    long        lPlaylevel;                 // ゲームの難易度
-    long        lRank;                      // 判定ランク
-    long        lWavVol;                    // 音量を元の何%にするか
-    long        lTotal;                     // ゲージの増量
-    char        mStagePic[MAX_PATH];        // 曲開始字に表示する画像
-    float       fBpmIndex[BMS_MAXBUFFER];   // テンポインデックス(初期値は120)
+    long ml_player;                    // プレイモード
+    char m_genre[256];                // データのジャンル
+    char m_title[256];                // データのタイトル
+    char m_artist[256];               // データの製作者
+    float mf_bpm;                       // 初期テンポ(初期値は130)
+    char m_midiFile[MAX_PATH];        // バックグラウンドで流すMIDIファイル
+    long ml_playLevel;                 // ゲームの難易度
+    long ml_rank;                      // 判定ランク
+    long ml_wavVol;                    // 音量を元の何%にするか
+    long ml_total;                     // ゲージの増量
+    char m_stagePic[MAX_PATH];        // 曲開始字に表示する画像
+    float mf_bpmIndex[BMS_MAXBUFFER];   // テンポインデックス(初期値は120)
 
-    long        lEndBar;                    // 終了小節
-    long        lMaxCount;                  // 最大のカウント数
+    long ml_endBar;                    // 終了小節
+    long ml_maxCount;                  // 最大のカウント数
 };
 
 typedef struct BMSData
 {
-    LONG        lTime;                      // このデータの開始位置(BMSカウント値)
-    LONG        lData;                      // 鳴らすデータ(0x01～0xFF)
-    float       fData;                      // 小数値データ(テンポ用)
-    BOOL        bFlag;                      // アプリが使用出来る任意の変数(ここでは判定に利用)
-    Math::Color mColor;
+    LONG ml_time;                      // このデータの開始位置(BMSカウント値)
+    LONG ml_data;                      // 鳴らすデータ(0x01～0xFF)
+    float mf_data;                      // 小数値データ(テンポ用)
+    BOOL mb_flg;                      // アプリが使用出来る任意の変数(ここでは判定に利用)
+    Math::Color m_color;
 };
 
 struct BMSBar
 {
-    float       fScale;                     // この小節の長さ倍率
-    LONG        lTime;                      // この小節の開始位置(BMSカウント値)
-    LONG        lLength;                    // この小節の長さ(BMSカウント値)
+    float mf_scale;                     // この小節の長さ倍率
+    LONG ml_time;                      // この小節の開始位置(BMSカウント値)
+    LONG ml_length;                    // この小節の長さ(BMSカウント値)
 };
 
 class BMSLoader
@@ -66,8 +66,8 @@ public:
     //inline const char* GetLastError(void) { return mLastError; }				// 最後のエラー文字列
 
     // ゲーム必須メソッド
-    inline LONG GetMaxCount(void) { return m_header.lMaxCount; }			// ゲーム内の最大のカウント値
-    inline int GetBarNum(void) { return m_header.lEndBar + 1; }			// 小節バーの個数(最後の小節も含むため+1する)
+    inline LONG GetMaxCount(void) { return m_header.ml_maxCount; }			// ゲーム内の最大のカウント値
+    inline int GetBarNum(void) { return m_header.ml_endBar + 1; }			// 小節バーの個数(最後の小節も含むため+1する)
     inline const BMSBar* GetBar(int num) { return &m_bmsBar[num]; }			// 小節バーのデータ
     inline int GetObjeNum(int ch) { return mi_bmsData[ch]; }			// 指定チャネルのデータ数を返す
     inline BMSData* GetObje(int ch, int num) { return &mp_bmsData[ch][num]; }		// チャネルと配列番号でデータを取得する

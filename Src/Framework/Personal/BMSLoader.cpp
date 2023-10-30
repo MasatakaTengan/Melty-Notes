@@ -8,10 +8,10 @@ bool BMSLoader::Init()
 
 	// ヘッダ初期化
 	ZeroMemory(&m_header, sizeof(m_header));
-	m_header.lPlayer = 1;
-	m_header.fBpm = 130;
+	m_header.ml_player = 1;
+	m_header.mf_bpm = 130;
 	for (i = 0; i < BMS_MAXBUFFER; i++) {
-		m_header.fBpmIndex[i] = 120.0f;
+		m_header.mf_bpmIndex[i] = 120.0f;
 	}
 
 	// 実データ初期化
@@ -28,7 +28,7 @@ bool BMSLoader::Init()
 	// 小節の長さを1.0で初期化
 	ZeroMemory(&m_bmsBar, sizeof(m_bmsBar));
 	for (int i = 0; i < 1001; i++) {
-		m_bmsBar[i].fScale = 1.0f;
+		m_bmsBar[i].mf_scale = 1.0f;
 	}
 
 	return TRUE;
@@ -85,22 +85,22 @@ bool BMSLoader::LoadHeader(const char* _file)
 		switch (cmd)
 		{
 			case 0:		// PLAYER
-				m_header.lPlayer = atoi(str);
+				m_header.ml_player = atoi(str);
 				break;
 			case 1:		// GENRE
-				strcpy(m_header.mGenre, str);
+				strcpy(m_header.m_genre, str);
 				break;
 			case 2:		// TITLE
-				strcpy(m_header.mTitle, str);
+				strcpy(m_header.m_title, str);
 				break;
 			case 3:		// ARTIST
-				strcpy(m_header.mArtist, str);
+				strcpy(m_header.m_artist, str);
 				break;
 			case 4:		// BPM
 				if (buf[4] == ' ' || buf[4] == 0x09) {
 					// 基本コマンドなら
-					m_header.fBpm = (float)atof(str);
-					AddData(BMS_TEMPO, 0, (LONG)m_header.fBpm);
+					m_header.mf_bpm = (float)atof(str);
+					AddData(BMS_TEMPO, 0, (LONG)m_header.mf_bpm);
 				}
 				else {
 					// 拡張コマンドなら
@@ -109,26 +109,26 @@ bool BMSLoader::LoadHeader(const char* _file)
 					tmp[1] = buf[5];
 					tmp[2] = NULL;
 					ch = atoi1610(tmp);	// 16進数
-					m_header.fBpmIndex[ch] = (float)atof(str);
+					m_header.mf_bpmIndex[ch] = (float)atof(str);
 				}
 				break;
 			case 5:		// MIDIFILE
-				strcpy(m_header.mMidifile, str);
+				strcpy(m_header.m_midiFile, str);
 				break;
 			case 6:		// PLAYLEVEL
-				m_header.lPlaylevel = atoi(str);
+				m_header.ml_playLevel = atoi(str);
 				break;
 			case 7:		// RANK
-				m_header.lRank = atoi(str);
+				m_header.ml_rank = atoi(str);
 				break;
 			case 8:		// VOLWAV
-				m_header.lWavVol = atoi(str);
+				m_header.ml_wavVol = atoi(str);
 				break;
 			case 9:		// TOTAL
-				m_header.lTotal = atoi(str);
+				m_header.ml_total = atoi(str);
 				break;
 			case 10:	// StageFile
-				strcpy(m_header.mStagePic, str);
+				strcpy(m_header.m_stagePic, str);
 				break;
 			case 11:	// WAV
 				ZeroMemory(tmp, sizeof(tmp));
@@ -156,32 +156,32 @@ bool BMSLoader::LoadHeader(const char* _file)
 				ch = atoi1610(tmp);		// 16進数
 				if (ch == BMS_STRETCH) {
 					// 小節の倍率変更命令の場合
-					m_bmsBar[line].fScale = (float)atof(str);
+					m_bmsBar[line].mf_scale = (float)atof(str);
 				}
 				// 小節番号の最大値を記憶する
-				if (m_header.lEndBar < line)
-					m_header.lEndBar = line;
+				if (m_header.ml_endBar < line)
+					m_header.ml_endBar = line;
 				break;
 		}
 	}
 
 	// 最後の小節内にもデータが存在するため、その次の小節を終端小節とする
-	m_header.lEndBar++;
+	m_header.ml_endBar++;
 
 	// 小節倍率データを元に全ての小節情報を算出
 	LONG cnt = 0;	// 現在の小節の開始カウント値
 	int i;
-	for (i = 0; i <= m_header.lEndBar; i++) {
+	for (i = 0; i <= m_header.ml_endBar; i++) {
 		// 小節リストを加算
-		m_bmsBar[i].lTime = cnt;												// 現在の小節の開始カウントを記録
-		m_bmsBar[i].lLength = (LONG)(BMS_RESOLUTION * m_bmsBar[i].fScale);		// 倍率からこの小節の長さカウント値を算出
+		m_bmsBar[i].ml_time = cnt;												// 現在の小節の開始カウントを記録
+		m_bmsBar[i].ml_length = (LONG)(BMS_RESOLUTION * m_bmsBar[i].mf_scale);		// 倍率からこの小節の長さカウント値を算出
 
 		// この小節のカウント数を加算して次の小節の開始カウントとする
-		cnt += m_bmsBar[i].lLength;
+		cnt += m_bmsBar[i].ml_length;
 	}
 
 	// 最大カウントを保存
-	m_header.lMaxCount = cnt;
+	m_header.ml_maxCount = cnt;
 
 	fclose(fp);
 
@@ -219,7 +219,7 @@ bool BMSLoader::Sort(int _ch)
 	int i, j;
 	for (i = 0; i < mi_bmsData[_ch] - 1; i++) {
 		for (j = i + 1; j < mi_bmsData[_ch]; j++) {
-			if (mp_bmsData[_ch][i].lTime > mp_bmsData[_ch][j].lTime) {
+			if (mp_bmsData[_ch][i].ml_time > mp_bmsData[_ch][j].ml_time) {
 				// 構造体を入れ替える
 				BMSData dmy = mp_bmsData[_ch][i];		// ダミーに保存
 				mp_bmsData[_ch][i] = mp_bmsData[_ch][j];		// iにjを入れる
@@ -235,7 +235,7 @@ bool BMSLoader::Restart()
 	int i, j;
 	for (j = 0; j < BMS_MAXBUFFER; j++) {
 		for (i = 0; i < mi_bmsData[j]; i++) {
-			mp_bmsData[j][i].bFlag = TRUE;
+			mp_bmsData[j][i].mb_flg = TRUE;
 		}
 	}
 	return TRUE;
@@ -248,7 +248,7 @@ long BMSLoader::GetCountFromTime(double _sec)
 	double bpm = 130;
 
 	if (mi_bmsData[BMS_TEMPO] > 0) {
-		bpm = mp_bmsData[BMS_TEMPO][0].fData;		// 初期BPM
+		bpm = mp_bmsData[BMS_TEMPO][0].mf_data;		// 初期BPM
 	}
 
 	if (_sec < 0)
@@ -261,7 +261,7 @@ long BMSLoader::GetCountFromTime(double _sec)
 	for (i = 0; i < mi_bmsData[BMS_TEMPO]; i++) {
 
 		// １つ前の時間と新しい時間との経過時間から秒を算出
-		double add = (double)(mp_bmsData[BMS_TEMPO][i].lTime - cnt) / (bpm / 60) / (BMS_RESOLUTION / 4);
+		double add = (double)(mp_bmsData[BMS_TEMPO][i].ml_time - cnt) / (bpm / 60) / (BMS_RESOLUTION / 4);
 		//		DEBUG( "  [%d] 経過時間 %f秒\n",i,t+add );
 
 				// 現在のテンポ値で時間が過ぎたら抜ける
@@ -271,8 +271,8 @@ long BMSLoader::GetCountFromTime(double _sec)
 		}
 
 		t += add;										// 経過時間を加算
-		bpm = (double)mp_bmsData[BMS_TEMPO][i].fData;		// 次のBPMをセット
-		cnt = mp_bmsData[BMS_TEMPO][i].lTime;			// 計算済みのカウントをセット
+		bpm = (double)mp_bmsData[BMS_TEMPO][i].mf_data;		// 次のBPMをセット
+		cnt = mp_bmsData[BMS_TEMPO][i].ml_time;			// 計算済みのカウントをセット
 	}
 
 	//	DEBUG( "  BPM %f\n",bpm );
@@ -368,21 +368,21 @@ bool BMSLoader::AddData(int ch, LONG cnt, LONG data)
 			mi_bmsData[BMS_TEMPO]++;
 			mp_bmsData[BMS_TEMPO] = (BMSData*)realloc(mp_bmsData[BMS_TEMPO], mi_bmsData[BMS_TEMPO] * sizeof(BMSData));
 			ZeroMemory(&mp_bmsData[BMS_TEMPO][mi_bmsData[BMS_TEMPO] - 1], sizeof(BMSData));	// 追加した配列をクリア
-			mp_bmsData[BMS_TEMPO][mi_bmsData[BMS_TEMPO] - 1].bFlag = TRUE;
-			mp_bmsData[BMS_TEMPO][mi_bmsData[BMS_TEMPO] - 1].lTime = cnt;
-			mp_bmsData[BMS_TEMPO][mi_bmsData[BMS_TEMPO] - 1].lData = (LONG)m_header.fBpmIndex[data];	// テンポリストに入っているテンポ値を登録(LONG型にも保存)
-			mp_bmsData[BMS_TEMPO][mi_bmsData[BMS_TEMPO] - 1].fData = m_header.fBpmIndex[data];			// テンポリストに入っているテンポ値を登録
+			mp_bmsData[BMS_TEMPO][mi_bmsData[BMS_TEMPO] - 1].mb_flg = TRUE;
+			mp_bmsData[BMS_TEMPO][mi_bmsData[BMS_TEMPO] - 1].ml_time = cnt;
+			mp_bmsData[BMS_TEMPO][mi_bmsData[BMS_TEMPO] - 1].ml_data = (LONG)m_header.mf_bpmIndex[data];	// テンポリストに入っているテンポ値を登録(LONG型にも保存)
+			mp_bmsData[BMS_TEMPO][mi_bmsData[BMS_TEMPO] - 1].mf_data = m_header.mf_bpmIndex[data];			// テンポリストに入っているテンポ値を登録
 			break;
 		default:
 			// データを追加
 			mi_bmsData[ch]++;
 			mp_bmsData[ch] = (BMSData*)realloc(mp_bmsData[ch], mi_bmsData[ch] * sizeof(BMSData));
 			ZeroMemory(&mp_bmsData[ch][mi_bmsData[ch] - 1], sizeof(BMSData));					// 追加した配列をクリア
-			mp_bmsData[ch][mi_bmsData[ch] - 1].bFlag = TRUE;
-			mp_bmsData[ch][mi_bmsData[ch] - 1].mColor = kRedColor;
-			mp_bmsData[ch][mi_bmsData[ch] - 1].lTime = cnt;
-			mp_bmsData[ch][mi_bmsData[ch] - 1].lData = data;
-			mp_bmsData[ch][mi_bmsData[ch] - 1].fData = (float)data;								// float型にも保存
+			mp_bmsData[ch][mi_bmsData[ch] - 1].mb_flg = TRUE;
+			mp_bmsData[ch][mi_bmsData[ch] - 1].m_color = kRedColor;
+			mp_bmsData[ch][mi_bmsData[ch] - 1].ml_time = cnt;
+			mp_bmsData[ch][mi_bmsData[ch] - 1].ml_data = data;
+			mp_bmsData[ch][mi_bmsData[ch] - 1].mf_data = (float)data;								// float型にも保存
 			break;
 	}
 
@@ -548,7 +548,7 @@ bool BMSLoader::LoadBmsData(const char* file)
 		len = (int)strlen(data) / 2;
 
 		// 現在の小節のカウント値から1音符分のカウント値を算出
-		LONG tick = m_bmsBar[line].lLength / len;
+		LONG tick = m_bmsBar[line].ml_length / len;
 
 		// 実データを追加
 		ZeroMemory(&tmp, sizeof(tmp));
@@ -558,7 +558,7 @@ bool BMSLoader::LoadBmsData(const char* file)
 			int data = atoi1610(tmp);			// 16進数
 			if (data > 0) {
 				// データが存在する場合
-				AddData(ch, m_bmsBar[line].lTime + (tick * i), data);
+				AddData(ch, m_bmsBar[line].ml_time + (tick * i), data);
 			}
 		}
 	}
