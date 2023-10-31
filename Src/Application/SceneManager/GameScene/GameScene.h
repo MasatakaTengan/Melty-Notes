@@ -50,5 +50,6 @@ private:
 
 	//debug
 	int m_hitSubNum;
+	char m_jadge[100];
 
 };

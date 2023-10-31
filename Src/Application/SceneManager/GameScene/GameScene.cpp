@@ -179,19 +179,19 @@ void GameScene::Update()
 					int jadge = 0;								// 判定値(0=POOR、1=BAD、2=GOOD、3=GREAT、4=PKGREATなど)
 					if (sub <= PERFECT_RANGE) {
 						jadge = 4;
-						//							OutputDebugStringA( "PKGREAT\n" );
+						sprintf_s(m_jadge, sizeof(m_jadge), "PERFECT");
 					}
 					else if (sub <= GREAT_RANGE) {
 						jadge = 3;
-						//							OutputDebugStringA( "GREAT\n" );
+						sprintf_s(m_jadge, sizeof(m_jadge), "GREAT");
 					}
 					else if (sub <= GOOD_RANGE) {
 						jadge = 2;
-						//							OutputDebugStringA( "GOOD\n" );
+						sprintf_s(m_jadge, sizeof(m_jadge), "GOOD");
 					}
 					else if (sub <= BAD_RANGE) {
 						jadge = 1;
-						//							OutputDebugStringA( "BAD\n" );
+						sprintf_s(m_jadge, sizeof(m_jadge), "BAD");
 					}
 
 					switch (jadge)
@@ -249,6 +249,7 @@ void GameScene::Update()
 	//	iBackKeyCount[5] = 30;
 	//}
 	ImGui::Text("%ld", m_hitSubNum);
+	ImGui::Text("%s", m_jadge);
 }
 
 void GameScene::PostUpdate()
