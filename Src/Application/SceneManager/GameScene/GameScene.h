@@ -30,6 +30,7 @@ private:
 
 	KdTexture m_noteTex;
 	KdTexture m_keyBackTex;
+	KdTexture m_hitEffectTex;
 
 	bool mb_bgm;
 	std::string_view m_bgmFile;

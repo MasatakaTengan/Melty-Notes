@@ -5,6 +5,7 @@ void GameScene::Init()
 {
 	m_noteTex.Load("Asset/Textures/notes.png");
 	m_keyBackTex.Load("Asset/Textures/note_effect.png");
+	m_hitEffectTex.Load("Asset/Textures/hit_effect.png");
 	mb_bgm = false;
 	m_bgmFile = "Asset/Audio/SAMPLE.WAV";
 	m_hitSEFile = "Asset/Audio/drum-hitnormal.wav";
