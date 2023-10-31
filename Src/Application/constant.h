@@ -32,6 +32,6 @@ namespace Constant
 	static const int NOTE_HEIGHT = 16;
 	static const int NOTE_HALFHEIGHT = NOTE_HEIGHT / 2;
 
-	static const int BAR_Y = -100;
+	static const int BAR_Y = -200;
 	static const int KEYBACK_Y = -200;
 }

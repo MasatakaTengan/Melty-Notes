@@ -178,6 +178,8 @@ void GameScene::Update()
 					m_hitSubNum = sub;
 
 					int jadge = 0;								// 判定値(0=POOR、1=BAD、2=GOOD、3=GREAT、4=PKGREATなど)
+					sprintf_s(m_jadge, sizeof(m_jadge), "MISS");
+
 					if (sub <= PERFECT_RANGE) {
 						jadge = 4;
 						sprintf_s(m_jadge, sizeof(m_jadge), "PERFECT");
@@ -303,11 +305,11 @@ void GameScene::DrawSprite()
 		}
 		ImGui::Text("ScreenScale : %.2f", fScrMulti);
 		
-		KdShaderManager::Instance().m_spriteShader.DrawBox(0, 0, 640, 360, &kBlackColor);
+		KdShaderManager::Instance().m_spriteShader.DrawBox(0, 0, WINDOW_HALFWIDTH, WINDOW_HALFHEIGHT, &kBlackColor);
 
 		static const int index[6] = { 0,2,4,1,3,5 };				// インデックスリスト
 		static const int obj_kind[6] = { 0,1,0,1,0,2 };				// オブジェの種類
-		static const float obj_x[6] = { 1,18,30,46,59,92 };			// オブジェ表示X座標
+		static const float obj_x[6] = { -256,-128,30,128,256,512 };			// オブジェ表示X座標
 		static const float obj_fx[6] = { 14,29,44,58,72,109 };		// フラッシュ表示X座標
 		// 経過した時間から進んだBMSカウント値を算出
 		LONG now_count = bms.GetCountFromTime(dElapsedTime);
@@ -337,19 +339,19 @@ void GameScene::DrawSprite()
 					break;*/
 					// 画面内なら描画
 					//dd.Put(15 + obj_kind[index[j]], obj_x[index[j]], (float)(413 - off_y));
-				Math::Rectangle rect = Math::Rectangle(0, obj_kind[index[j]] * 16, 64, 16);
+				Math::Rectangle rect = Math::Rectangle(0, obj_kind[index[j]] * NOTE_HEIGHT, NOTE_WIDTH, NOTE_HEIGHT);
 				//Math::Color color = { 1, (float)b->bFlag, 1, 1 };
-				KdShaderManager::Instance().m_spriteShader.DrawTex(&m_noteTex, obj_x[index[j]] * 5, (float)(BAR_Y + off_y), NOTE_WIDTH, NOTE_HEIGHT, &rect, &b->m_color);
+				KdShaderManager::Instance().m_spriteShader.DrawTex(&m_noteTex, obj_x[index[j]], (float)(BAR_Y + off_y), NOTE_WIDTH*1.5, NOTE_HEIGHT, &rect, &b->m_color);
 			}
 			KdShaderManager::Instance().ChangeBlendState(KdBlendState::Add);
 			Math::Color color = { 0.4f, 0.4f, 0.4f, (float)iBackKeyCount[j] / 30 };
-			KdShaderManager::Instance().m_spriteShader.DrawTex(&m_keyBackTex, obj_x[j] * 5, KEYBACK_Y, nullptr, &color);
+			KdShaderManager::Instance().m_spriteShader.DrawTex(&m_keyBackTex, obj_x[j], KEYBACK_Y, nullptr, &color);
 			KdShaderManager::Instance().ChangeBlendState(KdBlendState::Alpha);
 
 			//KdShaderManager::Instance().m_spriteShader.DrawLine(0, -192, 640, -192);
 			////KdShaderManager::Instance().m_spriteShader.DrawLine(0, 0, 640, 0);
-			KdShaderManager::Instance().m_spriteShader.DrawLine(0, BAR_Y + NOTE_HALFHEIGHT, WINDOW_HALFWIDTH, BAR_Y + NOTE_HALFHEIGHT);
-			KdShaderManager::Instance().m_spriteShader.DrawLine(0, BAR_Y - NOTE_HALFHEIGHT, WINDOW_HALFWIDTH, BAR_Y - NOTE_HALFHEIGHT);
+			KdShaderManager::Instance().m_spriteShader.DrawLine(-WINDOW_HALFWIDTH/2, BAR_Y + NOTE_HALFHEIGHT, WINDOW_HALFWIDTH/2, BAR_Y + NOTE_HALFHEIGHT);
+			KdShaderManager::Instance().m_spriteShader.DrawLine(-WINDOW_HALFWIDTH/2, BAR_Y - NOTE_HALFHEIGHT, WINDOW_HALFWIDTH/2, BAR_Y - NOTE_HALFHEIGHT);
 		}
 
 
