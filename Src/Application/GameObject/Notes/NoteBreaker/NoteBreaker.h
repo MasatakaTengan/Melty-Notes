@@ -1,11 +1,11 @@
 #pragma once
 
-class NoteProducer
+class NoteBreaker
 {
 public:
 
-	NoteProducer() {}
-	~NoteProducer() {}
+	NoteBreaker() {}
+	~NoteBreaker() {}
 
 	void Init();
 	void Update();
