@@ -13,7 +13,7 @@ public:
     int GetNowFPS()
     {
         //return i_nowFps;
-        return i_cnt;
+        return mi_nowFps;
     }
 
     LONGLONG GetNowTime() { return li_nowTime; }
@@ -25,6 +25,8 @@ private:
     LARGE_INTEGER m_start;         // 開始時間
     int i_fps;           // 割り込みタイミング
     int i_cnt;         // 割り込みカウント数
+    int mi_nowCnt;
+    int mi_nowFps;
 
     LONGLONG li_nowTime;
 

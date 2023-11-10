@@ -14,6 +14,8 @@ Timer::Timer()
 		b_perf = false;
 	}
 	i_fps = 60;
+	mi_nowCnt = 0;
+	mi_nowFps = 0;
 }
 
 bool Timer::Start(int _fps)
@@ -29,6 +31,7 @@ bool Timer::Start(int _fps)
 	{
 		m_start.QuadPart = (LONGLONG)timeGetTime();
 	}
+	li_nowTime = m_start.QuadPart;
 	return true;
 }
 
@@ -44,12 +47,12 @@ int Timer::Run(void)
 		now.QuadPart = (LONGLONG)timeGetTime();
 	}
 
-	LONGLONG prog = now.QuadPart - m_start.QuadPart;
-	li_nowTime = prog;
-
-	while (prog > m_freq.QuadPart)
+	mi_nowCnt++;
+	if ( ( now.QuadPart - li_nowTime ) > m_freq.QuadPart )
 	{
-		prog -= m_freq.QuadPart;
+		li_nowTime += m_freq.QuadPart;
+		mi_nowFps = mi_nowCnt;
+		mi_nowCnt = 0;
 	}
 
 	int cnt = (int)((now.QuadPart - m_start.QuadPart) / (m_freq.QuadPart / i_fps));
