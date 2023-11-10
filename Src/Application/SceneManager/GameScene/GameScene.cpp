@@ -261,6 +261,8 @@ void GameScene::Update()
 	//}
 	ImGui::Text( "%ld", mi_hitSubNum );
 	ImGui::Text( "%ld", mi_pressNum );
+	ImGui::Text( "%s", m_noteManager->GetJadge() );
+	ImGui::Text( "%ld", m_noteManager->GetScore() );
 	ImGui::Text( "%s", m_jadge );
 }
 

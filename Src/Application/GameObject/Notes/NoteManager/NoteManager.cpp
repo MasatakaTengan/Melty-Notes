@@ -21,6 +21,8 @@ void NoteManager::Init( BMSLoader& _bms )
 			n->SetTex( m_tex );
 			msp_noteList.push_back( n );
 		}
+		mi_noteNum += _bms.GetObjeNum( 0x11 + j );
+		md_noteScore = (double)MAX_SCORE / mi_noteNum;
 	}
 }
 
@@ -32,6 +34,8 @@ void NoteManager::PreUpdate()
 		if ( !( *it )->GetEnable() )
 		{
 			m_jadgeList.push_back( ( *it )->GetJadge() );
+			m_jadge = ( *it )->GetJadge();
+			mi_score += ( md_noteScore * ( ( *it )->GetJadge() ) / 4.0 );
 			it = msp_noteList.erase( it );
 		}
 		else
@@ -45,6 +49,8 @@ void NoteManager::Update( LONG _nowCount )
 {
 	if ( ImGui::Begin( "NoteJadge" ) )
 	{
+		ImGui::Text( "%d", mi_noteNum );
+		ImGui::Text( "%d", mi_score );
 		for ( auto& note : msp_noteList )
 		{
 			note->Update( _nowCount );
@@ -65,5 +71,22 @@ void NoteManager::Draw( float _scrMulti )
 	}
 }
 
-void NoteManager::AddNote()
-{}
+void NoteManager::AddScore( JADGE _jadge )
+{
+	double scoreMulti = 4.0 / _jadge;
+	mi_score += md_noteScore * scoreMulti;
+	/*switch ( _jadge )
+	{
+		case MISS:
+			mi_score += md_noteScore * scoreMulti;
+			break;
+		case BAD:
+			break;
+		case GOOD:
+			break;
+		case GREAT:
+			break;
+		case PERFECT:
+			break;
+	}*/
+}
