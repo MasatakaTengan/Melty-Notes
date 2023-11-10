@@ -49,6 +49,11 @@ namespace Constant
 	static const int NOTE_HEIGHT = 16;
 	static const int NOTE_HALFHEIGHT = NOTE_HEIGHT / 2;
 
+	static const int HITEFFECT_WIDTH = 320;
+	static const int HITEFFECT_HALFWIDTH = HITEFFECT_WIDTH / 2;
+	static const int HITEFFECT_HEIGHT = 320;
+	static const int HITEFFECT_HALFHEIGHT = HITEFFECT_HEIGHT / 2;
+
 	static const int BAR_Y = -200;
 	static const int KEYBACK_Y = -200;
 

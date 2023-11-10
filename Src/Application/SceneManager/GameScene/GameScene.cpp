@@ -323,14 +323,32 @@ void GameScene::DrawSprite()
 
 		for ( int j = 0; j < 6; j++ )
 		{
-			KdShaderManager::Instance().ChangeBlendState(KdBlendState::Add);
-			Math::Color color = { 0.4f, 0.4f, 0.4f, (float)mi_backKeyCount[j] / 30 };
-			KdShaderManager::Instance().m_spriteShader.DrawTex( &m_keyBackTex, obj_x[j], KEYBACK_Y, nullptr, &color );
-			KdShaderManager::Instance().ChangeBlendState( KdBlendState::Alpha );
+			KdShaderManager::Instance().ChangeBlendState( KdBlendState::Add );
 
-			KdShaderManager::Instance().m_spriteShader.DrawLine( -WINDOW_HALFWIDTH / 2, BAR_Y + NOTE_HALFHEIGHT, WINDOW_HALFWIDTH / 2, BAR_Y + NOTE_HALFHEIGHT );
-			KdShaderManager::Instance().m_spriteShader.DrawLine( -WINDOW_HALFWIDTH / 2, BAR_Y - NOTE_HALFHEIGHT, WINDOW_HALFWIDTH / 2, BAR_Y - NOTE_HALFHEIGHT );
+			Math::Color color = { 0.4f, 0.4f, 0.4f, (float)mi_backKeyCount[j] / 30 };
+			KdShaderManager::Instance().m_spriteShader.DrawTex(
+				&m_keyBackTex,
+				obj_x[j], KEYBACK_Y,
+				nullptr, &color );
+
+			float scale = sin( ( (float)( -mi_hitEffectCount[j] + 10 ) / 10 ) * M_PI / 2 ) / 2 + 1.0f;
+			float alpha = ( (float)mi_hitEffectCount[j] / 10 );
+			color = { 1, 1, 1, alpha };
+			KdShaderManager::Instance().m_spriteShader.DrawTex(
+				&m_hitEffectTex,
+				obj_x[j], BAR_Y,
+				HITEFFECT_HALFWIDTH * scale, HITEFFECT_HALFHEIGHT * scale,
+				nullptr, &color );
+
+			KdShaderManager::Instance().ChangeBlendState( KdBlendState::Alpha );
 		}
+
+		KdShaderManager::Instance().m_spriteShader.DrawLine(
+			-WINDOW_HALFWIDTH / 2, BAR_Y + NOTE_HALFHEIGHT,
+			WINDOW_HALFWIDTH / 2, BAR_Y + NOTE_HALFHEIGHT );
+		KdShaderManager::Instance().m_spriteShader.DrawLine(
+			-WINDOW_HALFWIDTH / 2, BAR_Y - NOTE_HALFHEIGHT,
+			WINDOW_HALFWIDTH / 2, BAR_Y - NOTE_HALFHEIGHT );
 
 	}
 
