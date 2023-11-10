@@ -1,5 +1,13 @@
 #pragma once
 
+enum KEYSTATE
+{
+	IDLING,
+	RELEASE,
+	PRESS,
+	HOLD
+};
+
 enum SceneID
 {
 	SID_NONE,
@@ -20,6 +28,15 @@ enum UIID
 	UIID_TORESULT
 };
 
+enum JADGE
+{
+	MISS,
+	BAD,
+	GOOD,
+	GREAT,
+	PERFECT
+};
+
 namespace Constant
 {
 	static const int WINDOW_WIDTH = 1280;
@@ -34,4 +51,10 @@ namespace Constant
 
 	static const int BAR_Y = -200;
 	static const int KEYBACK_Y = -200;
+
+	static const int PERFECT_RANGE = BMS_RESOLUTION / 48;		// PERFECTと判定する中心からの範囲(前後合わせて24分音符内)
+	static const int GREAT_RANGE = BMS_RESOLUTION / 32;		// GREATと判定する中心からの範囲(前後合わせて16分音符内)
+	static const int GOOD_RANGE = BMS_RESOLUTION / 16;		// GOODと判定する中心からの範囲(前後合わせて8分音符内)
+	static const int BAD_RANGE = BMS_RESOLUTION / 8;		// BADと判定する中心からの範囲(前後合わせて5分音符内)
+	static const int POOR_RANGE = BMS_RESOLUTION / 2;		// POOR判定する中心からの範囲(前後合わせて1小節内)
 }
