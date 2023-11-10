@@ -74,7 +74,6 @@
 // 個人追加:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 // タイマー
 #include "Personal/Timer.h"
-#include "Personal/InputManager.h"
-#include "Application/constant.h"
-
 #include "Framework/Personal/BMSLoader.h"
+#include "Application/constant.h"
+#include "Personal/InputManager.h"

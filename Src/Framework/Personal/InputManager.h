@@ -76,7 +76,9 @@ public:
 	InputManager(HWND hwnd = 0)
 		:m_hwnd(hwnd),
 		m_pos(),
-		m_beforePos()
+		m_beforePos(),
+		m_onKey(),
+		m_keyState()
 	{}
 
 	Mouse GetPosition()
@@ -162,8 +164,47 @@ public:
 		}
 	}
 
+	KEYSTATE GetKeyStateToManager( int _key )
+	{
+		return m_keyState[_key];
+	}
+
+	void KeyStateUpdate()
+	{
+		for ( int i = 0; i < 0xFF; i++ )
+		{
+			if ( GetAsyncKeyState( i ) & 0x8000 )
+			{
+				if ( !m_onKey[i] )
+				{
+					m_onKey[i] = TRUE;
+					m_keyState[i] = KEYSTATE::PRESS;
+				}
+				else
+				{
+					m_keyState[i] = KEYSTATE::HOLD;
+				}
+			}
+			else
+			{
+				if ( m_onKey[i] )
+				{
+					m_onKey[i] = FALSE;
+					m_keyState[i] = KEYSTATE::RELEASE;
+				}
+				else
+				{
+					m_keyState[i] = KEYSTATE::IDLING;
+				}
+			}
+		}
+	}
+
 	Mouse m_pos;
 	Mouse m_beforePos;
+
+	BOOL m_onKey[0xFF];
+	KEYSTATE m_keyState[0xFF];
 
 private:
 

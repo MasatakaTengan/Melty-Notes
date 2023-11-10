@@ -11,7 +11,7 @@
 void SceneManager::Init()
 {
 
-	msp_inputManager = std::make_shared<InputManager>(Application::Instance().GetWindowHandle());
+	//msp_inputManager = std::make_shared<InputManager>(Application::Instance().GetWindowHandle());
 
 	ChangeScene(SID_TITLE);
 
@@ -25,8 +25,8 @@ void SceneManager::Event()
 
 void SceneManager::PreUpdate()
 {
+	INPUT.KeyStateUpdate();
 	msp_nowScene->PreUpdate();
-	ChangeScene(m_nextID);
 }
 
 void SceneManager::Update()
@@ -41,6 +41,7 @@ void SceneManager::Update()
 void SceneManager::PostUpdate()
 {
 	msp_nowScene->PostUpdate();
+	ChangeScene(m_nextID);
 }
 
 void SceneManager::PreDraw()
@@ -123,7 +124,7 @@ void SceneManager::ChangeScene(SceneID _id)
 			break;
 	}
 	msp_nowScene->SetOwner(shared_from_this());
-	msp_nowScene->SetInputManager(msp_inputManager);
+	//msp_nowScene->SetInputManager(msp_inputManager);
 
 	m_nowID = _id;
 }
