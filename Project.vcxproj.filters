@@ -103,7 +103,7 @@
     <Filter Include="Src\Application\GameObject\Notes\NoteManager">
       <UniqueIdentifier>{1f761e60-09de-4844-a1d6-eb46e88f5903}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\Application\GameObject\Notes\NoteProducer">
+    <Filter Include="Src\Application\GameObject\Notes\NoteBreaker">
       <UniqueIdentifier>{aaa56975-546a-4414-8a42-723bdc941ac4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -300,14 +300,14 @@
     <ClInclude Include="Src\Application\GameObject\UI\ToGame\ToGame.h">
       <Filter>Src\Application\GameObject\UI\ToGame</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Application\GameObject\Notes\NoteProducer\NoteProducer.h">
-      <Filter>Src\Application\GameObject\Notes\NoteProducer</Filter>
-    </ClInclude>
     <ClInclude Include="Src\Application\GameObject\Notes\NoteManager\NoteManager.h">
       <Filter>Src\Application\GameObject\Notes\NoteManager</Filter>
     </ClInclude>
     <ClInclude Include="Src\Application\GameObject\Notes\Note\Note.h">
       <Filter>Src\Application\GameObject\Notes\Note</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Notes\NoteBreaker\NoteBreaker.h">
+      <Filter>Src\Application\GameObject\Notes\NoteBreaker</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -473,14 +473,14 @@
     <ClCompile Include="Src\Application\GameObject\UI\ToGame\ToGame.cpp">
       <Filter>Src\Application\GameObject\UI\ToGame</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Application\GameObject\Notes\NoteProducer\NoteProducer.cpp">
-      <Filter>Src\Application\GameObject\Notes\NoteProducer</Filter>
-    </ClCompile>
     <ClCompile Include="Src\Application\GameObject\Notes\NoteManager\NoteManager.cpp">
       <Filter>Src\Application\GameObject\Notes\NoteManager</Filter>
     </ClCompile>
     <ClCompile Include="Src\Application\GameObject\Notes\Note\Note.cpp">
       <Filter>Src\Application\GameObject\Notes\Note</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Notes\NoteBreaker\NoteBreaker.cpp">
+      <Filter>Src\Application\GameObject\Notes\NoteBreaker</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
