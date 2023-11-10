@@ -155,6 +155,9 @@
     <ClInclude Include="..\Library\tinygltf\stb_image_write.h" />
     <ClInclude Include="..\Library\tinygltf\tiny_gltf.h" />
     <ClInclude Include="Src\Application\constant.h" />
+    <ClInclude Include="Src\Application\GameObject\Notes\NoteManager\NoteManager.h" />
+    <ClInclude Include="Src\Application\GameObject\Notes\NoteProducer\NoteProducer.h" />
+    <ClInclude Include="Src\Application\GameObject\Notes\Note\Note.h" />
     <ClInclude Include="Src\Application\GameObject\UI\ToGame\ToGame.h" />
     <ClInclude Include="Src\Application\GameObject\UI\UIBase.h" />
     <ClInclude Include="Src\Application\GameObject\UI\UIManager.h" />
@@ -213,6 +216,9 @@
     <ClCompile Include="..\Library\ImGui\imgui_stdlib.cpp" />
     <ClCompile Include="..\Library\ImGui\imgui_tables.cpp" />
     <ClCompile Include="..\Library\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="Src\Application\GameObject\Notes\NoteManager\NoteManager.cpp" />
+    <ClCompile Include="Src\Application\GameObject\Notes\NoteProducer\NoteProducer.cpp" />
+    <ClCompile Include="Src\Application\GameObject\Notes\Note\Note.cpp" />
     <ClCompile Include="Src\Application\GameObject\UI\ToGame\ToGame.cpp" />
     <ClCompile Include="Src\Application\GameObject\UI\UIBase.cpp" />
     <ClCompile Include="Src\Application\GameObject\UI\UIManager.cpp" />

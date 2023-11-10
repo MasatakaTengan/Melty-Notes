@@ -94,6 +94,18 @@
     <Filter Include="Src\Application\SceneManager\OptionScene">
       <UniqueIdentifier>{03c0654f-4cc8-4cf0-8e7f-0bce45fed52e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\GameObject\Notes">
+      <UniqueIdentifier>{63827fbf-d403-4250-bc4a-f3494e454213}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Notes\Note">
+      <UniqueIdentifier>{6c0de4ab-08a4-44ed-9208-3826529e2b99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Notes\NoteManager">
+      <UniqueIdentifier>{1f761e60-09de-4844-a1d6-eb46e88f5903}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Notes\NoteProducer">
+      <UniqueIdentifier>{aaa56975-546a-4414-8a42-723bdc941ac4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -288,6 +300,15 @@
     <ClInclude Include="Src\Application\GameObject\UI\ToGame\ToGame.h">
       <Filter>Src\Application\GameObject\UI\ToGame</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Notes\NoteProducer\NoteProducer.h">
+      <Filter>Src\Application\GameObject\Notes\NoteProducer</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Notes\NoteManager\NoteManager.h">
+      <Filter>Src\Application\GameObject\Notes\NoteManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Notes\Note\Note.h">
+      <Filter>Src\Application\GameObject\Notes\Note</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -451,6 +472,15 @@
     </ClCompile>
     <ClCompile Include="Src\Application\GameObject\UI\ToGame\ToGame.cpp">
       <Filter>Src\Application\GameObject\UI\ToGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Notes\NoteProducer\NoteProducer.cpp">
+      <Filter>Src\Application\GameObject\Notes\NoteProducer</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Notes\NoteManager\NoteManager.cpp">
+      <Filter>Src\Application\GameObject\Notes\NoteManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Notes\Note\Note.cpp">
+      <Filter>Src\Application\GameObject\Notes\Note</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
