@@ -44,11 +44,11 @@ private:
 	LONGLONG		mll_globalFreq;		// マシンの１秒間のカウント数(高解像度タイマー)
 	double			md_elapsedTime;		// 開始からの経過時間(秒)
 	KEYSTATE	m_keyState[5];			// 鍵盤キーが押されているか
-	int				mi_startNum[256];		// BMS演奏で計算開始する配列番号(処理を軽くするため)
+	//int				mi_startNum[256];		// BMS演奏で計算開始する配列番号(処理を軽くするため)
 
-	int				mi_flashIndex[6];		// 次に使用されるフラッシュカウンタのインデックス
-	int				mi_flashCount[6][3];	// フラッシュ６ｘ３個分のカウンタ
-	int				mi_backKeyCount[6];	// キーを離した時の後ろのバックライトの演出用カウンタ
+	//int				mi_flashIndex[6];		// 次に使用されるフラッシュカウンタのインデックス
+	//int				mi_flashCount[6][3];	// フラッシュ６ｘ３個分のカウンタ
+	int mi_backKeyCount[6];			// キーを離した時の後ろのバックライトの演出用カウンタ
 	int mi_hitEffectCount[6];
 
 	//debug
