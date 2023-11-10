@@ -302,8 +302,8 @@ void Application::Execute()
 		//ImGui::ShowDemoWindow(nullptr);
 
 		//ウィンドウ開始 "WindowName"の部分はほかのウィンドウと被らないようにすること
-/*		
-		if (ImGui::Begin("ImGui_Window"))
+//*		
+		if (ImGui::Begin("MainDebug"))
 		{
 			//ウィンドウを折りたたんでいない状態だと、この中が実行される。
 			//ここにボタン等を配置
@@ -326,7 +326,7 @@ void Application::Execute()
 
 			//ラベル付き文字表示
 			ImGui::LabelText("FPS", "FPS:%d", mi_fps);
-			ImGui::LabelText("NowTime", "Now:%lld", m_timer.GetNowTime());
+			ImGui::LabelText("NowFPS", "Now:%d", m_timer.GetNowFPS());
 
 			//入力ボックス
 			std::string str = "";	//ここに文字列が入る
