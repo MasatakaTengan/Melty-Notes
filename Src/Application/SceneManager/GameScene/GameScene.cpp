@@ -150,7 +150,8 @@ void GameScene::Update()
 
 	ImGui::Text( "%s", m_noteManager->GetJadge() );
 	ImGui::Text( "%ld", m_noteManager->GetScore() );
-	ImGui::Text( "%s", m_jadge );
+	ImGui::Text( "%ld", m_noteManager->GetJadgeCnt() );
+	ImGui::Text( "%ld", now_count );
 }
 
 void GameScene::PostUpdate()
@@ -205,7 +206,8 @@ void GameScene::DrawSprite()
 
 		KdShaderManager::Instance().m_spriteShader.DrawBox( 0, 0, WINDOW_HALFWIDTH, WINDOW_HALFHEIGHT, &kBlackColor );
 
-		static const float obj_x[6] = { -256,-128,0,128,256,512 };			// オブジェ表示X座標
+		//static const float obj_x[6] = { -256,-128,0,128,256,512 };			// オブジェ表示X座標
+		static const float obj_x[5] = { -192,-64,0,64,192 };			// オブジェ表示X座標
 
 		//add:note類
 		m_noteManager->Draw( mf_scrollMulti );

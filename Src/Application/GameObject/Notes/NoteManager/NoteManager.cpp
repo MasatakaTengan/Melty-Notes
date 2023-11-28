@@ -1,14 +1,15 @@
 #include "NoteManager.h"
 #include "../Note/Note.h"
+#include "../NoteBreaker/NoteBreaker.h"
 
 void NoteManager::Init( BMSLoader& _bms )
 {
 	m_tex = std::make_shared<KdTexture>();
 	m_tex->Load( "Asset/Textures/notes.png" );
-	static const int index[6] = { 0,2,4,1,3,5 };				// インデックスリスト
-	static const float obj_x[6] = { -256,-128,0,128,256,512 };			// オブジェ表示X座標
+	//static const float obj_x[5] = { -256,-128,0,128,256 };			// オブジェ表示X座標
+	static const float obj_x[4] = { -192,-64,64,192 };			// オブジェ表示X座標
 	// 全チャンネル分を処理
-	for ( int j = 0; j < 5; j++ )
+	for ( int j = 0; j < 4; j++ )
 	{
 		// 判定対象のチャンネルのオブジェをチェック
 		for ( int i = 0; i < _bms.GetObjeNum( 0x11 + j ); i++ )
@@ -38,6 +39,7 @@ void NoteManager::PreUpdate()
 		{
 			m_jadgeList.push_back( ( *it )->GetJadge() );
 			m_jadge = ( *it )->GetJadge();
+			m_jadgeCnt = (*it)->GetCount();
 			mi_score += ( md_noteScore * ( ( *it )->GetJadge() ) / 4.0 );
 			it = msp_noteList.erase( it );
 		}
@@ -58,10 +60,11 @@ void NoteManager::Update( LONG _nowCount )
 		{
 			note->Update( _nowCount );
 		}
-		for ( auto jadge : m_jadgeList )
+		for ( auto jadge = m_jadgeList.rbegin(); jadge != m_jadgeList.rend(); jadge++ )
 		{
-			ImGui::Text( "%d", jadge );
+			ImGui::Text( "%d", *jadge );
 		}
+		msp_noteBreaker->Update( _nowCount );
 	}
 	ImGui::End();
 }

@@ -42,6 +42,10 @@ public:
 				break;
 		}
 	}
+	long GetJadgeCnt()
+	{
+		return m_jadgeCnt;
+	}
 
 	const std::list<std::shared_ptr<Note>>& GetNoteList() const
 	{
@@ -50,23 +54,25 @@ public:
 
 private:
 
+	std::list<std::shared_ptr<Note>> msp_noteList;
 	std::shared_ptr<KdTexture> m_tex = nullptr;
-	std::vector<std::shared_ptr<Note>> msp_noteList;
-	std::vector<JADGE> m_jadgeList;
-	JADGE m_jadge;
+
+	std::shared_ptr<NoteBreaker> msp_noteBreaker = nullptr;
 
 	int mi_noteNum = 0;
 	double md_noteScore = 0.0;
 	int mi_score = 0;
 
-	const int KEYID[5] =
+	const int KEYID[4] =
 	{		// キーのリスト
 		'D',							// ch11に割り当てるキー
 		'F',							// ch12に割り当てるキー
-		' ',							// ch13に割り当てるキー
-		'J',							// ch14に割り当てるキー
-		'K',							// ch15に割り当てるキー
+		'J',							// ch13に割り当てるキー
+		'K',							// ch14に割り当てるキー
 	};
 	//BMSLoader& bms;
+	std::list<JADGE> m_jadgeList;
+	JADGE m_jadge;
+	long m_jadgeCnt;
 
 };
