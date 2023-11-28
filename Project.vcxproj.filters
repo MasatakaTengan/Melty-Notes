@@ -106,6 +106,9 @@
     <Filter Include="Src\Application\GameObject\Notes\NoteBreaker">
       <UniqueIdentifier>{aaa56975-546a-4414-8a42-723bdc941ac4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\GameObject\NewFilter1">
+      <UniqueIdentifier>{71fca9aa-a01b-4874-b9f2-78e24a0221ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
