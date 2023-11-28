@@ -28,6 +28,7 @@ void Note::Update( LONG _nowCount )
 	ml_nowCount = _nowCount;
 	m_jadge = JADGE::MISS;								// 判定値(0=POOR、1=BAD、2=GOOD、3=GREAT、4=PERFECTなど)
 
+	/*
 	if ( ml_count < ( ml_nowCount - BAD_RANGE ) )
 	{
 		// BAD判定を過ぎたら全て見逃し扱いとする
@@ -36,7 +37,6 @@ void Note::Update( LONG _nowCount )
 		// 次のオブジェをチェック
 		return;
 	}
-
 	// オブジェが判定内ならキーが押された瞬間かをチェック
 	if ( INPUT.GetKeyStateToManager(mi_key) == KEYSTATE::PRESS )
 	{
@@ -88,7 +88,7 @@ void Note::Update( LONG _nowCount )
 			break;
 		}
 	}
-	//ImGui::Text( "%d, %s", mi_hitSubNum, m_jadgeString );
+	//ImGui::Text( "%d, %s", mi_hitSubNum, m_jadgeString );*/
 }
 
 void Note::Draw( float _scrMulti )

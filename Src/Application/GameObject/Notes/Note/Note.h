@@ -29,10 +29,26 @@ public:
 	{
 		m_tex = _tex;
 	}
+	void SetEnable( bool _flg )
+	{
+		mb_enable = _flg;
+	}
+	void SetJadge( JADGE _jadge )
+	{
+		m_jadge = _jadge;
+	}
 
 	bool GetEnable()
 	{
 		return mb_enable;
+	}
+	const int GetKey()
+	{
+		return mi_key;
+	}
+	LONG GetCount()
+	{
+		return ml_count;
 	}
 	JADGE GetJadge()
 	{

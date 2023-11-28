@@ -1,8 +1,9 @@
 #pragma once
 
 class Note;
+class NoteBreaker;
 
-class NoteManager
+class NoteManager : public std::enable_shared_from_this<NoteManager>
 {
 public:
 
@@ -42,9 +43,9 @@ public:
 		}
 	}
 
-	void SetBMS(  )
+	const std::list<std::shared_ptr<Note>>& GetNoteList() const
 	{
-		//bms = _bms;
+		return msp_noteList;
 	}
 
 private:

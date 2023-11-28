@@ -16,7 +16,7 @@ void NoteManager::Init( BMSLoader& _bms )
 			BMSData* b = _bms.GetObje( 0x11 + j, i );
 			std::shared_ptr<Note> n = std::make_shared<Note>();
 			n->SetCount( b->ml_time );
-			n->SetKey( KEYID[j] );
+			n->SetKey( Constant::KEYID_4K[j] );
 			n->SetPos( Math::Vector2( obj_x[j], 0 ) );
 			n->SetTex( m_tex );
 			msp_noteList.push_back( n );
@@ -24,6 +24,9 @@ void NoteManager::Init( BMSLoader& _bms )
 		mi_noteNum += _bms.GetObjeNum( 0x11 + j );
 		md_noteScore = (double)MAX_SCORE / mi_noteNum;
 	}
+	msp_noteBreaker = std::make_shared<NoteBreaker>();
+	msp_noteBreaker->SetNoteManager( shared_from_this() );
+	msp_noteBreaker->Init();
 }
 
 void NoteManager::PreUpdate()
