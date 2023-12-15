@@ -35,15 +35,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 void Application::Event()
 {
-	if (GetAsyncKeyState(VK_ESCAPE))
-	{
-		/*if (MessageBoxA(m_window.GetWndHandle(), "本当にゲームを終了しますか？",
-			"終了確認", MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2) == IDYES)
-		{
-			End();
-		}*/
-		End();
-	}
 	msp_scene->Event();
 }
 
@@ -161,7 +152,7 @@ bool Application::Init(int w, int h)
 	//===================================================================
 	// ウィンドウ作成
 	//===================================================================
-	if (m_window.Create(w, h, "3D GameProgramming", "Window") == false) {
+	if (m_window.Create(w, h, "Melty Notes", "Window") == false) {
 		MessageBoxA(nullptr, "ウィンドウ作成に失敗", "エラー", MB_OK);
 		return false;
 	}
@@ -302,7 +293,7 @@ void Application::Execute()
 		//ImGui::ShowDemoWindow(nullptr);
 
 		//ウィンドウ開始 "WindowName"の部分はほかのウィンドウと被らないようにすること
-//*		
+/*		
 		if (ImGui::Begin("MainDebug"))
 		{
 			//ウィンドウを折りたたんでいない状態だと、この中が実行される。
@@ -375,6 +366,9 @@ void Application::Execute()
 
 
 	//m_fpsController.Update();
+		//タイトルバーにFPSを表示
+		std::string title = "Melty Notes  FPS : " + std::to_string( m_timer.GetNowFPS() );
+		SetWindowTextA( m_window.GetWndHandle(), title.c_str() );
 	}
 
 	//===================================================================
