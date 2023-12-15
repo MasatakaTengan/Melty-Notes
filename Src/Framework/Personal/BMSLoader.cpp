@@ -4,18 +4,16 @@
 
 bool BMSLoader::Init()
 {
-	int i;
-
 	// ヘッダ初期化
 	ZeroMemory(&m_header, sizeof(m_header));
 	m_header.ml_player = 1;
 	m_header.mf_bpm = 130;
-	for (i = 0; i < BMS_MAXBUFFER; i++) {
+	for (int i = 0; i < BMS_MAXBUFFER; i++) {
 		m_header.mf_bpmIndex[i] = 120.0f;
 	}
 
 	// 実データ初期化
-	for (i = 0; i < BMS_MAXBUFFER; i++)
+	for (int i = 0; i < BMS_MAXBUFFER; i++)
 	{
 		mp_bmsData[i] = nullptr;		// BMSデータ領域をクリア
 		mi_bmsData[i] = 0;				// データの数をクリア
@@ -36,156 +34,153 @@ bool BMSLoader::Init()
 
 bool BMSLoader::LoadHeader(const char* _file)
 {
-	FILE* fp;
-	fp = fopen(_file, "r");
-	if (!fp)
+	std::ifstream ifs( _file );
+	if ( ifs.fail() )return false;
+
+	std::string sbuf;
+	std::string stmp;
+	int inum = 0;
+	int ich = 0;
+	int iline = 0;
+
+	while ( 1 )
 	{
-		return FALSE;
-	}
+		//1行を読み込む
+		sbuf.clear();
+		std::getline( ifs, sbuf );
+		if ( sbuf[0] == NULL && ifs.eof() )break;//ファイルの終端なら検索終わり
 
-	char buf[1024];
-	char tmp[4];
-	int num;
-	int ch;
-	int line;
+		//コマンド以外なら飛ばす
+		if ( sbuf[0] != '#' )continue;
 
-	while (1) {
-		// 1行を読みこむ
-		ZeroMemory(buf, 1024);
-		fgets(buf, 1024, fp);
-		if (buf[0] == NULL && feof(fp))	// ファイルの終端なら検索終わり
-			break;
-
-		// コマンド以外なら飛ばす
-		if (buf[0] != '#')
-			continue;
-
-		// 最後の改行を消去
-		if (buf[strlen(buf) - 1] == '\n')
-			buf[strlen(buf) - 1] = NULL;
-
-		// コマンドの解析
-		int cmd = GetCommand(buf);
-
-		// 不明なコマンドならスキップ
-		if (cmd <= -2) {
-			continue;
-		}
-
-		// パラメータの分割
-		char str[1024];
-		ZeroMemory(str, 1024);
-		if (!GetCommandString(buf, str)) {
-			// 文字列の取得が失敗なら
-			fclose(fp);
-			return FALSE;
-		}
-
-		// パラメータの代入
-		switch (cmd)
+		//最後の改行を消去
+		if ( sbuf[sbuf.length() - 1] == '\n' )
 		{
-			case 0:		// PLAYER
-				m_header.ml_player = atoi(str);
+			sbuf[sbuf.length() - 1] = NULL;
+		}
+
+		//コマンドの解析
+		int cmd = GetCommandStd( sbuf );
+		
+		//不明なコマンドならスキップ
+		if ( cmd <= -2 )
+		{
+			continue;
+		}
+
+		//パラメータの分割
+		std::string sstr;
+		sstr.clear();
+		if ( !GetCommandStringStd( sbuf, sstr ) )
+		{
+			//文字列の取得が失敗なら
+			ifs.close();
+			return false;
+		}
+
+		//パラメータの代入
+		switch ( cmd )
+		{
+			case 0://PLAYER
 				break;
-			case 1:		// GENRE
-				strcpy(m_header.m_genre, str);
+			case 1:// GENRE
+				m_header.m_genre = sstr;
 				break;
-			case 2:		// TITLE
-				strcpy(m_header.m_title, str);
+			case 2://TITLE
+				m_header.m_title = sstr;
 				break;
-			case 3:		// ARTIST
-				strcpy(m_header.m_artist, str);
+			case 3://ARTIST
+				m_header.m_artist = sstr;
 				break;
-			case 4:		// BPM
-				if (buf[4] == ' ' || buf[4] == 0x09) {
-					// 基本コマンドなら
-					m_header.mf_bpm = (float)atof(str);
-					AddData(BMS_TEMPO, 0, (LONG)m_header.mf_bpm);
+			case 4://BPM
+				if ( sbuf[4] == ' ' || sbuf[4] == 0x09 )
+				{
+					//基本コマンドなら
+					m_header.mf_bpm = (float)atof( sstr.data() );
+					AddData( BMS_TEMPO, 0, (LONG)m_header.mf_bpm );
 				}
-				else {
-					// 拡張コマンドなら
-					ZeroMemory(tmp, sizeof(tmp));
-					tmp[0] = buf[4];
-					tmp[1] = buf[5];
-					tmp[2] = NULL;
-					ch = atoi1610(tmp);	// 16進数
-					m_header.mf_bpmIndex[ch] = (float)atof(str);
+				else
+				{
+					//拡張コマンドなら
+					stmp.clear();
+					stmp = sbuf.substr( 4, 2 );
+					ich = atoi1610( stmp.data() );
+					m_header.mf_bpmIndex[ich] = (float)atof( sstr.data() );
 				}
 				break;
-			case 5:		// MIDIFILE
-				strcpy(m_header.m_midiFile, str);
+			case 5://MIDIFILE
+				m_header.m_midiFile = sstr;
 				break;
-			case 6:		// PLAYLEVEL
-				m_header.ml_playLevel = atoi(str);
+			case 6://PLAYLEVEL
+				m_header.ml_playLevel = atoi( sstr.data() );
 				break;
-			case 7:		// RANK
-				m_header.ml_rank = atoi(str);
+			case 7://RANK
+				m_header.ml_rank = atoi( sstr.data() );
 				break;
-			case 8:		// VOLWAV
-				m_header.ml_wavVol = atoi(str);
+			case 8://VOLWAV
+				m_header.ml_wavVol = atoi( sstr.data() );
 				break;
-			case 9:		// TOTAL
-				m_header.ml_total = atoi(str);
+			case 9://TOTAL
+				m_header.ml_total = atoi( sstr.data() );
 				break;
-			case 10:	// StageFile
-				strcpy(m_header.m_stagePic, str);
+			case 10://STAGEFILE
+				m_header.m_stagePic = sstr;
 				break;
-			case 11:	// WAV
-				ZeroMemory(tmp, sizeof(tmp));
-				tmp[0] = buf[4];
-				tmp[1] = buf[5];
-				num = atoi1610(tmp);			// 16進数
-				strcpy(m_wavFile[num], str);
+			case 11://WAV
+				stmp.clear();
+				stmp = sbuf.substr( 4, 2 );
+				ich = atoi1610( stmp.data() );
+				m_wavFile[ich] = sstr;
 				break;
-			case 12:	// BMP
-				ZeroMemory(tmp, sizeof(tmp));
-				tmp[0] = buf[4];
-				tmp[1] = buf[5];
-				num = atoi1610(tmp);			// 16進数
-				strcpy(m_bmpFile[num], str);
+			case 12://BMP
+				stmp.clear();
+				stmp = sbuf.substr( 4, 2 );
+				ich = atoi1610( stmp.data() );
+				m_bmpFile[ich] = sstr;
 				break;
 			default:
-				// 小節番号の取得
-				ZeroMemory(tmp, sizeof(tmp));
-				memcpy(tmp, buf + 1, 3);
-				line = atoi(tmp);			// 10進数
-				// チャンネル番号の取得
-				ZeroMemory(tmp, sizeof(tmp));
-				tmp[0] = buf[4];
-				tmp[1] = buf[5];
-				ch = atoi1610(tmp);		// 16進数
-				if (ch == BMS_STRETCH) {
-					// 小節の倍率変更命令の場合
-					m_bmsBar[line].mf_scale = (float)atof(str);
+				//小節番号の取得
+				stmp.clear();
+				stmp = sbuf.substr( 1, 3 );
+				iline = atoi( stmp.data() );
+				//チャンネル番号の取得
+				stmp.clear();
+				stmp = sbuf.substr( 4, 2 );
+				ich = atoi1610( stmp.data() );
+				if ( ich == BMS_STRETCH )
+				{
+					//小節の倍率変更命令の場合
+					m_bmsBar[iline].mf_scale = (float)atof( sstr.data() );
 				}
-				// 小節番号の最大値を記憶する
-				if (m_header.ml_endBar < line)
-					m_header.ml_endBar = line;
+				//小節番号の最大値を記憶する
+				if ( m_header.ml_endBar < iline )
+				{
+					m_header.ml_endBar = iline;
+				}
 				break;
 		}
 	}
 
-	// 最後の小節内にもデータが存在するため、その次の小節を終端小節とする
+	//最後の小節内にもデータが存在するため、その次の小節を終端小節とする
 	m_header.ml_endBar++;
 
-	// 小節倍率データを元に全ての小節情報を算出
-	LONG cnt = 0;	// 現在の小節の開始カウント値
-	int i;
-	for (i = 0; i <= m_header.ml_endBar; i++) {
-		// 小節リストを加算
-		m_bmsBar[i].ml_time = cnt;												// 現在の小節の開始カウントを記録
-		m_bmsBar[i].ml_length = (LONG)(BMS_RESOLUTION * m_bmsBar[i].mf_scale);		// 倍率からこの小節の長さカウント値を算出
+	//小節倍率データをもとにすべての小節情報を算出
+	long cnt = 0;
+	for ( int i = 0; i <= m_header.ml_endBar; i++ )
+	{
+		//小節リストを加算
+		m_bmsBar[i].ml_time = cnt;	//現在の小節の開始カウントを記録
+		m_bmsBar[i].ml_length = (long)(BMS_RESOLUTION * m_bmsBar[i].mf_scale);	//倍率からこの小節の長さカウント値を算出
 
-		// この小節のカウント数を加算して次の小節の開始カウントとする
+		//この小節のカウント数を加算して次の小節の開始カウントとする
 		cnt += m_bmsBar[i].ml_length;
 	}
 
-	// 最大カウントを保存
 	m_header.ml_maxCount = cnt;
 
-	fclose(fp);
+	ifs.close();
 
-	return TRUE;
+	return true;
 }
 
 bool BMSLoader::Load(const char* _file)
@@ -432,6 +427,53 @@ int BMSLoader::GetCommand(const char* s)
 	return -2;
 }
 
+int BMSLoader::GetCommandStd( std::string _str )
+{
+	static const char* command[13] = {
+		"PLAYER",
+		"GENRE",
+		"TITLE",
+		"ARTIST",
+		"BPM",
+		"MIDIFILE",
+		"PLAYLEVEL",
+		"RANK",
+		"VOLWAV",
+		"TOTAL",
+		"StageFile",
+		"WAV",
+		"BMP",
+	};
+
+	// 検索ルーチン
+	int i;
+	for ( i = 0; i < 13; i++ )
+	{
+		if ( strnicmp( _str.c_str() + 1, command[i], strlen(command[i])) == 0 )
+			return i;	// コマンドならその番号を返す
+	}
+
+	// 先頭が'#nnncc'形式か
+	BOOL obj = TRUE;
+	for ( i = 0; i < 5; i++ )
+	{
+		if ( _str[i + 1] < '0' || _str[i + 1]>'9' )
+		{
+			obj = FALSE;
+			break;
+		}
+	}
+
+	// オブジェ配置なら -1
+	if ( obj )
+	{
+		return -1;
+	}
+
+	// 処理不可能文字列なら
+	return -2;
+}
+
 bool BMSLoader::GetCommandString(const char* src, char* dst)
 {
 	int i = 0;
@@ -458,6 +500,32 @@ bool BMSLoader::GetCommandString(const char* src, char* dst)
 		j++;
 	}
 	dst[j] = NULL;
+	return TRUE;
+}
+
+bool BMSLoader::GetCommandStringStd( const std::string& src, std::string& dst )
+{
+	int i = 0;
+	int j = 0;
+
+	std::string tmp;
+
+	// まずソースデータからデータ部分までのポインタを算出
+	while ( 1 )
+	{
+		if ( src[i] == ' ' || src[i] == 0x09 || src[i] == ':' )
+		{
+			i++;
+			break;
+		}
+		if ( src[i] == '\n' || src[i] == NULL )
+		{
+			return FALSE;
+		}
+		i++;
+	}
+
+	dst = src.substr( i );
 	return TRUE;
 }
 
@@ -555,10 +623,10 @@ bool BMSLoader::LoadBmsData(const char* file)
 		for (i = 0; i < len; i++) {
 			tmp[0] = data[i * 2];
 			tmp[1] = data[i * 2 + 1];
-			int data = atoi1610(tmp);			// 16進数
-			if (data > 0) {
+			int idata = atoi1610(tmp);			// 16進数
+			if (idata > 0) {
 				// データが存在する場合
-				AddData(ch, m_bmsBar[line].ml_time + (tick * i), data);
+				AddData(ch, m_bmsBar[line].ml_time + (tick * i), idata);
 			}
 		}
 	}
@@ -646,8 +714,8 @@ bool BMSLoader::LineCompact(const char* src, char* dst)
 			if (zero) {
 				k = 1;
 				for (j = 0 + fetch_size; j < l; j += fetch_size) {			// 1文字目は常に確定なので2つ目からコピー
-					int src = j * 2;
-					int dst = k * 2;
+					//int src = j * 2;
+					//int dst = k * 2;
 					buf[k * 2 + 0] = buf[j * 2 + 0];
 					buf[k * 2 + 1] = buf[j * 2 + 1];
 					// 次のコピー先へ

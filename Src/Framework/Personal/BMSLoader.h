@@ -15,23 +15,23 @@
 struct BMSHeader
 {
     long ml_player;                    // プレイモード
-    char m_genre[256];                // データのジャンル
-    char m_title[256];                // データのタイトル
-    char m_artist[256];               // データの製作者
+    std::string m_genre;                // データのジャンル
+    std::string m_title;                // データのタイトル
+    std::string m_artist;               // データの製作者
     float mf_bpm;                       // 初期テンポ(初期値は130)
-    char m_midiFile[MAX_PATH];        // バックグラウンドで流すMIDIファイル
+    std::string m_midiFile;        // バックグラウンドで流すMIDIファイル
     long ml_playLevel;                 // ゲームの難易度
     long ml_rank;                      // 判定ランク
     long ml_wavVol;                    // 音量を元の何%にするか
     long ml_total;                     // ゲージの増量
-    char m_stagePic[MAX_PATH];        // 曲開始字に表示する画像
+    std::string m_stagePic;        // 曲開始字に表示する画像
     float mf_bpmIndex[BMS_MAXBUFFER];   // テンポインデックス(初期値は120)
 
     long ml_endBar;                    // 終了小節
     long ml_maxCount;                  // 最大のカウント数
 };
 
-typedef struct BMSData
+struct BMSData
 {
     LONG ml_time;                      // このデータの開始位置(BMSカウント値)
     LONG ml_data;                      // 鳴らすデータ(0x01～0xFF)
@@ -72,8 +72,8 @@ public:
     inline int GetObjeNum(int ch) { return mi_bmsData[ch]; }			// 指定チャネルのデータ数を返す
     inline BMSData* GetObje(int ch, int num) { return &mp_bmsData[ch][num]; }		// チャネルと配列番号でデータを取得する
     inline const BMSHeader* GetHeader(void) { return &m_header; }					// ヘッダ情報を返す
-    inline const char* GetBmpFile(int num) { return m_bmpFile[num]; }			// 使用しているBMPファイル名
-    inline const char* GetWavFile(int num) { return m_wavFile[num]; }			// 使用しているWAVファイル名
+    inline std::string GetBmpFile(int num) { return m_bmpFile[num]; }			// 使用しているBMPファイル名
+    inline std::string GetWavFile(int num) { return m_wavFile[num]; }			// 使用しているWAVファイル名
 
 protected:
 
@@ -82,8 +82,8 @@ protected:
     BMSData* mp_bmsData[BMS_MAXBUFFER];
     int mi_bmsData[BMS_MAXBUFFER];
 
-    char m_wavFile[BMS_MAXBUFFER][MAX_PATH];
-    char m_bmpFile[BMS_MAXBUFFER][MAX_PATH];
+    std::string m_wavFile[BMS_MAXBUFFER];
+    std::string m_bmpFile[BMS_MAXBUFFER];
 
     BMSBar m_bmsBar[1000 + 1];
 
@@ -95,7 +95,9 @@ private:
     bool itoa1016(int num, char* dst, int keta = -1);			// 10進数を桁付きの16進数文字へ変換
     bool AddData(int ch, LONG cnt, LONG data);				// 1つのデータを追加（ソートはされない）
     int GetCommand(const char* s);						// コマンド番号を返す
+    int GetCommandStd( std::string _str );
     bool GetCommandString(const char* src, char* dst);		// パラメータ文字列を取得
+    bool GetCommandStringStd(const std::string& src, std::string& dst);		// パラメータ文字列を取得
     bool LoadBmsData(const char* file);					// BMSデータの読み込み
     bool LineCompact(const char* src, char* dst);			// データを最適化して返す
 
