@@ -5,7 +5,7 @@
 void NoteBreaker::Init()
 {
 	const std::list<std::shared_ptr<Note>>& noteList = mwp_noteManager.lock()->GetNoteList();
-	auto& it = noteList.begin();
+	auto it = noteList.begin();
 	while ( it != noteList.end() )
 	{
 		/*switch ( ( *it )->GetKey() )
@@ -45,7 +45,7 @@ void NoteBreaker::Update( LONG _nowCount )
 
 void NoteBreaker::AddJadgeList( int i, LONG _nowCount )
 {
-	auto& it = mwp_noteList[i].begin();
+	auto it = mwp_noteList[i].begin();
 	while ( it != mwp_noteList[i].end() )
 	{
 		//Manager‚Ì‚ÂŒ³ƒŠƒXƒg‚ªíœ‚³‚ê‚Ä‚¢‚é•”•ª‚Ííœ‚·‚é
@@ -80,8 +80,8 @@ void NoteBreaker::JadgeNote( LONG _nowCount )
 {
 	if ( mwp_jadgeList.size() <= 0 )return;
 
-	auto& it = mwp_jadgeList.begin();
-	auto& jadgeit = mwp_jadgeList.begin();
+	auto it = mwp_jadgeList.begin();
+	auto jadgeit = mwp_jadgeList.begin();
 	long minDif = BMS_RESOLUTION;
 	while ( it != mwp_jadgeList.end() )
 	{

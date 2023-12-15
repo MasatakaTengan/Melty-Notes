@@ -1,10 +1,11 @@
 #include "Note.h"
 
 Note::Note()
-	:m_pos(),
-	ml_count(0),
+	:mb_enable(true),
 	mi_key(0),
-	mb_enable(true),
+	ml_count(0),
+	ml_nowCount(0),
+	m_jadge(JADGE::MISS),
 	m_color(kRedColor)
 {}
 
@@ -109,5 +110,5 @@ void Note::Draw( float _scrMulti )
 	// ‰æ–Ê“à‚È‚ç•`‰æ
 	Math::Rectangle rect = Math::Rectangle( 0, 0, NOTE_WIDTH, NOTE_HEIGHT );
 	//Math::Color color = { 1, (float)b->bFlag, 1, 1 };
-	KdShaderManager::Instance().m_spriteShader.DrawTex( m_tex.get(), m_pos.x, (float)( BAR_Y + off_y ), NOTE_WIDTH * 1.5, NOTE_HEIGHT, &rect, &m_color);
+	KdShaderManager::Instance().m_spriteShader.DrawTex( msp_tex.get(), (int)m_pos.x, BAR_Y + off_y, NOTE_WIDTH * 2, NOTE_HEIGHT, &rect, &m_color);
 }

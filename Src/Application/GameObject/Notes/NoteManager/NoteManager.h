@@ -15,7 +15,6 @@ public:
 	void Update( LONG _nowCount );
 	void Draw( float _scrMulti );
 	
-	void AddScore( JADGE _jadge );
 	int GetScore() { return mi_score; }
 
 	std::string_view GetJadge()

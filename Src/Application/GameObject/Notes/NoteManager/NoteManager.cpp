@@ -35,12 +35,12 @@ void NoteManager::PreUpdate()
 	auto it = msp_noteList.begin();
 	while ( it != msp_noteList.end() )
 	{
-		if ( !( *it )->GetEnable() )
+		if ( !(*it)->GetEnable() )
 		{
-			m_jadgeList.push_back( ( *it )->GetJadge() );
-			m_jadge = ( *it )->GetJadge();
+			m_jadgeList.push_back( (*it)->GetJadge() );
+			m_jadge = (*it)->GetJadge();
 			m_jadgeCnt = (*it)->GetCount();
-			mi_score += ( md_noteScore * ( ( *it )->GetJadge() ) / 4.0 );
+			mi_score += (int)(md_noteScore * ((*it)->GetJadge()) / 4.0);
 			it = msp_noteList.erase( it );
 		}
 		else
@@ -52,19 +52,20 @@ void NoteManager::PreUpdate()
 
 void NoteManager::Update( LONG _nowCount )
 {
+	for ( auto& note : msp_noteList )
+	{
+		note->Update( _nowCount );
+	}
+	msp_noteBreaker->Update( _nowCount );
+
 	if ( ImGui::Begin( "NoteJadge" ) )
 	{
 		ImGui::Text( "%d", mi_noteNum );
 		ImGui::Text( "%d", mi_score );
-		for ( auto& note : msp_noteList )
-		{
-			note->Update( _nowCount );
-		}
 		for ( auto jadge = m_jadgeList.rbegin(); jadge != m_jadgeList.rend(); jadge++ )
 		{
 			ImGui::Text( "%d", *jadge );
 		}
-		msp_noteBreaker->Update( _nowCount );
 	}
 	ImGui::End();
 }
@@ -75,24 +76,4 @@ void NoteManager::Draw( float _scrMulti )
 	{
 		note->Draw( _scrMulti );
 	}
-}
-
-void NoteManager::AddScore( JADGE _jadge )
-{
-	double scoreMulti = 4.0 / _jadge;
-	mi_score += md_noteScore * scoreMulti;
-	/*switch ( _jadge )
-	{
-		case MISS:
-			mi_score += md_noteScore * scoreMulti;
-			break;
-		case BAD:
-			break;
-		case GOOD:
-			break;
-		case GREAT:
-			break;
-		case PERFECT:
-			break;
-	}*/
 }
