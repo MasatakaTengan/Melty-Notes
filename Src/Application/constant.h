@@ -54,7 +54,7 @@ namespace Constant
 	static const int HITEFFECT_HEIGHT = 320;
 	static const int HITEFFECT_HALFHEIGHT = HITEFFECT_HEIGHT / 2;
 
-	static const int BAR_Y = -200;
+	static const int BAR_Y = -300;
 	static const int KEYBACK_Y = -200;
 
 	const int KEYID_4K[4] = { 'D', 'F', 'J', 'K' };
