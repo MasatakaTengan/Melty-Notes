@@ -158,6 +158,8 @@
     <ClInclude Include="Src\Application\GameObject\Notes\NoteBreaker\NoteBreaker.h" />
     <ClInclude Include="Src\Application\GameObject\Notes\NoteManager\NoteManager.h" />
     <ClInclude Include="Src\Application\GameObject\Notes\Note\Note.h" />
+    <ClInclude Include="Src\Application\GameObject\Textures\TextureBase.h" />
+    <ClInclude Include="Src\Application\GameObject\Textures\Title\Title.h" />
     <ClInclude Include="Src\Application\GameObject\UI\ToGame\ToGame.h" />
     <ClInclude Include="Src\Application\GameObject\UI\UIBase.h" />
     <ClInclude Include="Src\Application\GameObject\UI\UIManager.h" />
@@ -219,6 +221,8 @@
     <ClCompile Include="Src\Application\GameObject\Notes\NoteBreaker\NoteBreaker.cpp" />
     <ClCompile Include="Src\Application\GameObject\Notes\NoteManager\NoteManager.cpp" />
     <ClCompile Include="Src\Application\GameObject\Notes\Note\Note.cpp" />
+    <ClCompile Include="Src\Application\GameObject\Textures\TextureBase.cpp" />
+    <ClCompile Include="Src\Application\GameObject\Textures\Title\Title.cpp" />
     <ClCompile Include="Src\Application\GameObject\UI\ToGame\ToGame.cpp" />
     <ClCompile Include="Src\Application\GameObject\UI\UIBase.cpp" />
     <ClCompile Include="Src\Application\GameObject\UI\UIManager.cpp" />

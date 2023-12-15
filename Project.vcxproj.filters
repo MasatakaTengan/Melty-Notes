@@ -106,8 +106,11 @@
     <Filter Include="Src\Application\GameObject\Notes\NoteBreaker">
       <UniqueIdentifier>{aaa56975-546a-4414-8a42-723bdc941ac4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\Application\GameObject\NewFilter1">
+    <Filter Include="Src\Application\GameObject\Textures">
       <UniqueIdentifier>{71fca9aa-a01b-4874-b9f2-78e24a0221ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Textures\Title">
+      <UniqueIdentifier>{be7313fc-9962-4ca8-a863-099ffac1d84a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -312,6 +315,12 @@
     <ClInclude Include="Src\Application\GameObject\Notes\NoteBreaker\NoteBreaker.h">
       <Filter>Src\Application\GameObject\Notes\NoteBreaker</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Textures\TextureBase.h">
+      <Filter>Src\Application\GameObject\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Textures\Title\Title.h">
+      <Filter>Src\Application\GameObject\Textures\Title</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -484,6 +493,12 @@
     </ClCompile>
     <ClCompile Include="Src\Application\GameObject\Notes\NoteBreaker\NoteBreaker.cpp">
       <Filter>Src\Application\GameObject\Notes\NoteBreaker</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Textures\TextureBase.cpp">
+      <Filter>Src\Application\GameObject\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Textures\Title\Title.cpp">
+      <Filter>Src\Application\GameObject\Textures\Title</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
