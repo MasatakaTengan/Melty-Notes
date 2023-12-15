@@ -1,6 +1,7 @@
 #pragma once
 
 class UIBase;
+class TextureBase;
 class SceneManager;
 
 class BaseScene
@@ -47,7 +48,8 @@ protected:
 	std::weak_ptr<SceneManager> mwp_owner;
 	std::weak_ptr<InputManager> mwp_inputManager;
 
-	std::vector<std::shared_ptr<KdGameObject>> msp_objList;
-	std::vector<std::shared_ptr<UIBase>> msp_uiList;
+	std::list<std::shared_ptr<KdGameObject>> msp_objList;
+	std::list<std::shared_ptr<UIBase>> msp_uiList;
+	std::list<std::shared_ptr<TextureBase>> msp_texList;
 
 };

@@ -10,6 +10,8 @@ void GameScene::Init()
 	mb_bgm = false;
 	//m_bgmFile = "Score/SAMPLE/SAMPLE.WAV";
 	m_bgmFile = "Score/FREEDOM_DIVE/FREEDOM-DiVE↓fast.wav";
+	m_bgmInstance = KdAudioManager::Instance().Play( m_bgmFile );
+	m_bgmInstance->Stop();
 	m_hitSEFile = "Asset/Audio/drum-hitnormal.wav";
 	//KdAudioManager::Instance().Instance().Play(m_bgmFile);
 
@@ -35,6 +37,9 @@ void GameScene::Init()
 	LARGE_INTEGER li;
 	QueryPerformanceCounter( &li );
 	mll_startTime = li.QuadPart;
+	mll_beforeTime = li.QuadPart;
+
+	mll_elapsedTime = 0;
 
 	m_noteManager = std::make_shared<NoteManager>();
 	m_noteManager->Init( bms );
@@ -46,8 +51,6 @@ void GameScene::Init()
 
 void GameScene::Event()
 {
-	// テンポラリ変数
-	int i, j, k;
 	// フラッシュ部
 	/*for ( j = 0; j < 6; j++ )
 	{
@@ -59,7 +62,7 @@ void GameScene::Event()
 	}*/
 
 	// 後ろのバックライト演出
-	for ( i = 0; i < 6; i++ )
+	for ( int i = 0; i < 6; i++ )
 	{
 		if ( mi_backKeyCount[i] > 0 )
 			mi_backKeyCount[i]--;
@@ -100,13 +103,24 @@ void GameScene::Update()
 	// 開始時から経過した時間を算出
 	LARGE_INTEGER li;
 	QueryPerformanceCounter( &li );
-	md_elapsedTime = (double)( li.QuadPart - mll_startTime ) / mll_globalFreq;
+	md_elapsedTime = (double)(li.QuadPart - mll_startTime) / mll_globalFreq;
+
+	//もし曲が再生中なら
+	if ( mb_bgm )
+	{
+		//前ループから経過した時間を算出し、合計の経過時間に加算する
+		mll_elapsedTime += li.QuadPart - mll_beforeTime;
+	}
+	//曲が再生中でないなら経過時間の加算をしないため、ポーズ画面中の処理等を行えるはず
+
+	//前ループ時の時間を更新
+	mll_beforeTime = li.QuadPart;
 
 	// 経過した時間から進んだBMSカウント値を算出
-	LONG now_count = bms.GetCountFromTime( md_elapsedTime );
+	LONG now_count = bms.GetCountFromTime( (double)mll_elapsedTime / mll_globalFreq );
 
 	// BMSカウンタが曲の最大カウント+1小節を超えたら終了
-	if ( bms.GetMaxCount() + BMS_RESOLUTION <= now_count )Application::Instance().End();
+	if ( bms.GetMaxCount() + (BMS_RESOLUTION * 1) <= now_count )Application::Instance().End();
 
 	// BMSカウンタが曲の開始位置に来たら再生する
 	LONG bmsStart = bms.GetObje( BMS_BACKMUSIC, 0 )->ml_time;
@@ -115,17 +129,14 @@ void GameScene::Update()
 		if ( !mb_bgm )
 		{
 			mb_bgm = true;
-			KdAudioManager::Instance().Play( m_bgmFile );
+			m_bgmInstance->Play();
 		}
 	}
 
-	// テンポラリ変数
-	int i, j, k;
-
 	// 鍵盤の処理
-	for ( i = 0; i < 5; i++ )
+	for ( int i = 0; i < 4; i++ )
 	{
-		if ( INPUT.GetKeyStateToManager( KEYID[i] ) == KEYSTATE::PRESS )
+		if ( INPUT.GetKeyStateToManager( Constant::KEYID_4K[i] ) == KEYSTATE::PRESS )
 		{
 			KdAudioManager::Instance().Play( m_hitSEFile );
 			mi_hitEffectCount[i] = 10;
@@ -139,9 +150,9 @@ void GameScene::Update()
 	m_noteManager->Update( now_count );
 
 	// 鍵盤のバックライト
-	for ( i = 0; i < 5; i++ )
+	for ( int i = 0; i < 4; i++ )
 	{
-		if ( INPUT.GetKeyStateToManager( KEYID[i] ) == KEYSTATE::HOLD )
+		if ( INPUT.GetKeyStateToManager( Constant::KEYID_4K[i] ) == KEYSTATE::HOLD )
 		{
 			// キーが押された状態ならカウンタをリセット
 			mi_backKeyCount[i] = 15;
@@ -186,13 +197,13 @@ void GameScene::DrawUnLit()
 	}
 }
 
-void GameScene::PostDraw()
-{
-	for ( auto& obj : msp_objList )
-	{
-
-	}
-}
+//void GameScene::PostDraw()
+//{
+//	for ( auto& obj : msp_objList )
+//	{
+//
+//	}
+//}
 
 void GameScene::DrawSprite()
 {
@@ -207,12 +218,12 @@ void GameScene::DrawSprite()
 		KdShaderManager::Instance().m_spriteShader.DrawBox( 0, 0, WINDOW_HALFWIDTH, WINDOW_HALFHEIGHT, &kBlackColor );
 
 		//static const float obj_x[6] = { -256,-128,0,128,256,512 };			// オブジェ表示X座標
-		static const float obj_x[5] = { -192,-64,0,64,192 };			// オブジェ表示X座標
+		static const int obj_x[4] = { -192,-64,64,192 };			// オブジェ表示X座標
 
 		//add:note類
 		m_noteManager->Draw( mf_scrollMulti );
 
-		for ( int j = 0; j < 6; j++ )
+		for ( int j = 0; j < 4; j++ )
 		{
 			KdShaderManager::Instance().ChangeBlendState( KdBlendState::Add );
 
@@ -222,13 +233,13 @@ void GameScene::DrawSprite()
 				obj_x[j], KEYBACK_Y,
 				nullptr, &color );
 
-			float scale = sin( ( (float)( -mi_hitEffectCount[j] + 10 ) / 10 ) * M_PI / 2 ) / 2 + 1.0f;
-			float alpha = ( (float)mi_hitEffectCount[j] / 10 );
+			float scale = (float)sin( ((float)(-mi_hitEffectCount[j] + 10) / 10) * M_PI / 2 ) / 2 + 1.0f;
+			float alpha = ((float)mi_hitEffectCount[j] / 10);
 			color = { 1, 1, 1, alpha };
 			KdShaderManager::Instance().m_spriteShader.DrawTex(
 				&m_hitEffectTex,
 				obj_x[j], BAR_Y,
-				HITEFFECT_HALFWIDTH * scale, HITEFFECT_HALFHEIGHT * scale,
+				(int)(HITEFFECT_HALFWIDTH * scale), (int)(HITEFFECT_HALFHEIGHT * scale),
 				nullptr, &color );
 
 			KdShaderManager::Instance().ChangeBlendState( KdBlendState::Alpha );

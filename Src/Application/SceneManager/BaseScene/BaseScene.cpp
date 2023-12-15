@@ -1,5 +1,6 @@
 #include "BaseScene.h"
 #include "../../GameObject/UI/UIBase.h"
+#include "../../GameObject/Textures/TextureBase.h"
 #include "../SceneManager.h"
 
 void BaseScene::Init()

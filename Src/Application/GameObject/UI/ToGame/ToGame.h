@@ -5,10 +5,8 @@ class ToGame : public UIBase
 {
 public:
 
-	ToGame() { Init(); }
-	~ToGame();
-
-	void Init()override;
+	ToGame() { m_id = UIID_TOGAME; }
+	~ToGame() {}
 
 private:
 

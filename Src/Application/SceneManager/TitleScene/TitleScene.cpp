@@ -2,13 +2,19 @@
 #include "TitleScene.h"
 #include "../SceneManager.h"
 #include "../../GameObject/UI/ToGame/ToGame.h"
+#include "../../GameObject/Textures/Title/Title.h"
 
 void TitleScene::Init()
 {
-	std::shared_ptr<ToGame> sp_toGame = std::make_shared<ToGame>();
-	sp_toGame->LoadTex( "Asset/Textures/UI/ToGame.png" );
-	sp_toGame->SetPos( { 0, 0 } );
-	msp_uiList.push_back( sp_toGame );
+	std::shared_ptr<ToGame> toGame = std::make_shared<ToGame>();
+	toGame->LoadTex( "Asset/Textures/UI/ToGame.png" );
+	toGame->SetPos( { 0, -100 } );
+	msp_uiList.push_back( toGame );
+
+	std::shared_ptr<Title> title = std::make_shared<Title>();
+	title->LoadTex( "Asset/Textures/Title.png" );
+	title->SetPos( { 0, 0 } );
+	msp_texList.push_back( title );
 }
 
 void TitleScene::Event()
@@ -96,8 +102,12 @@ void TitleScene::PostDraw()
 
 void TitleScene::DrawSprite()
 {
+	for ( auto& tex : msp_texList )
+	{
+		tex->Draw();
+	}
 	for ( auto& ui : msp_uiList )
 	{
-		ui->DrawSprite();
+		ui->Draw();
 	}
 }
