@@ -75,6 +75,7 @@ void Application::PostUpdate()
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 void Application::PreDraw()
 {
+	KdDirect3D::Instance().SetBackBufferColor(kBlackColor);
 	KdDirect3D::Instance().ClearBackBuffer();
 
 	KdShaderManager::Instance().WorkAmbientController().PreDraw();
@@ -206,7 +207,7 @@ bool Application::Init(int w, int h)
 	config.MergeMode = true;
 	io.Fonts->AddFontDefault();
 	//日本語対応
-	io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\msgothic.ttc", 13.0f, &config, glyphRangesJapanese);
+	io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\msmincho.ttc", 24.0f, &config, glyphRangesJapanese);
 
 	//===================================================================
 	// シェーダー初期化
@@ -380,6 +381,7 @@ void Application::Execute()
 // アプリケーション終了
 void Application::Release()
 {
+	KdDirect3D::Instance().WorkSwapChain()->SetFullscreenState( false, 0 );
 	KdInputManager::Instance().Release();
 
 	KdShaderManager::Instance().Release();

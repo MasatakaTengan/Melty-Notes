@@ -2,11 +2,14 @@
 
 #include "../BaseScene/BaseScene.h"
 
+class ScrollSpeed;
+class Volume;
+
 class OptionScene : public BaseScene
 {
 public:
 
-	OptionScene() { Init(); }
+	OptionScene() {}
 	~OptionScene() {}
 
 	void Init()override;
@@ -23,5 +26,11 @@ public:
 	void DrawSprite()override;
 
 private:
+
+	std::shared_ptr<ScrollSpeed> msp_scrollSpeed = nullptr;
+	std::shared_ptr<Volume> msp_volume = nullptr;
+
+	//std::vector<std::shared_ptr<Numbers>> msp_volumeNum;
+	//std::vector<std::shared_ptr<Numbers>> msp_scrollSpeedNum;
 
 };

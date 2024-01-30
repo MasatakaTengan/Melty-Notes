@@ -67,6 +67,7 @@
       <ForcedIncludeFiles>Pch.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <DisableSpecificWarnings>4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <AdditionalOptions>/nodefaultlib:"LIBCMT"
@@ -114,6 +115,7 @@
       <ForcedIncludeFiles>Pch.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <DisableSpecificWarnings>4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
@@ -158,9 +160,22 @@
     <ClInclude Include="Src\Application\GameObject\Notes\NoteBreaker\NoteBreaker.h" />
     <ClInclude Include="Src\Application\GameObject\Notes\NoteManager\NoteManager.h" />
     <ClInclude Include="Src\Application\GameObject\Notes\Note\Note.h" />
+    <ClInclude Include="Src\Application\GameObject\Textures\HitEffect\HitEffect.h" />
+    <ClInclude Include="Src\Application\GameObject\Textures\Key\Key.h" />
+    <ClInclude Include="Src\Application\GameObject\Textures\Key\KeyBack.h" />
+    <ClInclude Include="Src\Application\GameObject\Textures\Lane\Lane.h" />
+    <ClInclude Include="Src\Application\GameObject\Textures\Numbers\Numbers.h" />
+    <ClInclude Include="Src\Application\GameObject\Textures\Option\Option.h" />
+    <ClInclude Include="Src\Application\GameObject\Textures\Option\OptionButton.h" />
+    <ClInclude Include="Src\Application\GameObject\Textures\Score\Score.h" />
+    <ClInclude Include="Src\Application\GameObject\Textures\ScrollSpeed\ScrollSpeed.h" />
     <ClInclude Include="Src\Application\GameObject\Textures\TextureBase.h" />
     <ClInclude Include="Src\Application\GameObject\Textures\Title\Title.h" />
+    <ClInclude Include="Src\Application\GameObject\Textures\Volume\Volume.h" />
     <ClInclude Include="Src\Application\GameObject\UI\ToGame\ToGame.h" />
+    <ClInclude Include="Src\Application\GameObject\UI\ToOption\ToOption.h" />
+    <ClInclude Include="Src\Application\GameObject\UI\ToSelect\ToSelect.h" />
+    <ClInclude Include="Src\Application\GameObject\UI\ToTitle\ToTitle.h" />
     <ClInclude Include="Src\Application\GameObject\UI\UIBase.h" />
     <ClInclude Include="Src\Application\GameObject\UI\UIManager.h" />
     <ClInclude Include="Src\Application\main.h" />
@@ -221,9 +236,22 @@
     <ClCompile Include="Src\Application\GameObject\Notes\NoteBreaker\NoteBreaker.cpp" />
     <ClCompile Include="Src\Application\GameObject\Notes\NoteManager\NoteManager.cpp" />
     <ClCompile Include="Src\Application\GameObject\Notes\Note\Note.cpp" />
+    <ClCompile Include="Src\Application\GameObject\Textures\HitEffect\HitEffect.cpp" />
+    <ClCompile Include="Src\Application\GameObject\Textures\Key\Key.cpp" />
+    <ClCompile Include="Src\Application\GameObject\Textures\Key\KeyBack.cpp" />
+    <ClCompile Include="Src\Application\GameObject\Textures\Lane\Lane.cpp" />
+    <ClCompile Include="Src\Application\GameObject\Textures\Numbers\Numbers.cpp" />
+    <ClCompile Include="Src\Application\GameObject\Textures\Option\Option.cpp" />
+    <ClCompile Include="Src\Application\GameObject\Textures\Option\OptionButton.cpp" />
+    <ClCompile Include="Src\Application\GameObject\Textures\Score\Score.cpp" />
+    <ClCompile Include="Src\Application\GameObject\Textures\ScrollSpeed\ScrollSpeed.cpp" />
     <ClCompile Include="Src\Application\GameObject\Textures\TextureBase.cpp" />
     <ClCompile Include="Src\Application\GameObject\Textures\Title\Title.cpp" />
+    <ClCompile Include="Src\Application\GameObject\Textures\Volume\Volume.cpp" />
     <ClCompile Include="Src\Application\GameObject\UI\ToGame\ToGame.cpp" />
+    <ClCompile Include="Src\Application\GameObject\UI\ToOption\ToOption.cpp" />
+    <ClCompile Include="Src\Application\GameObject\UI\ToSelect\ToSelect.cpp" />
+    <ClCompile Include="Src\Application\GameObject\UI\ToTitle\ToTitle.cpp" />
     <ClCompile Include="Src\Application\GameObject\UI\UIBase.cpp" />
     <ClCompile Include="Src\Application\GameObject\UI\UIManager.cpp" />
     <ClCompile Include="Src\Application\main.cpp" />

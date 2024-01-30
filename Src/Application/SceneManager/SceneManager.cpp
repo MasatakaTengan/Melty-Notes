@@ -13,8 +13,10 @@ void SceneManager::Init()
 
 	//msp_inputManager = std::make_shared<InputManager>(Application::Instance().GetWindowHandle());
 
-	ChangeScene(SID_TITLE);
+	ChangeScene( SID_TITLE );
 
+	msp_optionChanger = std::make_shared<OptionChanger>();
+	msp_optionChanger->LoadOption();
 
 }
 
@@ -31,17 +33,17 @@ void SceneManager::PreUpdate()
 
 void SceneManager::Update()
 {
-	if (ImGui::Begin("SceneUpdateDebug"))
-	{
 		msp_nowScene->Update();
+	/*if ( ImGui::Begin( "SceneUpdateDebug" ) )
+	{
 	}
-	ImGui::End();
+	ImGui::End();*/
 }
 
 void SceneManager::PostUpdate()
 {
 	msp_nowScene->PostUpdate();
-	ChangeScene(m_nextID);
+	ChangeScene( m_nextID );
 }
 
 void SceneManager::PreDraw()
@@ -66,44 +68,67 @@ void SceneManager::PostDraw()
 
 void SceneManager::DrawSprite()
 {
-	if (ImGui::Begin("SceneDrawSpriteDebug"))
-	{
 		msp_nowScene->DrawSprite();
+	/*if ( ImGui::Begin( "SceneDrawSpriteDebug" ) )
+	{
+
+		ImGui::Text( "vol:%f", msp_optionChanger->GetVolume() );
+		ImGui::Text( "spd:%f", msp_optionChanger->GetScrollSpeed() );
 	}
-	ImGui::End();
+	ImGui::End();*/
 }
 
-void SceneManager::SetNextScene(UIID _id)
+void SceneManager::SetNextScene( UIID _id )
 {
-	switch (_id)
+	switch ( _id )
 	{
-		case UIID_NONE:
+		case UIID::UIID_NONE:
 			break;
-		case UIID_TOTITLE:
-			SetNextScene(SID_TITLE);
+		case UIID::UIID_TOTITLE:
+			SetNextScene( SID_TITLE );
 			break;
-		case UIID_TOSELECT:
-			SetNextScene(SID_SELECT);
+		case UIID::UIID_TOSELECT:
+			SetNextScene( SID_SELECT );
 			break;
-		case UIID_TOOPTION:
-			SetNextScene(SID_OPTION);
+		case UIID::UIID_TOOPTION:
+			SetNextScene( SID_OPTION );
 			break;
-		case UIID_TOGAME:
-			SetNextScene(SID_GAME);
+		case UIID::UIID_TOGAME:
+			SetNextScene( SID_GAME );
 			break;
-		case UIID_TORESULT:
-			SetNextScene(SID_RESULT);
+		case UIID::UIID_TORESULT:
+			SetNextScene( SID_RESULT );
 			break;
 		default:
 			break;
 	}
 }
 
-void SceneManager::ChangeScene(SceneID _id)
+const float& SceneManager::GetVolume()
 {
-	if (m_nowID == _id)return;
+	return msp_optionChanger->GetVolume();
+}
 
-	switch (_id)
+const float& SceneManager::GetScrollSpeed()
+{
+	return msp_optionChanger->GetScrollSpeed();
+}
+
+void SceneManager::SetVolume( float _vol )
+{
+	msp_optionChanger->SetVolume( _vol );
+}
+
+void SceneManager::SetScrollSpeed( float _speed )
+{
+	msp_optionChanger->SetScrollSpeed( _speed );
+}
+
+void SceneManager::ChangeScene( SceneID _id )
+{
+	if ( m_nowID == _id )return;
+
+	switch ( _id )
 	{
 		case SID_NONE:
 			break;
@@ -123,8 +148,53 @@ void SceneManager::ChangeScene(SceneID _id)
 			msp_nowScene = std::make_shared<ResultScene>();
 			break;
 	}
-	msp_nowScene->SetOwner(shared_from_this());
+	msp_nowScene->SetOwner( shared_from_this() );
+	msp_nowScene->Init();
 	//msp_nowScene->SetInputManager(msp_inputManager);
 
 	m_nowID = _id;
+}
+
+void OptionChanger::LoadOption()
+{
+	std::ifstream ifs;
+	ifs.open( "Data/option.txt", std::ios::in );
+	if ( ifs.fail() )
+	{
+		std::ofstream ofs( "Data/option.txt" );
+		ofs << 0.1f << std::endl;
+		ofs << 10.0f << std::endl;
+		ifs.open( "Data/option.txt" );
+	}
+
+	std::string buf;
+	int i = 0;
+	while ( !ifs.eof() )
+	{
+		buf.clear();
+		std::getline( ifs, buf );
+		//if ( buf[0] == NULL && ifs.eof() )break;
+
+		if ( i == 0 )
+		{
+			m_volume = (float)std::atof( buf.data() );
+			i++;
+			continue;
+		}
+		if ( i == 1 )
+		{
+			m_scrollSpeed = (float)std::atof( buf.data() );
+			i++;
+			continue;
+		}
+		//if ( i >= 2 )break;
+	}
+}
+
+void OptionChanger::SaveOption()
+{
+	std::ofstream ofs( "Data/option.txt" );
+
+	ofs << m_volume << std::endl;
+	ofs << m_scrollSpeed << std::endl;
 }

@@ -112,6 +112,39 @@
     <Filter Include="Src\Application\GameObject\Textures\Title">
       <UniqueIdentifier>{be7313fc-9962-4ca8-a863-099ffac1d84a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\GameObject\Textures\Score">
+      <UniqueIdentifier>{9a56b869-d061-4c76-acc2-163d61cbed33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Textures\Lane">
+      <UniqueIdentifier>{21848f15-d8df-47a0-a943-4f48e687bf9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Textures\Key">
+      <UniqueIdentifier>{eeacfd20-d618-4c77-8b51-22d9fead0e5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Textures\Numbers">
+      <UniqueIdentifier>{05852be6-f581-4daa-8b6a-7d5ff10136a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\UI\ToOption">
+      <UniqueIdentifier>{4aa86877-01b7-4461-b68b-ae91a52db66d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\UI\ToSelect">
+      <UniqueIdentifier>{7407be91-5907-4c5f-83cc-04d87ad3f919}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\UI\ToTitle">
+      <UniqueIdentifier>{083949ea-de45-4065-94bf-e90dd5669189}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Textures\HitEffect">
+      <UniqueIdentifier>{609ad0e9-a371-4744-a48f-292f41a89824}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Textures\Option">
+      <UniqueIdentifier>{e364ba79-33ba-42c6-b356-7442a8e078cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Textures\Volume">
+      <UniqueIdentifier>{80b3cada-0f79-4563-b56e-82385a9e6033}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Textures\ScrollSpeed">
+      <UniqueIdentifier>{acb70741-8782-4d31-b3e2-f0514ee68cdf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -321,6 +354,45 @@
     <ClInclude Include="Src\Application\GameObject\Textures\Title\Title.h">
       <Filter>Src\Application\GameObject\Textures\Title</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Textures\Score\Score.h">
+      <Filter>Src\Application\GameObject\Textures\Score</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Textures\Key\Key.h">
+      <Filter>Src\Application\GameObject\Textures\Key</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Textures\Key\KeyBack.h">
+      <Filter>Src\Application\GameObject\Textures\Key</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Textures\Numbers\Numbers.h">
+      <Filter>Src\Application\GameObject\Textures\Numbers</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Textures\Lane\Lane.h">
+      <Filter>Src\Application\GameObject\Textures\Lane</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\UI\ToOption\ToOption.h">
+      <Filter>Src\Application\GameObject\UI\ToOption</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\UI\ToSelect\ToSelect.h">
+      <Filter>Src\Application\GameObject\UI\ToSelect</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Textures\HitEffect\HitEffect.h">
+      <Filter>Src\Application\GameObject\Textures\HitEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\UI\ToTitle\ToTitle.h">
+      <Filter>Src\Application\GameObject\UI\ToTitle</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Textures\Option\Option.h">
+      <Filter>Src\Application\GameObject\Textures\Option</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Textures\Option\OptionButton.h">
+      <Filter>Src\Application\GameObject\Textures\Option</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Textures\Volume\Volume.h">
+      <Filter>Src\Application\GameObject\Textures\Volume</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Textures\ScrollSpeed\ScrollSpeed.h">
+      <Filter>Src\Application\GameObject\Textures\ScrollSpeed</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -499,6 +571,45 @@
     </ClCompile>
     <ClCompile Include="Src\Application\GameObject\Textures\Title\Title.cpp">
       <Filter>Src\Application\GameObject\Textures\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Textures\Score\Score.cpp">
+      <Filter>Src\Application\GameObject\Textures\Score</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Textures\Key\Key.cpp">
+      <Filter>Src\Application\GameObject\Textures\Key</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Textures\Key\KeyBack.cpp">
+      <Filter>Src\Application\GameObject\Textures\Key</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Textures\Numbers\Numbers.cpp">
+      <Filter>Src\Application\GameObject\Textures\Numbers</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Textures\Lane\Lane.cpp">
+      <Filter>Src\Application\GameObject\Textures\Lane</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\UI\ToOption\ToOption.cpp">
+      <Filter>Src\Application\GameObject\UI\ToOption</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\UI\ToSelect\ToSelect.cpp">
+      <Filter>Src\Application\GameObject\UI\ToSelect</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Textures\HitEffect\HitEffect.cpp">
+      <Filter>Src\Application\GameObject\Textures\HitEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\UI\ToTitle\ToTitle.cpp">
+      <Filter>Src\Application\GameObject\UI\ToTitle</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Textures\Option\Option.cpp">
+      <Filter>Src\Application\GameObject\Textures\Option</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Textures\Option\OptionButton.cpp">
+      <Filter>Src\Application\GameObject\Textures\Option</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Textures\Volume\Volume.cpp">
+      <Filter>Src\Application\GameObject\Textures\Volume</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Textures\ScrollSpeed\ScrollSpeed.cpp">
+      <Filter>Src\Application\GameObject\Textures\ScrollSpeed</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

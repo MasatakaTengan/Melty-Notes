@@ -15,7 +15,7 @@ public:
 	void Draw();
 
 	void AddJadgeList( int i, LONG _nowCount );
-	void JadgeNote( LONG _nowCount );
+	void JadgeNote( int i, LONG _nowCount );
 
 	void SetNoteManager( std::shared_ptr<NoteManager> _manager )
 	{

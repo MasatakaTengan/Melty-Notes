@@ -5,7 +5,7 @@ class ToGame : public UIBase
 {
 public:
 
-	ToGame() { m_id = UIID_TOGAME; }
+	ToGame() { m_id = UIID::UIID_TOGAME; }
 	~ToGame() {}
 
 private:

@@ -2,11 +2,12 @@
 
 Note::Note()
 	:mb_enable(true),
+	mb_hit(false),
 	mi_key(0),
 	ml_count(0),
 	ml_nowCount(0),
 	m_jadge(JADGE::MISS),
-	m_color(kRedColor)
+	m_color(kWhiteColor)
 {}
 
 Note::~Note()
@@ -21,6 +22,7 @@ void Note::Init()
 	//debug
 	mi_hitSubNum = 0;
 	sprintf_s( m_jadgeString, sizeof( m_jadgeString ), "" );
+	mi_jadgeCnt = 0;
 
 }
 
@@ -29,15 +31,16 @@ void Note::Update( LONG _nowCount )
 	ml_nowCount = _nowCount;
 	m_jadge = JADGE::MISS;								// 判定値(0=POOR、1=BAD、2=GOOD、3=GREAT、4=PERFECTなど)
 
-	/*
 	if ( ml_count < ( ml_nowCount - BAD_RANGE ) )
 	{
 		// BAD判定を過ぎたら全て見逃し扱いとする
 		mb_enable = FALSE;						// オブジェを消す
-		sprintf_s( m_jadgeString, sizeof( m_jadgeString ), "MISS" );
+		mi_jadgeCnt = -MISS_RANGE;
+		//sprintf_s( m_jadgeString, sizeof( m_jadgeString ), "MISS" );
 		// 次のオブジェをチェック
 		return;
 	}
+	/*
 	// オブジェが判定内ならキーが押された瞬間かをチェック
 	if ( INPUT.GetKeyStateToManager(mi_key) == KEYSTATE::PRESS )
 	{
@@ -95,9 +98,9 @@ void Note::Update( LONG _nowCount )
 void Note::Draw( float _scrMulti )
 {
 	// スクリーン座標上でのスクロール量を算出
-	int scr_y = (int)( (double)ml_nowCount / ( BMS_RESOLUTION / ( _scrMulti * 192 ) ) );
+	int scr_y = (int)((double)ml_nowCount / mf_bpm * _scrMulti);
 	// スクロールを考慮しないスクリーン座標上での原点からの座標値を算出
-	int obj_y = (int)( (double)ml_count / ( BMS_RESOLUTION / ( _scrMulti * 192 ) ) );
+	int obj_y = (int)((double)ml_count / mf_bpm * _scrMulti);
 	// スクロールを考慮した現在のY座標を算出
 	int off_y = obj_y - scr_y;
 

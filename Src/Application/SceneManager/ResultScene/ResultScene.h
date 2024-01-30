@@ -2,11 +2,13 @@
 
 #include "../BaseScene/BaseScene.h"
 
+class Score;
+
 class ResultScene : public BaseScene
 {
 public:
 
-	ResultScene() { Init(); }
+	ResultScene() {}
 	~ResultScene() {}
 
 	void Init()override;
@@ -23,5 +25,9 @@ public:
 	void DrawSprite()override;
 
 private:
+
+	std::shared_ptr<Score> msp_score = nullptr;
+
+	int mi_score = 0;
 
 };

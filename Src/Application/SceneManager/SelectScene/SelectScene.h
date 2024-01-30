@@ -6,7 +6,7 @@ class SelectScene : public BaseScene
 {
 public:
 
-	SelectScene() { Init(); }
+	SelectScene() {}
 	~SelectScene() {}
 
 	void Init()override;

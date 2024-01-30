@@ -1,16 +1,26 @@
-#include "Application/main.h"
 #include "TitleScene.h"
 #include "../SceneManager.h"
 #include "../../GameObject/UI/ToGame/ToGame.h"
+#include "../../GameObject/UI/ToOption/ToOption.h"
 #include "../../GameObject/Textures/Title/Title.h"
 
 void TitleScene::Init()
 {
 	std::shared_ptr<ToGame> toGame = std::make_shared<ToGame>();
-	toGame->LoadTex( "Asset/Textures/UI/ToGame.png" );
-	toGame->SetPos( { 0, -100 } );
+	toGame->LoadTex( "Asset/Textures/Play.png" );
+	toGame->SetPos( { -200, -100 } );
+	toGame->SetIsScene( true );
 	msp_uiList.push_back( toGame );
+	std::shared_ptr<ToOption> toOption = std::make_shared<ToOption>();
+	toOption->LoadTex( "Asset/Textures/Option.png" );
+	toOption->SetPos( { 200, -100 } );
+	toOption->SetIsScene( true );
+	msp_uiList.push_back( toOption );
 
+	std::shared_ptr<TextureBase> back = std::make_shared<TextureBase>();
+	back->LoadTex( "Asset/Textures/back.png" );
+	back->SetPos( { 0, 0 } );
+	msp_texList.push_back( back );
 	std::shared_ptr<Title> title = std::make_shared<Title>();
 	title->LoadTex( "Asset/Textures/Title.png" );
 	title->SetPos( { 0, 0 } );
@@ -23,50 +33,10 @@ void TitleScene::Event()
 
 void TitleScene::PreUpdate()
 {
-	POINT mousePos = INPUT.GetPosition( Application::Instance().GetWindowHandle() );
-
 	//全てのUIについて
 	for ( auto& ui : msp_uiList )
 	{
-		//有効でないUIだけ調べる
-		if ( ui->GetEnable() )continue;
-		//カーソルの状態が
-		switch ( INPUT.GetKeyStateToManager( VK_LBUTTON ) )
-		{
-			//前フレームから放されて続けている状態
-			case KEYSTATE::IDLING:
-				break;
-				//今フレームで放された状態
-			case KEYSTATE::RELEASE:
-				if ( ui->GetPush() )
-				{
-					//カーソル座標がUI上にあるか
-					if ( ui->IsRange( mousePos ) )
-					{
-						ui->SetEnable( true );
-					}
-					ui->SetPush( false );
-				}
-				break;
-				//今フレームで押された状態
-			case KEYSTATE::PRESS:
-				if ( !ui->GetPush() )
-				{
-					//カーソル座標がUI上にあるか
-					if ( ui->IsRange( mousePos ) )
-					{
-						ui->SetPush( true );
-					}
-				}
-				break;
-				//前フレームから押され続けている状態
-			case KEYSTATE::HOLD:
-				/*if ( !ui->GetPush() )
-				{
-					ui->SetPush( true );
-				}*/
-				break;
-		}
+		ui->Update();
 	}
 }
 
@@ -75,17 +45,22 @@ void TitleScene::Update()
 
 void TitleScene::PostUpdate()
 {
-	UIID id = UIID_NONE;
+	UIID id = UIID::UIID_NONE;
+	bool isScene = false;
 	for ( auto& ui : msp_uiList )
 	{
 		if ( ui->GetEnable() )
 		{
 			id = ui->GetID();
+			isScene = ui->GetIsScene();
 			break;
 		}
 	}
-	std::shared_ptr<SceneManager> owner = mwp_owner.lock();
-	owner->SetNextScene( id );
+	if ( isScene )
+	{
+		std::shared_ptr<SceneManager> owner = mwp_owner.lock();
+		owner->SetNextScene( id );
+	}
 }
 
 void TitleScene::PreDraw()

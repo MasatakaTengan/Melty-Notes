@@ -45,6 +45,8 @@ protected:
 	SceneID m_nowID;
 	SceneID m_beforeID;
 
+	bool mb_nowChanging;
+
 	std::weak_ptr<SceneManager> mwp_owner;
 	std::weak_ptr<InputManager> mwp_inputManager;
 

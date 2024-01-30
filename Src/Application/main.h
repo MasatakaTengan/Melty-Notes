@@ -20,7 +20,7 @@ public:
 	HWND GetWindowHandle() const { return m_window.GetWndHandle(); }
 	int GetMouseWheelValue() const { return m_window.GetMouseWheelVal(); }
 
-	int GetNowFPS() { return mi_fps; }
+	int GetFPS() { return mi_fps; }
 	//int GetMaxFPS() const { return m_fpsController.GetMaxFPS(); }
 	//double GetDeltaTime() const { return m_fpsController.GetDeltaTime(); }
 

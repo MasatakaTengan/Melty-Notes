@@ -57,7 +57,6 @@ public:
     bool Init();
     bool LoadHeader(const char* _file);
     bool Load(const char* _file);
-    bool Save(const char* _file);
     bool Sort(int _ch);
 
     bool Restart();
@@ -75,6 +74,8 @@ public:
     inline std::string GetBmpFile(int num) { return m_bmpFile[num]; }			// 使用しているBMPファイル名
     inline std::string GetWavFile(int num) { return m_wavFile[num]; }			// 使用しているWAVファイル名
 
+    inline float GetBPM() { return m_header.mf_bpm; }			// 使用しているWAVファイル名
+
 protected:
 
     BMSHeader m_header;
@@ -91,13 +92,13 @@ protected:
 
 private:
 
-    int atoi1610(const char* s);							// 16進数文字列を数値に変換
+    int atoi1610(const std::string& str);							// 16進数文字列を数値に変換
     bool itoa1016(int num, char* dst, int keta = -1);			// 10進数を桁付きの16進数文字へ変換
     bool AddData(int ch, LONG cnt, LONG data);				// 1つのデータを追加（ソートはされない）
     int GetCommand(const char* s);						// コマンド番号を返す
-    int GetCommandStd( std::string _str );
+    int GetCommand( const std::string& _str );
     bool GetCommandString(const char* src, char* dst);		// パラメータ文字列を取得
-    bool GetCommandStringStd(const std::string& src, std::string& dst);		// パラメータ文字列を取得
+    bool GetCommandString(const std::string& src, std::string& dst);		// パラメータ文字列を取得
     bool LoadBmsData(const char* file);					// BMSデータの読み込み
     bool LineCompact(const char* src, char* dst);			// データを最適化して返す
 

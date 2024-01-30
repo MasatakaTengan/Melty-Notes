@@ -37,7 +37,7 @@ void NoteBreaker::Update( LONG _nowCount )
 			//キーが押された時にそのキーに対応したノーツリストから判定用のリストを作成する
 			AddJadgeList( i, _nowCount );
 			//判定用のリストを使用して判定を行う
-			JadgeNote( _nowCount );
+			JadgeNote( i, _nowCount );
 		}
 	}
 
@@ -76,9 +76,13 @@ void NoteBreaker::AddJadgeList( int i, LONG _nowCount )
 	}
 }
 
-void NoteBreaker::JadgeNote( LONG _nowCount )
+void NoteBreaker::JadgeNote( int i, LONG _nowCount )
 {
-	if ( mwp_jadgeList.size() <= 0 )return;
+	if ( mwp_jadgeList.size() <= 0 )
+	{
+		mwp_noteManager.lock()->AddHitEffect( Math::Vector2( Constant::LANE_X[i], Constant::BAR_Y ), JADGE::MISS );
+		return;
+	}
 
 	auto it = mwp_jadgeList.begin();
 	auto jadgeit = mwp_jadgeList.begin();
@@ -124,6 +128,12 @@ void NoteBreaker::JadgeNote( LONG _nowCount )
 	}
 	//判定されたノーツの生存フラグ無効化
 	(*jadgeit).lock()->SetEnable( false );
+	(*jadgeit).lock()->SetHit( true );
+
+	mwp_noteManager.lock()->AddHitEffect( Math::Vector2( Constant::LANE_X[i], Constant::BAR_Y ), (*jadgeit).lock()->GetJadge() );
+
+	//debug
+	(*jadgeit).lock()->SetJadgeCnt( _nowCount - (*jadgeit).lock()->GetCount() );
 
 	mwp_jadgeList.clear();
 }

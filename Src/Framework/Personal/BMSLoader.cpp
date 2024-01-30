@@ -37,30 +37,29 @@ bool BMSLoader::LoadHeader(const char* _file)
 	std::ifstream ifs( _file );
 	if ( ifs.fail() )return false;
 
-	std::string sbuf;
-	std::string stmp;
-	int inum = 0;
-	int ich = 0;
-	int iline = 0;
+	std::string buf;
+	std::string tmp;
+	int ch = 0;
+	int line = 0;
 
 	while ( 1 )
 	{
 		//1行を読み込む
-		sbuf.clear();
-		std::getline( ifs, sbuf );
-		if ( sbuf[0] == NULL && ifs.eof() )break;//ファイルの終端なら検索終わり
+		buf.clear();
+		std::getline( ifs, buf );
+		if ( buf[0] == NULL && ifs.eof() )break;//ファイルの終端なら検索終わり
 
 		//コマンド以外なら飛ばす
-		if ( sbuf[0] != '#' )continue;
+		if ( buf[0] != '#' )continue;
 
 		//最後の改行を消去
-		if ( sbuf[sbuf.length() - 1] == '\n' )
+		if ( buf[buf.length() - 1] == '\n' )
 		{
-			sbuf[sbuf.length() - 1] = NULL;
+			buf[buf.length() - 1] = NULL;
 		}
 
 		//コマンドの解析
-		int cmd = GetCommandStd( sbuf );
+		int cmd = GetCommand( buf );
 		
 		//不明なコマンドならスキップ
 		if ( cmd <= -2 )
@@ -69,9 +68,9 @@ bool BMSLoader::LoadHeader(const char* _file)
 		}
 
 		//パラメータの分割
-		std::string sstr;
-		sstr.clear();
-		if ( !GetCommandStringStd( sbuf, sstr ) )
+		std::string str;
+		str.clear();
+		if ( !GetCommandString( buf, str ) )
 		{
 			//文字列の取得が失敗なら
 			ifs.close();
@@ -84,78 +83,78 @@ bool BMSLoader::LoadHeader(const char* _file)
 			case 0://PLAYER
 				break;
 			case 1:// GENRE
-				m_header.m_genre = sstr;
+				m_header.m_genre = str;
 				break;
 			case 2://TITLE
-				m_header.m_title = sstr;
+				m_header.m_title = str;
 				break;
 			case 3://ARTIST
-				m_header.m_artist = sstr;
+				m_header.m_artist = str;
 				break;
 			case 4://BPM
-				if ( sbuf[4] == ' ' || sbuf[4] == 0x09 )
+				if ( buf[4] == ' ' || buf[4] == 0x09 )
 				{
 					//基本コマンドなら
-					m_header.mf_bpm = (float)atof( sstr.data() );
+					m_header.mf_bpm = std::stof( str );
 					AddData( BMS_TEMPO, 0, (LONG)m_header.mf_bpm );
 				}
 				else
 				{
 					//拡張コマンドなら
-					stmp.clear();
-					stmp = sbuf.substr( 4, 2 );
-					ich = atoi1610( stmp.data() );
-					m_header.mf_bpmIndex[ich] = (float)atof( sstr.data() );
+					tmp.clear();
+					tmp = buf.substr( 4, 2 );
+					ch = atoi1610( tmp );
+					m_header.mf_bpmIndex[ch] = std::stof( str );
 				}
 				break;
 			case 5://MIDIFILE
-				m_header.m_midiFile = sstr;
+				m_header.m_midiFile = str;
 				break;
 			case 6://PLAYLEVEL
-				m_header.ml_playLevel = atoi( sstr.data() );
+				m_header.ml_playLevel = std::stoi( str );
 				break;
 			case 7://RANK
-				m_header.ml_rank = atoi( sstr.data() );
+				m_header.ml_rank = std::stoi( str );
 				break;
 			case 8://VOLWAV
-				m_header.ml_wavVol = atoi( sstr.data() );
+				m_header.ml_wavVol = std::stoi( str );
 				break;
 			case 9://TOTAL
-				m_header.ml_total = atoi( sstr.data() );
+				m_header.ml_total = std::stoi( str );
 				break;
 			case 10://STAGEFILE
-				m_header.m_stagePic = sstr;
+				m_header.m_stagePic = str;
 				break;
 			case 11://WAV
-				stmp.clear();
-				stmp = sbuf.substr( 4, 2 );
-				ich = atoi1610( stmp.data() );
-				m_wavFile[ich] = sstr;
+				tmp.clear();
+				tmp = buf.substr( 4, 2 );
+				ch = atoi1610( tmp );
+				m_wavFile[ch] = str;
 				break;
 			case 12://BMP
-				stmp.clear();
-				stmp = sbuf.substr( 4, 2 );
-				ich = atoi1610( stmp.data() );
-				m_bmpFile[ich] = sstr;
+				tmp.clear();
+				tmp = buf.substr( 4, 2 );
+				ch = atoi1610( tmp );
+				m_bmpFile[ch] = str;
 				break;
 			default:
 				//小節番号の取得
-				stmp.clear();
-				stmp = sbuf.substr( 1, 3 );
-				iline = atoi( stmp.data() );
+				tmp.clear();
+				tmp = buf.substr( 1, 3 );
+				line = atoi( tmp.data() );
 				//チャンネル番号の取得
-				stmp.clear();
-				stmp = sbuf.substr( 4, 2 );
-				ich = atoi1610( stmp.data() );
-				if ( ich == BMS_STRETCH )
+				tmp.clear();
+				tmp = buf.substr( 4, 2 );
+				ch = atoi1610( tmp );
+				if ( ch == BMS_STRETCH )
 				{
 					//小節の倍率変更命令の場合
-					m_bmsBar[iline].mf_scale = (float)atof( sstr.data() );
+					m_bmsBar[line].mf_scale = (float)atof( str.data() );
 				}
 				//小節番号の最大値を記憶する
-				if ( m_header.ml_endBar < iline )
+				if ( m_header.ml_endBar < line )
 				{
-					m_header.ml_endBar = iline;
+					m_header.ml_endBar = line;
 				}
 				break;
 		}
@@ -200,11 +199,6 @@ bool BMSLoader::Load(const char* _file)
 	return TRUE;
 }
 
-bool BMSLoader::Save(const char* _file)
-{
-	return false;
-}
-
 bool BMSLoader::Sort(int _ch)
 {
 	if (_ch<0 || _ch>BMS_MAXBUFFER - 1)
@@ -242,26 +236,24 @@ long BMSLoader::GetCountFromTime(double _sec)
 	double t = 0;			// BMS上の時間
 	double bpm = 130;
 
-	if (mi_bmsData[BMS_TEMPO] > 0) {
+	if (mi_bmsData[BMS_TEMPO] > 0)
+	{
 		bpm = mp_bmsData[BMS_TEMPO][0].mf_data;		// 初期BPM
 	}
 
 	if (_sec < 0)
 		return 0;
 
-	//	DEBUG( "■指定時間 (%.2f秒)\n",_sec );
 
-		// 指定時間を越えるまでタイムを加算
+	// 指定時間を越えるまでタイムを加算
 	int i;
 	for (i = 0; i < mi_bmsData[BMS_TEMPO]; i++) {
 
 		// １つ前の時間と新しい時間との経過時間から秒を算出
 		double add = (double)(mp_bmsData[BMS_TEMPO][i].ml_time - cnt) / (bpm / 60) / (BMS_RESOLUTION / 4);
-		//		DEBUG( "  [%d] 経過時間 %f秒\n",i,t+add );
 
-				// 現在のテンポ値で時間が過ぎたら抜ける
+		// 現在のテンポ値で時間が過ぎたら抜ける
 		if (t + add > _sec) {
-			//			DEBUG( "                  └時間が過ぎた\n" );
 			break;
 		}
 
@@ -270,36 +262,31 @@ long BMSLoader::GetCountFromTime(double _sec)
 		cnt = mp_bmsData[BMS_TEMPO][i].ml_time;			// 計算済みのカウントをセット
 	}
 
-	//	DEBUG( "  BPM %f\n",bpm );
-	//	DEBUG( "  CNT %I64d\n",cnt );
-
 		// 指定時間と1つ前までの時間の差分
 	double sub = _sec - t;
-	//	DEBUG( "  差分 %f秒\n",sub );
 
 		// 差分からBMSカウント数を算出
 	long cnt2 = (long)(sub * (BMS_RESOLUTION / 4) * (bpm / 60));
 
 	// BMSカウント値に加算
 	cnt += cnt2;
-	//	DEBUG( "  結果のカウント値 %I64d\n",cnt );
 
 	return cnt;
 }
 
 
-int BMSLoader::atoi1610(const char* s)
+int BMSLoader::atoi1610( const std::string& str )
 {
 	int ret = 0;			// 10進数に変換した値
 	int i = 0;				// 参照する文字配列
-	while (s[i]) {
-		if (!(s[i] >= '0' && s[i] <= '9') &&
-			!(s[i] >= 'A' && s[i] <= 'Z') &&
-			!(s[i] >= 'a' && s[i] <= 'z'))
+	while (str[i]) {
+		if (!(str[i] >= '0' && str[i] <= '9') &&
+			!(str[i] >= 'A' && str[i] <= 'Z') &&
+			!(str[i] >= 'a' && str[i] <= 'z'))
 			return 0;
 
 		ret *= 16;				// 16倍
-		int n = s[i] - '0';
+		int n = str[i] - '0';
 		if (n > 9)
 			n -= 7;
 		if (n > 15)
@@ -374,7 +361,7 @@ bool BMSLoader::AddData(int ch, LONG cnt, LONG data)
 			mp_bmsData[ch] = (BMSData*)realloc(mp_bmsData[ch], mi_bmsData[ch] * sizeof(BMSData));
 			ZeroMemory(&mp_bmsData[ch][mi_bmsData[ch] - 1], sizeof(BMSData));					// 追加した配列をクリア
 			mp_bmsData[ch][mi_bmsData[ch] - 1].mb_flg = TRUE;
-			mp_bmsData[ch][mi_bmsData[ch] - 1].m_color = kRedColor;
+			mp_bmsData[ch][mi_bmsData[ch] - 1].m_color = kWhiteColor;
 			mp_bmsData[ch][mi_bmsData[ch] - 1].ml_time = cnt;
 			mp_bmsData[ch][mi_bmsData[ch] - 1].ml_data = data;
 			mp_bmsData[ch][mi_bmsData[ch] - 1].mf_data = (float)data;								// float型にも保存
@@ -427,9 +414,9 @@ int BMSLoader::GetCommand(const char* s)
 	return -2;
 }
 
-int BMSLoader::GetCommandStd( std::string _str )
+int BMSLoader::GetCommand( const std::string& _str )
 {
-	static const char* command[13] = {
+	std::string command[13] = {
 		"PLAYER",
 		"GENRE",
 		"TITLE",
@@ -445,11 +432,26 @@ int BMSLoader::GetCommandStd( std::string _str )
 		"BMP",
 	};
 
+	std::string tmp;
+	int i = 0;
+	while ( 1 )
+	{
+		if ( _str[i] == ' ' || _str[i] == 0x09 || _str[i] == ':' )
+		{
+			break;
+		}
+		if ( _str[i] == '\n' || _str[i] == NULL )
+		{
+			return FALSE;
+		}
+		i++;
+	}
+	tmp = _str.substr( 1, i - 1 );
+
 	// 検索ルーチン
-	int i;
 	for ( i = 0; i < 13; i++ )
 	{
-		if ( strnicmp( _str.c_str() + 1, command[i], strlen(command[i])) == 0 )
+		if ( tmp == command[i] )
 			return i;	// コマンドならその番号を返す
 	}
 
@@ -457,7 +459,7 @@ int BMSLoader::GetCommandStd( std::string _str )
 	BOOL obj = TRUE;
 	for ( i = 0; i < 5; i++ )
 	{
-		if ( _str[i + 1] < '0' || _str[i + 1]>'9' )
+		if ( tmp[i] < '0' || tmp[i]>'9' )
 		{
 			obj = FALSE;
 			break;
@@ -503,7 +505,7 @@ bool BMSLoader::GetCommandString(const char* src, char* dst)
 	return TRUE;
 }
 
-bool BMSLoader::GetCommandStringStd( const std::string& src, std::string& dst )
+bool BMSLoader::GetCommandString( const std::string& src, std::string& dst )
 {
 	int i = 0;
 	int j = 0;
@@ -596,7 +598,7 @@ bool BMSLoader::LoadBmsData(const char* file)
 		// 小節番号を取得
 		ZeroMemory(&tmp, sizeof(tmp));
 		memcpy(tmp, buf + 1, 3);		// 小節部分を取得
-		line = atoi(tmp);			// 数字化
+		line = std::stoi( tmp );			// 数字化
 
 		// データが存在するかチェック
 		if (strlen(data) < 1) {

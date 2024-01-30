@@ -1,4 +1,5 @@
 #include "UIBase.h"
+#include "Application/main.h"
 
 //void UIBase::Init()
 //{
@@ -10,13 +11,57 @@
 //}
 
 void UIBase::Update()
-{}
+{
+	POINT mousePos = INPUT.GetPosition( Application::Instance().GetWindowHandle() );
+
+	//有効でないUIだけ調べる
+	if ( GetEnable() ) return;
+	//カーソルの状態が
+	switch ( INPUT.GetKeyStateToManager( VK_LBUTTON ) )
+	{
+		//前フレームから放されて続けている状態
+		case KEYSTATE::IDLING:
+			break;
+			//今フレームで放された状態
+		case KEYSTATE::RELEASE:
+			if ( GetPush() )
+			{
+				//カーソル座標がUI上にあるか
+				if ( IsRange( mousePos ) )
+				{
+					SetEnable( true );
+				}
+				SetPush( false );
+			}
+			break;
+			//今フレームで押された状態
+		case KEYSTATE::PRESS:
+			if ( !GetPush() )
+			{
+				//カーソル座標がUI上にあるか
+				if ( IsRange( mousePos ) )
+				{
+					SetPush( true );
+				}
+			}
+			break;
+			//前フレームから押され続けている状態
+		case KEYSTATE::HOLD:
+			/*if ( !GetPush() )
+			{
+				SetPush( true );
+			}*/
+			break;
+	}
+}
 
 void UIBase::Draw()
 {
 	Math::Rectangle rect = {};
-	Math::Color color = b_push ? kWhiteColor * 0.8f : kWhiteColor;
-	KdShaderManager::Instance().m_spriteShader.DrawTex( msp_tex.get(), (int)m_pos.x, (int)m_pos.y, nullptr, &color);/*
+	Math::Color color = b_push ? Math::Color( 0.5f, 0.5f, 0.5f, 1.0f ) : kWhiteColor;
+	KdShaderManager::Instance().m_spriteShader.DrawTex( msp_tex.get(), (int)m_pos.x, (int)m_pos.y, 
+		msp_tex.get()->GetInfo().Width * m_scale.x, msp_tex.get()->GetInfo().Height * m_scale.y, 
+		nullptr, &color);/*
 	KdShaderManager::Instance().m_spriteShader.DrawLine(-160, 90, 160, -90);
 	KdShaderManager::Instance().m_spriteShader.DrawLine(-160, -90, 160, 90);*/
 }

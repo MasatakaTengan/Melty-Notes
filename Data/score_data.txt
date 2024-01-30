@@ -1,0 +1,4 @@
+0,
+1,Score/Shining_Star/ShiningStar_easy.bms
+2,Score/FREEDOM_DIVE/freedomdive_easy.bms
+3,Score/FREEDOM_DIVE/freedomdive_hard.bms
