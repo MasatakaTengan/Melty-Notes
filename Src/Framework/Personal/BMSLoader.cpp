@@ -547,12 +547,6 @@ bool BMSLoader::LoadBmsData(const char* file)
 	for (i = 0; i < BMS_MAXBUFFER; i++)
 		Sort(i);
 
-	/*	for( i=0;i<mi_bmsData[BMS_TEMPO];i++ ) {
-			char s[256];
-			sprintf( s,"[%08d] %f",(int)pBmsData[BMS_TEMPO][i].lTime,pBmsData[BMS_TEMPO][i].fData );
-			DEBUG( "%s\n",s )
-		}/**/
-
 	return TRUE;
 }
 
