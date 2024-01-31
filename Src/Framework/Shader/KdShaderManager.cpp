@@ -15,8 +15,8 @@ void KdShaderManager::Init()
 	// シェーダ
 	//============================================
 	m_spriteShader.Init();
-	m_HD2DShader.Init();
-	m_postProcessShader.Init();
+	//m_HD2DShader.Init();
+	//m_postProcessShader.Init();
 
 	//============================================
 	// 定数バッファ
@@ -83,7 +83,7 @@ void KdShaderManager::Init()
 		KdDirect3D::Instance().WorkDevContext()->PSSetSamplers(0, 1, &m_samplerStates[(int)KdSamplerState::Anisotropic_Wrap]);
 	}
 
-	m_ambientController.Init();
+	//m_ambientController.Init();
 }
 
 
@@ -512,8 +512,8 @@ void KdShaderManager::AddPointLight(const Math::Vector3& pos, const Math::Vector
 #pragma warning(disable:4239)
 void KdShaderManager::Release()
 {
-	m_HD2DShader.Release();
-	m_postProcessShader.Release();
+	//m_HD2DShader.Release();
+	//m_postProcessShader.Release();
 	m_spriteShader.Release();
 
 	m_cb7_Camera.Release();

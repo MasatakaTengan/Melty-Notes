@@ -72,7 +72,7 @@ void OptionScene::Update()
 
 void OptionScene::PostUpdate()
 {
-	std::shared_ptr<SceneManager> owner = mwp_owner.lock();
+
 	UIID id = UIID::UIID_NONE;
 	bool isScene = false;
 	for ( auto& ui : msp_uiList )
@@ -83,7 +83,7 @@ void OptionScene::PostUpdate()
 			isScene = ui->GetIsScene();
 			if ( isScene )
 			{
-				owner->SetNextScene( id );
+				SceneManager::Instance().SetNextScene( id );
 				break;
 			}
 			else
@@ -91,35 +91,35 @@ void OptionScene::PostUpdate()
 				switch ( id )
 				{
 					case UIID_VOL_UP:
-						owner->SetVolume(
-							owner->GetVolume() + Constant::VALIATION_VOLUME );
-						if ( owner->GetVolume() > Constant::MAX_VOLUME )
+						SceneManager::Instance().SetVolume(
+							SceneManager::Instance().GetVolume() + Constant::VALIATION_VOLUME );
+						if ( SceneManager::Instance().GetVolume() > Constant::MAX_VOLUME )
 						{
-							owner->SetVolume( Constant::MAX_VOLUME );
+							SceneManager::Instance().SetVolume( Constant::MAX_VOLUME );
 						}
 						break;
 					case UIID_VOL_DOWN:
-						owner->SetVolume(
-							owner->GetVolume() - Constant::VALIATION_VOLUME );
-						if ( owner->GetVolume() < Constant::MIN_VOLUME )
+						SceneManager::Instance().SetVolume(
+							SceneManager::Instance().GetVolume() - Constant::VALIATION_VOLUME );
+						if ( SceneManager::Instance().GetVolume() < Constant::MIN_VOLUME )
 						{
-							owner->SetVolume( Constant::MIN_VOLUME );
+							SceneManager::Instance().SetVolume( Constant::MIN_VOLUME );
 						}
 						break;
 					case UIID_SPD_UP:
-						owner->SetScrollSpeed(
-							owner->GetScrollSpeed() + Constant::VALIATION_SCROLLSPEED );
-						if ( owner->GetScrollSpeed() > Constant::MAX_SCROLLSPEED )
+						SceneManager::Instance().SetScrollSpeed(
+							SceneManager::Instance().GetScrollSpeed() + Constant::VALIATION_SCROLLSPEED );
+						if ( SceneManager::Instance().GetScrollSpeed() > Constant::MAX_SCROLLSPEED )
 						{
-							owner->SetScrollSpeed( Constant::MAX_SCROLLSPEED );
+							SceneManager::Instance().SetScrollSpeed( Constant::MAX_SCROLLSPEED );
 						}
 						break;
 					case UIID_SPD_DOWN:
-						owner->SetScrollSpeed(
-							owner->GetScrollSpeed() - Constant::VALIATION_SCROLLSPEED );
-						if ( owner->GetScrollSpeed() < Constant::MIN_SCROLLSPEED )
+						SceneManager::Instance().SetScrollSpeed(
+							SceneManager::Instance().GetScrollSpeed() - Constant::VALIATION_SCROLLSPEED );
+						if ( SceneManager::Instance().GetScrollSpeed() < Constant::MIN_SCROLLSPEED )
 						{
-							owner->SetScrollSpeed( Constant::MIN_SCROLLSPEED );
+							SceneManager::Instance().SetScrollSpeed( Constant::MIN_SCROLLSPEED );
 						}
 						break;
 					default:
@@ -129,8 +129,8 @@ void OptionScene::PostUpdate()
 			}
 		}
 	}
-	msp_scrollSpeed->Update( (int)((owner->GetScrollSpeed()) * 10) );
-	msp_volume->Update( (int)((owner->GetVolume()) * 100) );
+	msp_scrollSpeed->Update( (int)((SceneManager::Instance().GetScrollSpeed()) * 10) );
+	msp_volume->Update( (int)((SceneManager::Instance().GetVolume()) * 100) );
 }
 
 void OptionScene::PreDraw()

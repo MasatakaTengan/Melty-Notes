@@ -1,7 +1,5 @@
 ﻿#pragma once
 
-#include "HD2DShader/KdHD2DShader.h"
-#include "PostProcessShader/KdPostProcessShader.h"
 #include "SpriteShader/KdSpriteShader.h"
 
 // 点光源データ
@@ -135,8 +133,8 @@ public:
 	// シェーダ
 	//
 	//==========================
-	KdHD2DShader			m_HD2DShader;			// HD2D描画シェーダ
-	KdPostProcessShader		m_postProcessShader;	// ポストプロセスシェーダ
+	//KdHD2DShader			m_HD2DShader;			// HD2D描画シェーダ
+	//KdPostProcessShader		m_postProcessShader;	// ポストプロセスシェーダ
 	KdSpriteShader			m_spriteShader;			// 2Dテクスチャ描画シェーダ
 
 	//==========================
@@ -208,8 +206,8 @@ public:
 
 	void AddPointLight(const Math::Vector3& pos, const Math::Vector3& color, float radius, bool isBright);
 
-	const KdAmbientController& GetAmbientController() const { return m_ambientController; }
-	KdAmbientController& WorkAmbientController() { return m_ambientController; }
+	//const KdAmbientController& GetAmbientController() const { return m_ambientController; }
+	//KdAmbientController& WorkAmbientController() { return m_ambientController; }
 
 	// 解放
 	void Release();
@@ -229,7 +227,7 @@ private:
 	// ライト定数バッファ
 	KdConstantBuffer<cbLight>	m_cb9_Light;
 
-	KdAmbientController m_ambientController;
+	//KdAmbientController m_ambientController;
 
 	bool m_pixelArtStyle = true;
 

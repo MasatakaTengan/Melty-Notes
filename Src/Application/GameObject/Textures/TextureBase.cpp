@@ -13,5 +13,5 @@ void TextureBase::Update()
 void TextureBase::Draw()
 {
 	KdShaderManager::Instance().m_spriteShader.DrawTex( msp_tex.get(), (int)m_pos.x, (int)m_pos.y,
-		msp_tex.get()->GetInfo().Width * m_scale.x, msp_tex.get()->GetInfo().Height * m_scale.y );
+		(int)(msp_tex.get()->GetInfo().Width * m_scale.x), (int)(msp_tex.get()->GetInfo().Height * m_scale.y) );
 }

@@ -22,8 +22,7 @@ void ResultScene::Init()
 	msp_score->SetTex( tex );
 	msp_score->Init();
 
-	std::shared_ptr<SceneManager> owner = mwp_owner.lock();
-	mi_score = owner->GetScore();
+	mi_score = SceneManager::Instance().GetScore();
 }
 
 void ResultScene::Event()
@@ -46,7 +45,6 @@ void ResultScene::Update()
 
 void ResultScene::PostUpdate()
 {
-	std::shared_ptr<SceneManager> owner = mwp_owner.lock();
 	UIID id = UIID::UIID_NONE;
 	bool isScene = false;
 	for ( auto& ui : msp_uiList )
@@ -57,7 +55,7 @@ void ResultScene::PostUpdate()
 			isScene = ui->GetIsScene();
 			if ( isScene )
 			{
-				owner->SetNextScene( id );
+				SceneManager::Instance().SetNextScene( id );
 				break;
 			}
 		}

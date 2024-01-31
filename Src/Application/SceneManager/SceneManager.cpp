@@ -148,9 +148,7 @@ void SceneManager::ChangeScene( SceneID _id )
 			msp_nowScene = std::make_shared<ResultScene>();
 			break;
 	}
-	msp_nowScene->SetOwner( shared_from_this() );
 	msp_nowScene->Init();
-	//msp_nowScene->SetInputManager(msp_inputManager);
 
 	m_nowID = _id;
 }

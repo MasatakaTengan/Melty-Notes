@@ -1,15 +1,6 @@
 #include "UIBase.h"
 #include "Application/main.h"
 
-//void UIBase::Init()
-//{
-//}
-
-//void UIBase::LoadTex(std::string_view _filename)
-//{
-//	msp_tex->Load(_filename);
-//}
-
 void UIBase::Update()
 {
 	POINT mousePos = INPUT.GetPosition( Application::Instance().GetWindowHandle() );
@@ -47,10 +38,6 @@ void UIBase::Update()
 			break;
 			//‘OƒtƒŒ[ƒ€‚©‚ç‰Ÿ‚³‚ê‘±‚¯‚Ä‚¢‚éó‘Ô
 		case KEYSTATE::HOLD:
-			/*if ( !GetPush() )
-			{
-				SetPush( true );
-			}*/
 			break;
 	}
 }
@@ -60,10 +47,8 @@ void UIBase::Draw()
 	Math::Rectangle rect = {};
 	Math::Color color = b_push ? Math::Color( 0.5f, 0.5f, 0.5f, 1.0f ) : kWhiteColor;
 	KdShaderManager::Instance().m_spriteShader.DrawTex( msp_tex.get(), (int)m_pos.x, (int)m_pos.y, 
-		msp_tex.get()->GetInfo().Width * m_scale.x, msp_tex.get()->GetInfo().Height * m_scale.y, 
-		nullptr, &color);/*
-	KdShaderManager::Instance().m_spriteShader.DrawLine(-160, 90, 160, -90);
-	KdShaderManager::Instance().m_spriteShader.DrawLine(-160, -90, 160, 90);*/
+		(int)(msp_tex.get()->GetInfo().Width * m_scale.x), (int)(msp_tex.get()->GetInfo().Height * m_scale.y),
+		nullptr, &color);
 }
 
 bool UIBase::IsRange(POINT _pos)

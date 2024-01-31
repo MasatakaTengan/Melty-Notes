@@ -57,19 +57,19 @@ namespace Constant
 	static const int WINDOW_HEIGHT = 720;
 	static const int WINDOW_HALFHEIGHT = WINDOW_HEIGHT / 2;
 
-	static const int NOTE_WIDTH = 64;
-	static const int NOTE_HALFWIDTH = NOTE_WIDTH / 2;
-	static const int NOTE_HEIGHT = 16;
-	static const int NOTE_HALFHEIGHT = NOTE_HEIGHT / 2;
+	static const long NOTE_WIDTH = 64;
+	static const long NOTE_HALFWIDTH = NOTE_WIDTH / 2;
+	static const long NOTE_HEIGHT = 16;
+	static const long NOTE_HALFHEIGHT = NOTE_HEIGHT / 2;
 
-	static const int HITEFFECT_WIDTH = 128;
-	static const int HITEFFECT_HALFWIDTH = HITEFFECT_WIDTH / 2;
-	static const int HITEFFECT_HEIGHT = 32;
-	static const int HITEFFECT_HALFHEIGHT = HITEFFECT_HEIGHT / 2;
+	static const long HITEFFECT_WIDTH = 128;
+	static const long HITEFFECT_HALFWIDTH = HITEFFECT_WIDTH / 2;
+	static const long HITEFFECT_HEIGHT = 32;
+	static const long HITEFFECT_HALFHEIGHT = HITEFFECT_HEIGHT / 2;
 
-	static const int LANE_X[4] = { -195,-65,65,195 };
-	static const int BAR_Y = -300;
-	static const int KEYBACK_Y = -200;
+	static const float LANE_X[4] = { -195,-65,65,195 };
+	static const float BAR_Y = -300;
+	static const float KEYBACK_Y = -200;
 	static const int KEYBACK_COUNT = 15;
 	static const float HITEFFECT_COUNT = 0.2f;
 
@@ -85,24 +85,24 @@ namespace Constant
 
 	static const int MAX_SCORE = 1000000;
 
-	static const int NUMBERS_WIDTH = 320;
-	static const int NUMBERS_HALFWIDTH = NUMBERS_WIDTH / 2;
-	static const int NUMBERS_HEIGHT = 320;
-	static const int NUMBERS_HALFHEIGHT = NUMBERS_HEIGHT / 2;
+	static const long NUMBERS_WIDTH = 320;
+	static const long NUMBERS_HALFWIDTH = NUMBERS_WIDTH / 2;
+	static const long NUMBERS_HEIGHT = 320;
+	static const long NUMBERS_HALFHEIGHT = NUMBERS_HEIGHT / 2;
 
-	static const int SCORE_NUM_GAMESIZE = 64;
-	static const int SCORE_NUM_GAMESIZEHALF = SCORE_NUM_GAMESIZE / 2;
-	static const int SCORE_NUM_RESULTSIZE = 160;
-	static const int SCORE_NUM_RESULTSIZEHALF = SCORE_NUM_RESULTSIZE / 2;
-	static const int SCORE_NUM_OPTIONSIZE = 160;
-	static const int SCORE_NUM_OPTIONSIZEHALF = SCORE_NUM_OPTIONSIZE / 2;
+	static const float SCORE_NUM_GAMESIZE = 64;
+	static const float SCORE_NUM_GAMESIZEHALF = SCORE_NUM_GAMESIZE / 2;
+	static const float SCORE_NUM_RESULTSIZE = 160;
+	static const float SCORE_NUM_RESULTSIZEHALF = SCORE_NUM_RESULTSIZE / 2;
+	static const float SCORE_NUM_OPTIONSIZE = 160;
+	static const float SCORE_NUM_OPTIONSIZEHALF = SCORE_NUM_OPTIONSIZE / 2;
 
-	const int OPTIONBUTTON_X[2] = { 100, 460 };
-	const int OPTIONBUTTON_Y[2] = { 70, -180 };
-	static const int OPTION_VOLUME_X = 440;
-	static const int OPTION_VOLUME_Y = 150;
-	static const int OPTION_SCROLLSPD_X = 440;
-	static const int OPTION_SCROLLSPD_Y = -100;
+	static const float OPTIONBUTTON_X[2] = { 100, 460 };
+	static const float OPTIONBUTTON_Y[2] = { 70, -180 };
+	static const float OPTION_VOLUME_X = 440;
+	static const float OPTION_VOLUME_Y = 150;
+	static const float OPTION_SCROLLSPD_X = 440;
+	static const float OPTION_SCROLLSPD_Y = -100;
 
 	static const float MAX_SCROLLSPEED = 20.f;
 	static const float MIN_SCROLLSPEED = 5.f;

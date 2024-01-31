@@ -8,7 +8,6 @@ void NoteManager::Init( BMSLoader& _bms )
 	m_tex = std::make_shared<KdTexture>();
 	m_tex->Load( "Asset/Textures/notes.png" );
 
-	//static const float Constant::LANE_X[4] = { -192,-64,64,192 };			// オブジェ表示X座標
 	//ノーツデータ取得→ノーツリスト生成
 	for ( int j = 0; j < 4; j++ )
 	{
@@ -35,7 +34,7 @@ void NoteManager::Init( BMSLoader& _bms )
 
 	//デバッグ用
 	ml_noteCnt = 0;
-	mi_jadgeCnt = 0;
+	mi_jadgeCntTotal = 0;
 	mi_jadgeNum = 0;
 }
 
@@ -53,7 +52,7 @@ void NoteManager::PreUpdate()
 			m_jadgeList.push_back( { (*it)->GetJadge(), (*it)->GetJadgeCnt() } );
 			if ( (*it)->GetHit() )
 			{
-				mi_jadgeCnt += (*it)->GetJadgeCnt();
+				mi_jadgeCntTotal += (*it)->GetJadgeCnt();
 				mi_jadgeNum++;
 			}
 			md_score += (md_noteScore * ((*it)->GetJadge()) / 4.0);

@@ -88,18 +88,14 @@ protected:
 
     BMSBar m_bmsBar[1000 + 1];
 
-    //char m_lastError[1024];
-
 private:
 
     int atoi1610(const std::string& str);							// 16進数文字列を数値に変換
-    bool itoa1016(int num, char* dst, int keta = -1);			// 10進数を桁付きの16進数文字へ変換
+    bool itoa1016(int num, std::string& dst, int keta = -1);			// 10進数を桁付きの16進数文字へ変換
     bool AddData(int ch, LONG cnt, LONG data);				// 1つのデータを追加（ソートはされない）
-    int GetCommand(const char* s);						// コマンド番号を返す
-    int GetCommand( const std::string& _str );
-    bool GetCommandString(const char* src, char* dst);		// パラメータ文字列を取得
+    int GetCommand( const std::string& _str );	// コマンド番号を返す
     bool GetCommandString(const std::string& src, std::string& dst);		// パラメータ文字列を取得
     bool LoadBmsData(const char* file);					// BMSデータの読み込み
-    bool LineCompact(const char* src, char* dst);			// データを最適化して返す
+    //bool LineCompact(const char* src, char* dst);			// データを最適化して返す
 
 };

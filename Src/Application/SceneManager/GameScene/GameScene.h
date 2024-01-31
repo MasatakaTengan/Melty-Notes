@@ -26,7 +26,6 @@ public:
 	void PreDraw()override;
 	void DrawLit()override;
 	void DrawUnLit()override;
-	//void PostDraw()override;
 
 	void DrawSprite()override;
 
@@ -58,20 +57,12 @@ private:
 	LONGLONG		mll_offsetTime;		// 判定調節用[μs]
 	double			md_elapsedTime;		// 開始からの経過時間[s]
 	double			md_difTime;				// 前ループからの経過時間[s]
-	KEYSTATE	m_keyState[5];			// 鍵盤キーが押されているか
-	//int				mi_startNum[256];		// BMS演奏で計算開始する配列番号(処理を軽くするため)
-
-	//int				mi_flashIndex[6];		// 次に使用されるフラッシュカウンタのインデックス
-	//int				mi_flashCount[6][3];	// フラッシュ６ｘ３個分のカウンタ
-	int mi_backKeyCount[4];			// キーを離した時の後ろのバックライトの演出用カウンタ
-	int mi_hitEffectCount[4];
 
 	int mi_jadgeOffset;
 
 	//debug
 	int mi_pressNum;
 	int mi_hitSubNum;
-	char m_jadge[100];
 
 	std::shared_ptr<NoteManager> msp_noteManager = nullptr;
 

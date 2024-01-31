@@ -6,7 +6,6 @@ class HitEffect : public TextureBase
 public:
 
 	HitEffect() {}
-	//HitEffect(  ) { SetTex( _tex ); }
 	~HitEffect() {}
 
 	void Init( std::shared_ptr<KdTexture> _tex );

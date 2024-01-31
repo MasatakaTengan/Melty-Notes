@@ -9,7 +9,6 @@
 
 void GameScene::Init()
 {
-	std::shared_ptr<SceneManager> owner = mwp_owner.lock();
 
 	m_noteTex.Load( "Asset/Textures/notes.png" );
 	m_keyBackTex.Load( "Asset/Textures/keyback.png" );
@@ -27,7 +26,7 @@ void GameScene::Init()
 	back->SetPos( { 0, 0 } );
 	msp_texList.push_back( back );
 	std::shared_ptr<Lane> lane = std::make_shared<Lane>();
-	lane->LoadTex( "Asset/Textures/back_lane (1).png" );
+	lane->LoadTex( "Asset/Textures/back_lane.png" );
 	lane->SetPos( { 0, 0 } );
 	msp_texList.push_back( lane );
 	std::shared_ptr<KdTexture> tex = std::make_shared<KdTexture>();
@@ -39,8 +38,8 @@ void GameScene::Init()
 	m_hitSEFile = "Asset/Audio/drum-hitnormal.wav";
 	m_hitSEInstance = KdAudioManager::Instance().Play( m_hitSEFile );
 	m_hitSEInstance->Stop();
-	m_hitSEInstance->SetVolume( owner->GetVolume() );
-
+	m_hitSEInstance->SetVolume( SceneManager::Instance().GetVolume() );
+	
 	mb_bgmStart = false;
 	mb_bgmPlay = true;
 
@@ -48,17 +47,14 @@ void GameScene::Init()
 	//m_bgmFile = "Score/FREEDOM_DIVE/FREEDOM-DiVE↓.wav";
 	m_bgmInstance = KdAudioManager::Instance().Play( m_bgmFile );
 	m_bgmInstance->Stop();
-	m_bgmInstance->SetVolume( owner->GetVolume() );
+	m_bgmInstance->SetVolume( SceneManager::Instance().GetVolume() );
 
 	bms.Init();
 	//bms.Load( "Score/FREEDOM_DIVE/freedomdive_easy.bms" );
 	bms.Load( "Score/Shining_Star/ShiningStar_easy.bms" );
 
-	mf_scrollMulti = owner->GetScrollSpeed();
+	mf_scrollMulti = SceneManager::Instance().GetScrollSpeed();
 	md_elapsedTime = 0;
-
-	ZeroMemory( &mi_backKeyCount, sizeof( mi_backKeyCount ) );
-	ZeroMemory( &mi_hitEffectCount, sizeof( mi_hitEffectCount ) );
 
 	// マシンの周波数を取得
 	LARGE_INTEGER freq;
@@ -87,51 +83,36 @@ void GameScene::Init()
 void GameScene::Event()
 {
 
-	for ( int i = 0; i < msp_keyBackList.size(); i++ )
+	for ( int i = 0; i < (int)msp_keyBackList.size(); i++ )
 	{
 		if ( msp_keyBackList[i]->GetCount() > 0 )
 		{
 			msp_keyBackList[i]->SetCount( msp_keyBackList[i]->GetCount() - 1 );
 		}
 	}
-	// 後ろのバックライト演出
-	for ( int i = 0; i < 6; i++ )
-	{
-		if ( mi_backKeyCount[i] > 0 )
-			mi_backKeyCount[i]--;
-		if ( mi_hitEffectCount[i] > 0 )
-			mi_hitEffectCount[i]--;
-	}
 
 	// スクロール幅変更
-	if ( GetAsyncKeyState( VK_UP ) & 0x8000 )
+	if ( INPUT.GetKeyStateToManager( VK_UP ) == KEYSTATE::PRESS )
 	{
-		// テンキーの＋
-		mf_scrollMulti += 0.05f;
+		// 上矢印キー
+		mf_scrollMulti += 0.5f;
+		if ( mf_scrollMulti > MAX_SCROLLSPEED )mf_scrollMulti = MAX_SCROLLSPEED;
+		SceneManager::Instance().SetScrollSpeed( mf_scrollMulti );
 	}
-	if ( GetAsyncKeyState( VK_DOWN ) & 0x8000 )
+	if ( INPUT.GetKeyStateToManager( VK_DOWN ) == KEYSTATE::PRESS )
 	{
-		// テンキーの－
-		mf_scrollMulti -= 0.05f;
-		if ( mf_scrollMulti < 0.05f )
-			mf_scrollMulti = 0.05f;
+		// 下矢印キー
+		mf_scrollMulti -= 0.5f;
+		if ( mf_scrollMulti < MIN_SCROLLSPEED )mf_scrollMulti = MIN_SCROLLSPEED;
+		SceneManager::Instance().SetScrollSpeed( mf_scrollMulti );
 	}
 }
 
 void GameScene::PreUpdate()
-{
-	for ( auto& obj : msp_objList )
-	{
-		obj->PreUpdate();
-	}
-}
+{}
 
 void GameScene::Update()
 {
-	for ( auto& obj : msp_objList )
-	{
-		obj->Update();
-	}
 
 	// 開始時から経過した時間を算出
 	LARGE_INTEGER li;
@@ -159,10 +140,8 @@ void GameScene::Update()
 	// BMSカウンタが曲の最大カウント+1小節を超えたら終了
 	if ( bms.GetMaxCount() + (BMS_RESOLUTION * 1) <= now_count )
 	{
-		std::shared_ptr<SceneManager> owner = mwp_owner.lock();
-		owner->SetScore( msp_noteManager->GetScore() );
-		owner->SetNextScene( UIID::UIID_TORESULT );
-		//Application::Instance().End();
+		SceneManager::Instance().SetScore( msp_noteManager->GetScore() );
+		SceneManager::Instance().SetNextScene( UIID::UIID_TORESULT );
 	}
 	// BMSカウンタが曲の開始位置に来たら再生する
 	LONG bmsStart = bms.GetObje( BMS_BACKMUSIC, 0 )->ml_time;
@@ -181,7 +160,6 @@ void GameScene::Update()
 		if ( INPUT.GetKeyStateToManager( Constant::KEYID_4K[i] ) == KEYSTATE::PRESS )
 		{
 			m_hitSEInstance->Play();
-			//mi_hitEffectCount[i] = 10;
 		}
 	}
 
@@ -203,8 +181,6 @@ void GameScene::Update()
 		}
 	}
 
-	// 入力判定
-
 	// note類
 	msp_noteManager->PreUpdate();
 	msp_noteManager->Update( now_count );
@@ -221,109 +197,42 @@ void GameScene::Update()
 
 	msp_score->Update( msp_noteManager->GetScore() );
 
-	/*ImGui::Text( "%f", bms.GetBPM() );
-	ImGui::Text( "%s", msp_noteManager->GetJadge() );
-	ImGui::Text( "%ld", msp_noteManager->GetScore() );
-	ImGui::Text( "%ld", msp_noteManager->GetJadgeCnt() );
-	ImGui::Text( "%ld", now_count );*/
 }
 
 void GameScene::PostUpdate()
-{
-	for ( auto& obj : msp_objList )
-	{
-		obj->PostUpdate();
-	}
-}
+{}
 
 void GameScene::PreDraw()
-{
-	for ( auto& obj : msp_objList )
-	{
-		obj->PreDraw();
-	}
-}
+{}
 
 void GameScene::DrawLit()
-{
-	for ( auto& obj : msp_objList )
-	{
-		obj->DrawLit();
-	}
-}
+{}
 
 void GameScene::DrawUnLit()
-{
-	for ( auto& obj : msp_objList )
-	{
-		obj->DrawUnLit();
-	}
-}
-
-//void GameScene::PostDraw()
-//{
-//	for ( auto& obj : msp_objList )
-//	{
-//
-//	}
-//}
+{}
 
 void GameScene::DrawSprite()
 {
-	/*if ( ImGui::Begin( "GameSceneDebug" ) )
-	{*/
-		for ( auto& obj : msp_objList )
-		{
-			obj->DrawSprite();
-		}
-		//ImGui::Text( "ScreenScale : %.2f", mf_scrollMulti );
 
-		for ( auto& tex : msp_texList )
-		{
-			tex->Draw();
-		}
+	for ( auto& tex : msp_texList )
+	{
+		tex->Draw();
+	}
 
-		msp_score->Draw();
+	msp_score->Draw();
 
-		for ( auto& keyback : msp_keyBackList )
-		{
-			keyback->Draw();
-		}
-		for ( auto& effect : msp_hitEffectList )
-		{
-			effect->Draw();
-		}
+	for ( auto& keyback : msp_keyBackList )
+	{
+		keyback->Draw();
+	}
+	for ( auto& effect : msp_hitEffectList )
+	{
+		effect->Draw();
+	}
 
-		//add:note類
-		msp_noteManager->Draw( mf_scrollMulti );
+	//add:note類
+	msp_noteManager->Draw( mf_scrollMulti );
 
-		for ( int j = 0; j < 4; j++ )
-		{
-
-			KdShaderManager::Instance().ChangeBlendState( KdBlendState::Add );
-
-			/*float scale = (float)sin( ((float)(-mi_hitEffectCount[j] + 10) / 10) * M_PI / 2 ) / 2 + 1.0f;
-			float alpha = ((float)mi_hitEffectCount[j] / 10);
-			Math::Color color = { 1, 1, 1, alpha };
-			KdShaderManager::Instance().m_spriteShader.DrawTex(
-				msp_hitEffectTex.get(),
-				Constant::LANE_X[j], BAR_Y,
-				(int)(HITEFFECT_HALFWIDTH * scale), (int)(HITEFFECT_HALFHEIGHT * scale),
-				nullptr, &color );*/
-
-			KdShaderManager::Instance().ChangeBlendState( KdBlendState::Alpha );
-		}
-
-		/*KdShaderManager::Instance().m_spriteShader.DrawLine(
-			-WINDOW_HALFWIDTH / 2, BAR_Y + NOTE_HALFHEIGHT,
-			WINDOW_HALFWIDTH / 2, BAR_Y + NOTE_HALFHEIGHT );
-		KdShaderManager::Instance().m_spriteShader.DrawLine(
-			-WINDOW_HALFWIDTH / 2, BAR_Y - NOTE_HALFHEIGHT,
-			WINDOW_HALFWIDTH / 2, BAR_Y - NOTE_HALFHEIGHT );*/
-
-	//}
-
-	////ImGui::End();
 }
 
 void GameScene::AddHitEffect( Math::Vector2 _pos, JADGE _jadge )

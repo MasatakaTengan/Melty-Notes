@@ -20,11 +20,11 @@ public:
 	{
 		if ( (md_score - (int)md_score) > 0 )
 		{
-			return md_score > Constant::MAX_SCORE ? Constant::MAX_SCORE : md_score + 1;
+			return (int)(md_score > Constant::MAX_SCORE ? Constant::MAX_SCORE : md_score + 1);
 		}
 		else
 		{
-			return md_score;
+			return (int)md_score;
 		}
 	}
 	float GetBPM() { return mf_bpm; }
@@ -61,11 +61,11 @@ public:
 	{ 
 		if ( mi_jadgeNum == 0 )
 		{
-			return mi_jadgeCnt;
+			return mi_jadgeCntTotal;
 		}
 		else
 		{
-			return mi_jadgeCnt / mi_jadgeNum;
+			return mi_jadgeCntTotal / mi_jadgeNum;
 		}
 	}
 
@@ -91,18 +91,12 @@ private:
 	double md_noteScore = 0.0;
 	double md_score = 0.0;
 
-	const int KEYID[4] =
-	{		// キーのリスト
-		'D',							// ch11に割り当てるキー
-		'F',							// ch12に割り当てるキー
-		'J',							// ch13に割り当てるキー
-		'K',							// ch14に割り当てるキー
-	};
-	//BMSLoader& bms;
+	//debug
+	//後々使えるかも
 	std::list<std::pair<JADGE, int>> m_jadgeList;
 	JADGE m_jadge;
 	long ml_noteCnt;
-	int mi_jadgeCnt;
+	int mi_jadgeCntTotal;
 	int mi_jadgeNum;
 
 };

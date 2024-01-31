@@ -31,15 +31,6 @@ public:
 		m_beforeID = _beforeID;
 	}
 
-	void SetOwner(std::shared_ptr<SceneManager> _owner)
-	{
-		mwp_owner = _owner;
-	}
-	void SetInputManager(std::shared_ptr<InputManager> _manager)
-	{
-		mwp_inputManager = _manager;
-	}
-
 protected:
 
 	SceneID m_nowID;
@@ -47,10 +38,6 @@ protected:
 
 	bool mb_nowChanging;
 
-	std::weak_ptr<SceneManager> mwp_owner;
-	std::weak_ptr<InputManager> mwp_inputManager;
-
-	std::list<std::shared_ptr<KdGameObject>> msp_objList;
 	std::list<std::shared_ptr<UIBase>> msp_uiList;
 	std::list<std::shared_ptr<TextureBase>> msp_texList;
 

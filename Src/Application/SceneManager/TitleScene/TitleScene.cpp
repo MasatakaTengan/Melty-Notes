@@ -58,8 +58,7 @@ void TitleScene::PostUpdate()
 	}
 	if ( isScene )
 	{
-		std::shared_ptr<SceneManager> owner = mwp_owner.lock();
-		owner->SetNextScene( id );
+		SceneManager::Instance().SetNextScene( id );
 	}
 }
 

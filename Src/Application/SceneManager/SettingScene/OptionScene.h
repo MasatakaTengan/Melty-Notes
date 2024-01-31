@@ -30,7 +30,4 @@ private:
 	std::shared_ptr<ScrollSpeed> msp_scrollSpeed = nullptr;
 	std::shared_ptr<Volume> msp_volume = nullptr;
 
-	//std::vector<std::shared_ptr<Numbers>> msp_volumeNum;
-	//std::vector<std::shared_ptr<Numbers>> msp_scrollSpeedNum;
-
 };

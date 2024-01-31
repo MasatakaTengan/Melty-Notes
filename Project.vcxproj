@@ -186,40 +186,16 @@
     <ClInclude Include="Src\Application\SceneManager\SelectScene\SelectScene.h" />
     <ClInclude Include="Src\Application\SceneManager\SettingScene\OptionScene.h" />
     <ClInclude Include="Src\Application\SceneManager\TitleScene\TitleScene.h" />
-    <ClInclude Include="Src\Framework\Direct3D\KdMaterial.h" />
-    <ClInclude Include="Src\Framework\Direct3D\Polygon\KdPolygon.h" />
-    <ClInclude Include="Src\Framework\Direct3D\Polygon\KdSquarePolygon.h" />
-    <ClInclude Include="Src\Framework\Direct3D\Polygon\KdTrailPolygon.h" />
-    <ClInclude Include="Src\Framework\GameObject\KdGameObject.h" />
-    <ClInclude Include="Src\Framework\GameObject\KdGameObjectFactory.h" />
-    <ClInclude Include="Src\Framework\Input\KdInput.h" />
-    <ClInclude Include="Src\Framework\Math\KdCollider.h" />
-    <ClInclude Include="Src\Framework\Math\KdEasing.h" />
     <ClInclude Include="Src\Framework\KdFramework.h" />
     <ClInclude Include="Src\Framework\Audio\KdAudio.h" />
-    <ClInclude Include="Src\Framework\Direct3D\KdCamera.h" />
     <ClInclude Include="src\Framework\Direct3D\KdDirect3D.h" />
-    <ClInclude Include="Src\Framework\Direct3D\KdGLTFLoader.h" />
     <ClInclude Include="src\Framework\Direct3D\KdBuffer.h" />
-    <ClInclude Include="src\Framework\Direct3D\KdMesh.h" />
-    <ClInclude Include="Src\Framework\Direct3D\KdModel.h" />
     <ClInclude Include="src\Framework\Direct3D\KdTexture.h" />
-    <ClInclude Include="Src\Framework\Math\KdUVAnimation.h" />
     <ClInclude Include="Src\Framework\Personal\BMSLoader.h" />
     <ClInclude Include="Src\Framework\Personal\InputManager.h" />
     <ClInclude Include="Src\Framework\Personal\Timer.h" />
-    <ClInclude Include="Src\Framework\Shader\KdAmbientController.h" />
-    <ClInclude Include="Src\Framework\Shader\KdRenderTargetChange.h" />
-    <ClInclude Include="Src\Framework\Utility\KdDataStorage.h" />
-    <ClInclude Include="Src\Framework\Utility\KdCSVData.h" />
-    <ClInclude Include="Src\Framework\Utility\KdDebugWireFrame.h" />
-    <ClInclude Include="Src\Framework\Utility\KdFPSController.h" />
     <ClInclude Include="src\Pch.h" />
-    <ClInclude Include="Src\Framework\Math\KdAnimation.h" />
-    <ClInclude Include="Src\Framework\Math\KdCollision.h" />
-    <ClInclude Include="Src\Framework\Shader\HD2DShader\KdHD2DShader.h" />
     <ClInclude Include="Src\Framework\Shader\KdShaderManager.h" />
-    <ClInclude Include="Src\Framework\Shader\PostProcessShader\KdPostProcessShader.h" />
     <ClInclude Include="Src\Framework\Shader\SpriteShader\KdSpriteShader.h" />
     <ClInclude Include="src\Framework\Utility\KdUtility.h" />
     <ClInclude Include="src\Framework\Window\KdWindow.h" />
@@ -262,95 +238,27 @@
     <ClCompile Include="Src\Application\SceneManager\SelectScene\SelectScene.cpp" />
     <ClCompile Include="Src\Application\SceneManager\SettingScene\OptionScene.cpp" />
     <ClCompile Include="Src\Application\SceneManager\TitleScene\TitleScene.cpp" />
-    <ClCompile Include="Src\Framework\Direct3D\KdMaterial.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Src\Framework\Direct3D\Polygon\KdPolygon.cpp" />
-    <ClCompile Include="Src\Framework\Direct3D\Polygon\KdSquarePolygon.cpp" />
-    <ClCompile Include="Src\Framework\Direct3D\Polygon\KdTrailPolygon.cpp" />
-    <ClCompile Include="Src\Framework\GameObject\KdGameObject.cpp" />
-    <ClCompile Include="Src\Framework\GameObject\KdGameObjectFactory.cpp" />
-    <ClCompile Include="Src\Framework\Input\KdInput.cpp" />
-    <ClCompile Include="Src\Framework\Math\KdCollider.cpp" />
-    <ClCompile Include="Src\Framework\Math\KdEasing.cpp" />
     <ClCompile Include="Src\Framework\Audio\KdAudio.cpp" />
-    <ClCompile Include="Src\Framework\Direct3D\KdCamera.cpp" />
     <ClCompile Include="src\Framework\Direct3D\KdDirect3D.cpp" />
-    <ClCompile Include="Src\Framework\Direct3D\KdGLTFLoader.cpp" />
     <ClCompile Include="src\Framework\Direct3D\KdBuffer.cpp" />
-    <ClCompile Include="src\Framework\Direct3D\KdMesh.cpp" />
-    <ClCompile Include="Src\Framework\Direct3D\KdModel.cpp" />
     <ClCompile Include="src\Framework\Direct3D\KdTexture.cpp" />
-    <ClCompile Include="Src\Framework\Math\KdUVAnimation.cpp" />
     <ClCompile Include="Src\Framework\Personal\BMSLoader.cpp" />
     <ClCompile Include="Src\Framework\Personal\InputManager.cpp" />
     <ClCompile Include="Src\Framework\Personal\Timer.cpp" />
-    <ClCompile Include="Src\Framework\Shader\KdAmbientController.cpp" />
-    <ClCompile Include="Src\Framework\Shader\KdRenderTargetChange.cpp" />
-    <ClCompile Include="Src\Framework\Utility\KdCSVData.cpp" />
-    <ClCompile Include="Src\Framework\Utility\KdDebugWireFrame.cpp" />
-    <ClCompile Include="Src\Framework\Utility\KdFPSController.cpp" />
     <ClCompile Include="src\Pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Src\Framework\Math\KdAnimation.cpp" />
-    <ClCompile Include="Src\Framework\Math\KdCollision.cpp" />
-    <ClCompile Include="Src\Framework\Shader\HD2DShader\KdHD2DShader.cpp" />
     <ClCompile Include="Src\Framework\Shader\KdShaderManager.cpp" />
-    <ClCompile Include="Src\Framework\Shader\PostProcessShader\KdPostProcessShader.cpp" />
     <ClCompile Include="Src\Framework\Shader\SpriteShader\KdSpriteShader.cpp" />
     <ClCompile Include="Src\Framework\Utility\KdUtility.cpp" />
     <ClCompile Include="src\Framework\Window\KdWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Src\Framework\Shader\HD2DShader\inc_KdHD2DShader.hlsli" />
     <None Include="Src\Framework\Shader\inc_KdCommon.hlsli" />
-    <None Include="Src\Framework\Shader\PostProcessShader\inc_KdPostProcessShader.hlsli" />
     <None Include="Src\Framework\Shader\SpriteShader\inc_KdSpriteShader.hlsli" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Src\Framework\Shader\HD2DShader\KdHD2DShader_PS_UnLit.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="Src\Framework\Shader\HD2DShader\KdHD2DShader_VS_GenDepthMapFromLight.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="Src\Framework\Shader\HD2DShader\KdHD2DShader_PS_Lit.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="Src\Framework\Shader\HD2DShader\KdHD2DShader_PS_GenDepthMapFromLight.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="Src\Framework\Shader\HD2DShader\KdHD2DShader_VS_Lit.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="Src\Framework\Shader\HD2DShader\KdHD2DShader_VS_UnLit.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="Src\Framework\Shader\PostProcessShader\KdPostProcessShader_PS_Blur.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="Src\Framework\Shader\PostProcessShader\KdPostProcessShader_PS_Bright.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="Src\Framework\Shader\PostProcessShader\KdPostProcessShader_PS_DoF.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="Src\Framework\Shader\PostProcessShader\KdPostProcessShader_VS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
-    </FxCompile>
     <FxCompile Include="Src\Framework\Shader\SpriteShader\KdSpriteShader_PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>

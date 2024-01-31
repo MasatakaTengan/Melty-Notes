@@ -61,7 +61,7 @@ private:
 	//std::vector<std::shared_ptr<KdGameObject>>	m_spGameObjectList;
 
 	//SceneManager
-	std::shared_ptr<SceneManager> msp_scene = nullptr;
+	//std::shared_ptr<SceneManager> msp_scene = nullptr;
 
 //=====================================================
 // シングルトンパターン

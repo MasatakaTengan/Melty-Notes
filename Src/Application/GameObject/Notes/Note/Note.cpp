@@ -36,63 +36,9 @@ void Note::Update( LONG _nowCount )
 		// BAD判定を過ぎたら全て見逃し扱いとする
 		mb_enable = FALSE;						// オブジェを消す
 		mi_jadgeCnt = -MISS_RANGE;
-		//sprintf_s( m_jadgeString, sizeof( m_jadgeString ), "MISS" );
-		// 次のオブジェをチェック
 		return;
 	}
-	/*
-	// オブジェが判定内ならキーが押された瞬間かをチェック
-	if ( INPUT.GetKeyStateToManager(mi_key) == KEYSTATE::PRESS )
-	{
-		// キーを押した瞬間なら精度判定
-		mi_hitSubNum = ml_nowCount - ml_count;
-		LONG sub = abs( mi_hitSubNum );		// オブジェとの差を絶対値で取得
-
-		if ( sub <= PERFECT_RANGE )
-		{
-			m_jadge = PERFECT;
-			sprintf_s( m_jadgeString, sizeof( m_jadgeString ), "PERFECT" );
-			mb_enable = FALSE;						// オブジェを消す
-		}
-		else if ( sub <= GREAT_RANGE )
-		{
-			m_jadge = GREAT;
-			sprintf_s( m_jadgeString, sizeof( m_jadgeString ), "GREAT" );
-			mb_enable = FALSE;						// オブジェを消す
-		}
-		else if ( sub <= GOOD_RANGE )
-		{
-			m_jadge = GOOD;
-			sprintf_s( m_jadgeString, sizeof( m_jadgeString ), "GOOD" );
-			mb_enable = FALSE;						// オブジェを消す
-		}
-		else if ( sub <= BAD_RANGE )
-		{
-			m_jadge = BAD;
-			sprintf_s( m_jadgeString, sizeof( m_jadgeString ), "BAD" );
-			mb_enable = FALSE;						// オブジェを消す
-		}
-
-		switch ( m_jadge )
-		{
-		case MISS:
-			m_color = kRedColor;
-			break;
-		case BAD:
-			m_color = kBlueColor;
-			break;
-		case GOOD:
-			m_color = kGreenColor;
-			break;
-		case GREAT:
-			m_color = kRedColor + kGreenColor;
-			break;
-		case PERFECT:
-			m_color = kWhiteColor;
-			break;
-		}
-	}
-	//ImGui::Text( "%d, %s", mi_hitSubNum, m_jadgeString );*/
+	//ImGui::Text( "%d, %s", mi_hitSubNum, m_jadgeString );
 }
 
 void Note::Draw( float _scrMulti )
@@ -113,5 +59,5 @@ void Note::Draw( float _scrMulti )
 	// 画面内なら描画
 	Math::Rectangle rect = Math::Rectangle( 0, 0, NOTE_WIDTH, NOTE_HEIGHT );
 	//Math::Color color = { 1, (float)b->bFlag, 1, 1 };
-	KdShaderManager::Instance().m_spriteShader.DrawTex( msp_tex.get(), (int)m_pos.x, BAR_Y + off_y, NOTE_WIDTH * 2, NOTE_HEIGHT, &rect, &m_color);
+	KdShaderManager::Instance().m_spriteShader.DrawTex( msp_tex.get(), (int)m_pos.x, (int)(BAR_Y + off_y), NOTE_WIDTH * 2, NOTE_HEIGHT, &rect, &m_color);
 }

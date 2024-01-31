@@ -138,11 +138,11 @@ bool BMSLoader::LoadHeader(const char* _file)
 				m_bmpFile[ch] = str;
 				break;
 			default:
-				//小節番号の取得
+				//小節番号の取得 : #"111"xx:******
 				tmp.clear();
 				tmp = buf.substr( 1, 3 );
-				line = atoi( tmp.data() );
-				//チャンネル番号の取得
+				line = std::stoi( tmp );
+				//チャンネル番号の取得 : #111"xx":******
 				tmp.clear();
 				tmp = buf.substr( 4, 2 );
 				ch = atoi1610( tmp );
@@ -297,34 +297,22 @@ int BMSLoader::atoi1610( const std::string& str )
 	return ret;
 }
 
-bool BMSLoader::itoa1016(int num, char* dst, int keta)
+bool BMSLoader::itoa1016( int num, std::string& dst, int size )
 {
-	if (num < 0)
+	if ( num < 0 )
 		return FALSE;
 
-	itoa(num, dst, 16);
+	std::string tmp;
 
-	// 小文字チェック
-	int i;
-	for (i = 0; i < (int)strlen(dst); i++) {
-		if (dst[i] >= 'a' && dst[i] <= 'z') {
-			dst[i] -= 0x20;
-		}
+	for ( int i = 0; i < size; i++ )
+	{
+		int digit = num % (int)pow( 16, (i + 1) );
+		std::stringstream ss;
+		ss << std::hex << digit;
+		tmp = ss.str() + tmp;
 	}
 
-	// 桁数指定の場合
-	if (keta >= 0) {
-		// 桁数が足りない場合
-		if ((int)strlen(dst) < keta) {
-			char dmy[1024];
-			ZeroMemory(dmy, sizeof(dmy));
-			for (i = 0; i < keta - (int)strlen(dst); i++) {
-				dmy[i] = '0';			// 先頭に足りない分の0を追加
-			}
-			strcpy(&dmy[i], dst);		// その次に算出された文字列をつなげる
-			strcpy(dst, dmy);			// 出力結果にダミー文字列をコピー		
-		}
-	}
+	dst = tmp;
 
 	return TRUE;
 }
@@ -369,49 +357,6 @@ bool BMSLoader::AddData(int ch, LONG cnt, LONG data)
 	}
 
 	return TRUE;
-}
-
-int BMSLoader::GetCommand(const char* s)
-{
-	static const char* command[13] = {
-		"PLAYER",
-		"GENRE",
-		"TITLE",
-		"ARTIST",
-		"BPM",
-		"MIDIFILE",
-		"PLAYLEVEL",
-		"RANK",
-		"VOLWAV",
-		"TOTAL",
-		"StageFile",
-		"WAV",
-		"BMP",
-	};
-
-	// 検索ルーチン
-	int i;
-	for (i = 0; i < 13; i++) {
-		if (strnicmp(s + 1, command[i], strlen(command[i])) == 0)
-			return i;	// コマンドならその番号を返す
-	}
-
-	// 先頭が'#nnncc'形式か
-	BOOL obj = TRUE;
-	for (i = 0; i < 5; i++) {
-		if (s[i + 1] < '0' || s[i + 1]>'9') {
-			obj = FALSE;
-			break;
-		}
-	}
-
-	// オブジェ配置なら -1
-	if (obj) {
-		return -1;
-	}
-
-	// 処理不可能文字列なら
-	return -2;
 }
 
 int BMSLoader::GetCommand( const std::string& _str )
@@ -476,39 +421,9 @@ int BMSLoader::GetCommand( const std::string& _str )
 	return -2;
 }
 
-bool BMSLoader::GetCommandString(const char* src, char* dst)
-{
-	int i = 0;
-	int j = 0;
-
-	// まずソースデータからデータ部分までのポインタを算出
-	while (1) {
-		if (src[i] == ' ' || src[i] == 0x09 || src[i] == ':') {
-			i++;
-			break;
-		}
-		if (src[i] == '\n' || src[i] == NULL) {
-			return FALSE;
-		}
-		i++;
-	}
-
-	// 終端までをコピー
-	while (1) {
-		if (src[i] == '\n' || src[i] == NULL)
-			break;
-		dst[j] = src[i];
-		i++;
-		j++;
-	}
-	dst[j] = NULL;
-	return TRUE;
-}
-
 bool BMSLoader::GetCommandString( const std::string& src, std::string& dst )
 {
 	int i = 0;
-	int j = 0;
 
 	std::string tmp;
 
@@ -533,38 +448,34 @@ bool BMSLoader::GetCommandString( const std::string& src, std::string& dst )
 
 bool BMSLoader::LoadBmsData(const char* file)
 {
+
+	std::ifstream ifs( file );
+	if ( ifs.fail() )return false;
+
 	int i;
-	char data[1024];
+	std::string data;
 	int cmd;			// コマンド番号
 	int line;			// 現在の小節番号
 	int ch;				// 現在のチャンネル番号
 	int len;			// 文字列の長さ
 
+	std::string buf;
 
-	FILE* fp;
-	fp = fopen(file, "r");
-	if (!fp) {
-		//sprintf(mLastError, "[%s] ファイルオープンエラー", file);
-		return FALSE;
-	}
-
-	char buf[1024];
 	while (1) {
 		// １行を読みこむ
-		ZeroMemory(buf, 1024);
-		fgets(buf, 1024, fp);
-		if (buf[0] == NULL && feof(fp))	// ファイルの終端なら検索終わり
-			break;
+		buf.clear();
+		std::getline( ifs, buf );
+		if ( buf[0] == NULL && ifs.eof() )break;//ファイルの終端なら検索終わり
 
-		//		DEBUG( "%s",buf );
-
-				// コマンド以外なら次の行へ
+		// コマンド以外なら次の行へ
 		if (buf[0] != '#')
 			continue;
 
 		// 最後の改行を消去
-		if (buf[strlen(buf) - 1] == '\n')
-			buf[strlen(buf) - 1] = NULL;
+		if ( buf[buf.size() - 1] == '\n' )
+		{
+			buf[buf.size() - 1] = NULL;
+		}
 
 		// コマンドの種類を取得
 		cmd = GetCommand(buf);
@@ -574,66 +485,63 @@ bool BMSLoader::LoadBmsData(const char* file)
 			continue;
 
 		// パラメータ文字列を取得
-		ZeroMemory(data, 1024);
-		if (!GetCommandString(buf, data)) {
-			//DEBUG("パラメータ文字列取得エラー\n");
-			fclose(fp);
-			//sprintf(mLastError, "[%s] パラメータ文字列取得エラー", buf);
-			return FALSE;
+		data.clear();
+		if ( !GetCommandString( buf, data ) )
+		{
+			ifs.close();
+			return false;
 		}
 
 		// データであれば解析
 
-		// チャンネル番号の取得
-		char tmp[4];						// 汎用バッファ
-		ZeroMemory(&tmp, sizeof(tmp));
-		tmp[0] = buf[4];					// チャンネル番号
-		tmp[1] = buf[5];					// #001xx:******* のxx部分
-		ch = atoi1610(tmp);				// 16進数
+		//// チャンネル番号の取得
+		std::string tmp;
+
+		//小節番号の取得 : #"111"xx:******
+		tmp.clear();
+		tmp = buf.substr( 1, 3 );
+		line = std::stoi( tmp );
+		//チャンネル番号の取得 : #111"xx":******
+		tmp.clear();
+		tmp = buf.substr( 4, 2 );
+		ch = atoi1610( tmp );
 
 		// 小節の倍率変更命令の場合はキャンセル
 		if (ch == BMS_STRETCH)
 			continue;
 
-		// 小節番号を取得
-		ZeroMemory(&tmp, sizeof(tmp));
-		memcpy(tmp, buf + 1, 3);		// 小節部分を取得
-		line = std::stoi( tmp );			// 数字化
-
 		// データが存在するかチェック
-		if (strlen(data) < 1) {
-			//DEBUG("データが定義されていない箇所が存在\n%s", buf);
+		if ((int)data.length() < 1) {
 			continue;
 		}
 
 		// データが偶数かチェック
-		if (strlen(data) % 2 == 1) {
-			//DEBUG("データが偶数個ではない [%s]\n", buf);
-			fclose(fp);
-			//sprintf(mLastError, "[%s] データが偶数個ではない", buf);
+		if ((int)data.size() % 2 == 1 ) {
+			ifs.close();
 			return FALSE;
 		}
 
 		// データ数
-		len = (int)strlen(data) / 2;
+		len = (int)data.length() / 2;
 
-		// 現在の小節のカウント値から1音符分のカウント値を算出
+		// 現在の小節の長さ(カウント値)からこの小節内での最短音符1音符分のカウント値を算出
 		LONG tick = m_bmsBar[line].ml_length / len;
 
 		// 実データを追加
-		ZeroMemory(&tmp, sizeof(tmp));
+		tmp.clear();
 		for (i = 0; i < len; i++) {
-			tmp[0] = data[i * 2];
-			tmp[1] = data[i * 2 + 1];
+			//i番目のデータを取得
+			tmp = data.substr( i * 2, 2 );
 			int idata = atoi1610(tmp);			// 16進数
+			// データが存在する場合
 			if (idata > 0) {
-				// データが存在する場合
+				//探索中のチャンネル番号・小説番号から求めたこの音符データのカウント値でデータ追加
 				AddData(ch, m_bmsBar[line].ml_time + (tick * i), idata);
 			}
 		}
 	}
 
-	fclose(fp);
+	ifs.close();
 
 	// ソート
 	for (i = 0; i < BMS_MAXBUFFER; i++)
@@ -648,6 +556,7 @@ bool BMSLoader::LoadBmsData(const char* file)
 	return TRUE;
 }
 
+/*
 bool BMSLoader::LineCompact(const char* src, char* dst)
 {
 	int i, j, k;
@@ -742,3 +651,4 @@ bool BMSLoader::LineCompact(const char* src, char* dst)
 
 	return TRUE;
 }
+*/

@@ -75,8 +75,6 @@ private:
 
 	void ChangeScene( SceneID _id );
 
-	//std::shared_ptr<InputManager> msp_inputManager = nullptr;
-
 	std::shared_ptr<BaseScene> msp_nowScene = nullptr;
 	SceneID m_beforeID = SID_NONE;
 	SceneID m_nowID = SID_NONE;

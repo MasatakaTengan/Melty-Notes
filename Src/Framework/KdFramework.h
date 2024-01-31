@@ -11,7 +11,6 @@
 
 // 便利機能
 #include "Utility/KdUtility.h"
-#include "Utility/KdCSVData.h"
 
 // 音関連
 #include "Audio/KdAudio.h"
@@ -21,55 +20,12 @@
 
 // テクスチャ
 #include "Direct3D/KdTexture.h"
-// シェーダー描画用マテリアル
-#include "Direct3D/KdMaterial.h"
-// メッシュ
-#include "Direct3D/KdMesh.h"
-// モデル
-#include "Direct3D/KdModel.h"
-// データ保管庫：テンプレート
-#include "Utility/KdDataStorage.h"
-
-// ポリゴン基底
-#include "Direct3D/Polygon/KdPolygon.h"
-// 板ポリゴン
-#include "Direct3D/Polygon/KdSquarePolygon.h"
-// 軌跡ポリゴン
-#include "Direct3D/Polygon/KdTrailPolygon.h"
 
 // Direct3D
 #include "Direct3D/KdDirect3D.h"
 
-// カメラ
-#include "Direct3D/KdCamera.h"
-
-// アニメーション
-#include "Math/KdAnimation.h"
-// コマ送りアニメーション
-#include "Math/KdUVAnimation.h"
-// メッシュとポリゴンの接触判定
-#include "Math/KdCollision.h"
-// 当たり判定登録
-#include "Math/KdCollider.h"
-// 数値に緩急を付ける機能
-#include "Math/KdEasing.h"
-
-// 入力関連
-#include "Input/KdInput.h"
-
-// レンダーターゲット切替
-#include "Shader/KdRenderTargetChange.h"
-
 // シェーダ
-#include "Shader/KdAmbientController.h"
 #include "Shader/KdShaderManager.h"
-
-// ゲームオブジェクト関連
-#include "GameObject/KdGameObject.h"
-#include "GameObject/KdGameObjectFactory.h"
-
-// FPSコントローラー
-#include "Utility/KdFPSController.h"
 
 // 個人追加:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 // タイマー

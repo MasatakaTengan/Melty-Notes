@@ -10,8 +10,8 @@ void Score::Init()
 		num->SetScale( m_scale );
 		num->SetPos(
 			Math::Vector2(
-				m_pos.x - mi_size - i * mi_size,
-				m_pos.y - mi_size
+				m_pos.x - mf_size - i * mf_size,
+				m_pos.y - mf_size
 			)
 		);
 		num->SetMyNum( 0 );
